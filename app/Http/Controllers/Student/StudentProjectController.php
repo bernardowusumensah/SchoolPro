@@ -65,17 +65,53 @@ class StudentProjectController extends Controller
     {
         $validatedData = $request->validated();
         $student = Auth::user();
+        
+        $isDraft = $validatedData['is_draft'] ?? false;
+
+        // Handle file uploads
+        $supportingDocuments = [];
+        if ($request->hasFile('supporting_documents')) {
+            foreach ($request->file('supporting_documents') as $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('projects/supporting_documents', $filename, 'public');
+                $supportingDocuments[] = [
+                    'original_name' => $file->getClientOriginalName(),
+                    'filename' => $filename,
+                    'path' => $path,
+                    'size' => $file->getSize(),
+                    'type' => $file->getClientMimeType(),
+                    'uploaded_at' => now()->toISOString()
+                ];
+            }
+        }
 
         $project = Project::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
+            'category' => $validatedData['category'],
+            'objectives' => $validatedData['objectives'],
+            'methodology' => $validatedData['methodology'],
+            'expected_outcomes' => $validatedData['expected_outcomes'],
+            'expected_start_date' => $validatedData['expected_start_date'],
+            'expected_completion_date' => $validatedData['expected_completion_date'],
+            'estimated_hours' => $validatedData['estimated_hours'],
+            'required_resources' => $validatedData['required_resources'],
+            'technology_stack' => $validatedData['technology_stack'],
+            'tools_and_software' => $validatedData['tools_and_software'],
+            'supporting_documents' => $supportingDocuments,
             'student_id' => $student->id,
             'supervisor_id' => $validatedData['supervisor_id'],
-            'status' => 'Pending',
+            'status' => $isDraft ? 'Draft' : 'Pending',
+            'is_draft' => $isDraft,
+            'draft_saved_at' => $isDraft ? now() : null,
         ]);
 
+        $message = $isDraft 
+            ? 'Project proposal saved as draft successfully!'
+            : 'Project proposal submitted successfully! It is now pending supervisor approval.';
+
         return redirect()->route('student.projects.show', $project->id)
-            ->with('success', 'Project proposal submitted successfully! It is now pending supervisor approval.');
+            ->with('success', $message);
     }
 
     /**

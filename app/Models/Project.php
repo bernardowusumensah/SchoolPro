@@ -17,6 +17,22 @@ class Project extends Model
     protected $fillable = [
         'title',
         'description',
+        'category',
+        'objectives',
+        'methodology',
+        'expected_outcomes',
+        'expected_start_date',
+        'expected_completion_date',
+        'estimated_hours',
+        'required_resources',
+        'technology_stack',
+        'tools_and_software',
+        'supporting_documents',
+        'is_draft',
+        'draft_saved_at',
+        'supervisor_feedback',
+        'revision_notes',
+        'revision_count',
         'student_id',
         'supervisor_id',
         'status',
@@ -25,6 +41,13 @@ class Project extends Model
         'source_code_path',
         'submission_note',
         'submitted_at',
+        // Approval workflow fields
+        'approval_comments',
+        'rejection_reason',
+        'approved_at',
+        'approved_by',
+        'reviewed_at',
+        'reviewed_by',
     ];
 
     /**
@@ -32,6 +55,14 @@ class Project extends Model
      */
     protected $casts = [
         'submitted_at' => 'datetime',
+        'expected_start_date' => 'date',
+        'expected_completion_date' => 'date',
+        'draft_saved_at' => 'datetime',
+        'approved_at' => 'datetime',
+        'reviewed_at' => 'datetime',
+        'technology_stack' => 'array',
+        'supporting_documents' => 'array',
+        'is_draft' => 'boolean',
     ];
 
     /**

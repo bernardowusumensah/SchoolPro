@@ -422,9 +422,6 @@
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Student Dashboard</h1>
-                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-download fa-sm text-white-50"></i> Download Progress Report
-                </a>
             </div>
 
             <!-- Hidden logout form for dropdown -->
@@ -435,25 +432,16 @@
             <!-- Content Row -->
             <div class="row">
 
-                <!-- Project Status Card -->
+                <!-- Total Projects Card -->
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Project Status</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        @if($stats['project_status'] ?? 'Pending' == 'Approved')
-                                            <span class="text-success">{{ $stats['project_status'] ?? 'In Progress' }}</span>
-                                        @elseif($stats['project_status'] ?? 'Pending' == 'Pending')
-                                            <span class="text-warning">{{ $stats['project_status'] ?? 'Pending Review' }}</span>
-                                        @elseif($stats['project_status'] ?? 'Pending' == 'Completed')
-                                            <span class="text-info">{{ $stats['project_status'] ?? 'Submitted' }}</span>
-                                        @else
-                                            <span class="text-secondary">{{ $stats['project_status'] ?? 'Not Started' }}</span>
-                                        @endif
-                                    </div>
+                                        Total Projects</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $allProjects->count() ?? 0 }}</div>
+                                    <div class="text-xs text-muted">All submitted projects</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-project-diagram fa-2x text-gray-300"></i>
@@ -463,64 +451,55 @@
                     </div>
                 </div>
 
-                <!-- Weekly Logs Submitted Card -->
+                <!-- Approved Projects Card -->
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card border-left-success shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        Weekly Logs Submitted</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['weekly_logs'] ?? '8' }} / {{ $stats['required_logs'] ?? '12' }}</div>
+                                        Approved Projects</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['approved'] ?? 0 }}</div>
+                                    <div class="text-xs text-muted">Ready for development</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-calendar-week fa-2x text-gray-300"></i>
+                                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Days Until Deadline Card -->
+                <!-- Needs Revision Card -->
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card border-left-warning shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Days Until Deadline</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['days_until_deadline'] ?? '23' }}</div>
-                                    <div class="text-xs text-muted">Final submission due</div>
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Needs Revision</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['rejected'] ?? 0 }}</div>
+                                    <div class="text-xs text-muted">Requires updates</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+                                    <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Overall Progress Card -->
+                <!-- Completed Projects Card -->
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card border-left-info shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Overall Progress</div>
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col-auto">
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $stats['progress_percentage'] ?? '68' }}%</div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="progress progress-sm mr-2">
-                                                <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width: {{ $stats['progress_percentage'] ?? '68' }}%" aria-valuenow="{{ $stats['progress_percentage'] ?? '68' }}" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Completed Projects</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['completed'] ?? 0 }}</div>
+                                    <div class="text-xs text-muted">Finished submissions</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                                    <i class="fas fa-flag-checkered fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -531,163 +510,145 @@
                 
             </div>
 
-            <!-- Project Proposal Status Section -->
-            @if($currentProject)
+
+
+            <!-- All Projects Overview Section -->
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">
-                                <i class="fas fa-project-diagram mr-2"></i>Current Project Proposal
+                                <i class="fas fa-list mr-2"></i>All My Projects
                             </h6>
                             <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                <a class="dropdown-toggle" href="#" role="button" id="projectsDropdown"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                    aria-labelledby="dropdownMenuLink">
+                                    aria-labelledby="projectsDropdown">
                                     <div class="dropdown-header">Project Actions:</div>
-                                    <a class="dropdown-item" href="{{ route('student.projects.show', $currentProject->id) }}">View Details</a>
-                                    @if(in_array($currentProject->status, ['Pending', 'Rejected']))
-                                        <a class="dropdown-item" href="{{ route('student.projects.edit') }}">Edit Proposal</a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <h5 class="font-weight-bold text-gray-800 mb-3">{{ $currentProject->title }}</h5>
-                                    <p class="text-gray-700 mb-3">{{ Str::limit($currentProject->description, 200) }}</p>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <small class="text-muted">Supervisor:</small><br>
-                                            <span class="text-gray-800">{{ $currentProject->supervisor->name ?? 'Not assigned' }}</span>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <small class="text-muted">Submitted:</small><br>
-                                            <span class="text-gray-800">{{ $currentProject->created_at->format('M j, Y') }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="text-center">
-                                        @if($currentProject->status === 'Pending')
-                                            <div class="mb-3">
-                                                <i class="fas fa-clock fa-3x text-warning mb-2"></i>
-                                                <h6 class="text-warning font-weight-bold">Pending Review</h6>
-                                                <p class="text-muted small">Your proposal is awaiting supervisor approval</p>
-                                            </div>
-                                            <div class="d-grid">
-                                                <a href="{{ route('student.projects.edit') }}" class="btn btn-outline-warning btn-sm">
-                                                    <i class="fas fa-edit mr-1"></i>Edit Proposal
-                                                </a>
-                                            </div>
-                                        @elseif($currentProject->status === 'Approved')
-                                            <div class="mb-3">
-                                                <i class="fas fa-check-circle fa-3x text-success mb-2"></i>
-                                                <h6 class="text-success font-weight-bold">Approved</h6>
-                                                <p class="text-muted small">Start working on your project!</p>
-                                            </div>
-                                            <div class="d-grid gap-2">
-                                                <a href="/student/logs/upload" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-plus mr-1"></i>Add Weekly Log
-                                                </a>
-                                                <a href="{{ route('student.projects.show', $currentProject->id) }}" class="btn btn-outline-primary btn-sm">
-                                                    <i class="fas fa-eye mr-1"></i>View Project
-                                                </a>
-                                            </div>
-                                        @elseif($currentProject->status === 'Rejected')
-                                            <div class="mb-3">
-                                                <i class="fas fa-times-circle fa-3x text-danger mb-2"></i>
-                                                <h6 class="text-danger font-weight-bold">Needs Revision</h6>
-                                                <p class="text-muted small">Please address supervisor feedback and resubmit</p>
-                                            </div>
-                                            <div class="d-grid">
-                                                <a href="{{ route('student.projects.edit') }}" class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-edit mr-1"></i>Revise Proposal
-                                                </a>
-                                            </div>
-                                        @elseif($currentProject->status === 'Completed')
-                                            <div class="mb-3">
-                                                <i class="fas fa-flag-checkered fa-3x text-info mb-2"></i>
-                                                <h6 class="text-info font-weight-bold">Completed</h6>
-                                                <p class="text-muted small">Awaiting final grading</p>
-                                            </div>
-                                            <div class="d-grid">
-                                                <a href="{{ route('student.projects.show', $currentProject->id) }}" class="btn btn-outline-info btn-sm">
-                                                    <i class="fas fa-eye mr-1"></i>View Submission
-                                                </a>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @else
-            <!-- No Project Yet Section -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="alert alert-info border-0 shadow">
-                        <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-lightbulb fa-2x text-info"></i>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h5 class="alert-heading">Ready to Start Your Capstone Project?</h5>
-                                <p class="mb-3">You haven't submitted a project proposal yet. Create your proposal to get started with your capstone project journey!</p>
-                                <div class="d-grid gap-2 d-md-flex">
-                                    <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary">
-                                        <i class="fas fa-plus mr-2"></i>Create Project Proposal
+                                    <a class="dropdown-item" href="{{ route('student.projects.proposal') }}">
+                                        <i class="fas fa-plus mr-2"></i>Create New Project
                                     </a>
-                                    <a href="/student/project/guidelines" class="btn btn-outline-info">
+                                    <a class="dropdown-item" href="/student/project/guidelines">
                                         <i class="fas fa-info-circle mr-2"></i>View Guidelines
                                     </a>
                                 </div>
                             </div>
                         </div>
+                        <div class="card-body">
+                            @if($allProjects && $allProjects->count() > 0)
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="projectsTable">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Project Title</th>
+                                                <th>Status</th>
+                                                <th>Supervisor</th>
+                                                <th>Submitted</th>
+                                                <th>Last Updated</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($allProjects as $project)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h6 class="mb-0 font-weight-bold text-gray-800">{{ $project->title }}</h6>
+                                                            <small class="text-muted">{{ Str::limit($project->description, 60) }}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @if($project->status === 'Pending')
+                                                        <span class="badge bg-warning text-dark">
+                                                            <i class="fas fa-clock mr-1"></i>Pending Review
+                                                        </span>
+                                                    @elseif($project->status === 'Approved')
+                                                        <span class="badge bg-success">
+                                                            <i class="fas fa-check-circle mr-1"></i>Approved
+                                                        </span>
+                                                    @elseif($project->status === 'Rejected')
+                                                        <span class="badge bg-danger">
+                                                            <i class="fas fa-times-circle mr-1"></i>Needs Revision
+                                                        </span>
+                                                    @elseif($project->status === 'Completed')
+                                                        <span class="badge bg-info">
+                                                            <i class="fas fa-flag-checkered mr-1"></i>Completed
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-secondary">
+                                                            <i class="fas fa-question mr-1"></i>{{ $project->status }}
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($project->supervisor)
+                                                        <div class="d-flex align-items-center">
+                                                            <img class="rounded-circle mr-2" 
+                                                                 src="{{ $project->supervisor->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                                                                 alt="Supervisor" 
+                                                                 style="width: 30px; height: 30px; object-fit: cover;">
+                                                            <span class="text-gray-800">{{ $project->supervisor->name }}</span>
+                                                        </div>
+                                                    @else
+                                                        <span class="text-muted">Not assigned</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <span class="text-gray-800">{{ $project->created_at->format('M j, Y') }}</span>
+                                                    <br><small class="text-muted">{{ $project->created_at->format('g:i A') }}</small>
+                                                </td>
+                                                <td>
+                                                    <span class="text-gray-800">{{ $project->updated_at->format('M j, Y') }}</span>
+                                                    <br><small class="text-muted">{{ $project->updated_at->diffForHumans() }}</small>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <a href="{{ route('student.projects.show', $project->id) }}" 
+                                                           class="btn btn-outline-primary btn-sm">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        @if(in_array($project->status, ['Pending', 'Rejected']))
+                                                            <a href="{{ route('student.projects.editProject', $project->id) }}" 
+                                                               class="btn btn-outline-warning btn-sm">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        @endif
+                                                        @if($project->status === 'Approved')
+                                                            <a href="/student/logs/upload" 
+                                                               class="btn btn-outline-success btn-sm">
+                                                                <i class="fas fa-plus"></i>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+
+                            @else
+                                <div class="text-center py-5">
+                                    <i class="fas fa-project-diagram fa-4x text-gray-300 mb-3"></i>
+                                    <h5 class="text-gray-600">No Projects Yet</h5>
+                                    <p class="text-muted mb-4">You haven't created any project proposals yet. Get started with your capstone project!</p>
+                                    <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus mr-2"></i>Create Your First Project
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
-            @endif
 
-            <!-- Content Row -->
-            <div class="row">
-
-                <!-- Project Progress Timeline -->
-                <div class="col-xl-8 col-lg-7">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">My Project Progress Timeline</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-area">
-                                <canvas id="myAreaChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Weekly Log Status -->
-                <div class="col-xl-4 col-lg-4">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Weekly Log Status</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-pie">
-                                <canvas id="myPieChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Row -->
+            <!-- Charts removed for cleaner UI/UX -->
           
                       
       
@@ -708,103 +669,25 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Grade Progress Chart
-            var ctx = document.getElementById("myAreaChart");
-            if (ctx) {
-                var myLineChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8"],
-                        datasets: [{
-                            label: "Grade Average",
-                            lineTension: 0.3,
-                            backgroundColor: "rgba(78, 115, 223, 0.05)",
-                            borderColor: "rgba(78, 115, 223, 1)",
-                            pointRadius: 3,
-                            pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                            pointBorderColor: "rgba(78, 115, 223, 1)",
-                            pointHoverRadius: 3,
-                            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                            pointHitRadius: 10,
-                            pointBorderWidth: 2,
-                            data: [70, 75, 80, 78, 85, 88, 85, 90],
-                        }],
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        layout: {
-                            padding: {
-                                left: 10,
-                                right: 25,
-                                top: 25,
-                                bottom: 0
-                            }
-                        },
-                        scales: {
-                            x: {
-                                grid: {
-                                    display: false,
-                                    drawBorder: false
-                                },
-                                ticks: {
-                                    maxTicksLimit: 7
-                                }
-                            },
-                            y: {
-                                ticks: {
-                                    maxTicksLimit: 5,
-                                    padding: 10,
-                                    callback: function(value, index, values) {
-                                        return value + '%';
-                                    }
-                                },
-                                grid: {
-                                    color: "rgb(234, 236, 244)",
-                                    zeroLineColor: "rgb(234, 236, 244)",
-                                    drawBorder: false,
-                                    borderDash: [2],
-                                    zeroLineBorderDash: [2]
-                                }
-                            },
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Project Status Pie Chart
-            var ctx2 = document.getElementById("myPieChart");
-            if (ctx2) {
-                var myPieChart = new Chart(ctx2, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Completed', 'In Progress', 'Not Started'],
-                        datasets: [{
-                            data: [8, 3, 1],
-                            backgroundColor: ['#1cc88a', '#f6c23e', '#e74a3b'],
-                            hoverBorderColor: "rgba(234, 236, 244, 1)",
-                        }],
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        },
-                        cutout: 80,
-                    }
-                });
-            }
-
             // Initialize DataTable
             $(document).ready(function() {
                 $('#dataTable').DataTable();
+                
+                // Initialize Projects Table
+                $('#projectsTable').DataTable({
+                    "order": [[ 4, "desc" ]], // Sort by Last Updated column (index 4) descending
+                    "pageLength": 10,
+                    "responsive": true,
+                    "language": {
+                        "search": "Search projects:",
+                        "lengthMenu": "Show _MENU_ projects per page",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ projects",
+                        "emptyTable": "No projects found"
+                    },
+                    "columnDefs": [
+                        { "orderable": false, "targets": 5 } // Disable sorting on Actions column
+                    ]
+                });
                 
                 // Sidebar toggle functionality
                 $("#sidebarToggleTop").on('click', function() {

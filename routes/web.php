@@ -39,6 +39,18 @@ Route::middleware(['auth', 'verified', 'role:student'])->prefix('student')->name
     Route::resource('projects', StudentProjectController::class)->except(['create', 'store', 'edit', 'update']);
 });
 
+// Teacher Proposal Management Routes
+Route::middleware(['auth', 'verified', 'role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+    // Proposal CRUD operations
+    Route::get('proposals', [TeacherDashboardController::class, 'proposals'])->name('proposals.index');
+    Route::get('proposals/{project}', [TeacherDashboardController::class, 'show'])->name('proposals.show');
+    Route::patch('proposals/{project}/approve', [TeacherDashboardController::class, 'approve'])->name('proposals.approve');
+    Route::patch('proposals/{project}/reject', [TeacherDashboardController::class, 'reject'])->name('proposals.reject');
+    Route::patch('proposals/{project}/revision', [TeacherDashboardController::class, 'requestRevision'])->name('proposals.revision');
+    Route::delete('proposals/{project}', [TeacherDashboardController::class, 'destroy'])->name('proposals.destroy');
+    Route::post('proposals/bulk-action', [TeacherDashboardController::class, 'bulkAction'])->name('proposals.bulk');
+});
+
 // Admin User Management Routes
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', AdminUserController::class);

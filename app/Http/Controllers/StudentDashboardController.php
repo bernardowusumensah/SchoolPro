@@ -17,6 +17,20 @@ class StudentDashboardController extends Controller
         // Get student's current project
         $currentProject = Project::where('student_id', $studentId)->latest()->first();
         
+        // Get all student's projects
+        $allProjects = Project::where('student_id', $studentId)
+            ->with('supervisor')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        // Calculate project statistics
+        $projectStats = [
+            'pending' => $allProjects->where('status', 'Pending')->count(),
+            'approved' => $allProjects->where('status', 'Approved')->count(),
+            'rejected' => $allProjects->where('status', 'Rejected')->count(),
+            'completed' => $allProjects->where('status', 'Completed')->count(),
+        ];
+        
         // Get student's logs
         $studentLogs = Log::where('student_id', $studentId)->get();
         $weeklyLogs = $studentLogs->where('created_at', '>=', now()->subDays(84))->count(); // 12 weeks
@@ -24,7 +38,7 @@ class StudentDashboardController extends Controller
         // Calculate days until deadline (assuming 16-week semester)
         $semesterStart = now()->subWeeks(8); // Assume we're mid-semester
         $semesterEnd = $semesterStart->copy()->addWeeks(16);
-        $daysUntilDeadline = now()->diffInDays($semesterEnd, false);
+        $daysUntilDeadline = (int) now()->diffInDays($semesterEnd, false);
         
         // Calculate progress percentage based on project status and logs
         $progressPercentage = 0;
@@ -56,7 +70,7 @@ class StudentDashboardController extends Controller
             'required_logs' => 12, // Typical semester requirement
             
             // Deadline tracking
-            'days_until_deadline' => max($daysUntilDeadline, 0),
+            'days_until_deadline' => max((int) $daysUntilDeadline, 0),
             
             // Progress analytics
             'progress_percentage' => $progressPercentage,
@@ -75,6 +89,6 @@ class StudentDashboardController extends Controller
             ];
         }
         
-        return view('dashboard.student', compact('stats', 'recentActivities', 'currentProject'));
+        return view('dashboard.student', compact('stats', 'recentActivities', 'currentProject', 'allProjects', 'projectStats'));
     }
 }
