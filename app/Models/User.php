@@ -127,10 +127,13 @@ class User extends Authenticatable
     public function getProfilePictureUrlAttribute()
     {
         if ($this->profile_picture) {
-            return asset('storage/' . $this->profile_picture);
+            // Check if the file exists in storage
+            if (file_exists(public_path('storage/' . $this->profile_picture))) {
+                return url('storage/' . $this->profile_picture);
+            }
         }
         
-        // Return a default avatar if no profile picture is set
-        return asset('images/default-avatar.svg');
+        // Return a default avatar if no profile picture is set or file doesn't exist
+        return url('images/default-avatar.png');
     }
 }

@@ -194,10 +194,7 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            My Project Journey
-        </div>
+     
 
         <!-- Nav Item - My Project -->
         <li class="nav-item">
@@ -271,44 +268,9 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Communication & Support
-        </div>
 
-        <!-- Nav Item - Supervisor Communication -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseComm"
-                aria-expanded="true" aria-controls="collapseComm">
-                <i class="fas fa-fw fa-comments"></i>
-                <span>Supervisor Chat</span>
-            </a>
-            <div id="collapseComm" class="collapse" aria-labelledby="headingComm" data-bs-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Communication:</h6>
-                    <a class="collapse-item" href="/student/chat">Chat with Supervisor</a>
-                    <a class="collapse-item" href="/student/questions">Ask Questions</a>
-                    <a class="collapse-item" href="/student/meetings">Schedule Meeting</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Notifications -->
-        <li class="nav-item">
-            <a class="nav-link" href="/student/notifications">
-                <i class="fas fa-fw fa-bell"></i>
-                <span>Notifications</span>
-                <span class="badge bg-danger badge-counter">3</span>
-            </a>
-        </li>
-
-        <!-- Nav Item - Group Projects -->
-        <li class="nav-item">
-            <a class="nav-link" href="/student/groups">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Group Projects</span>
-            </a>
-        </li>
+      
+       
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -343,42 +305,14 @@
                 <i class="fa fa-bars"></i>
             </button>
 
-            <!-- Topbar Search -->
-            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search projects, grades..."
-                        aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+        
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Nav Item - Alerts -->
-                <li class="nav-item dropdown no-arrow mx-1">
-                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-bell fa-fw"></i>
-                        <!-- Counter - Alerts -->
-                        <span class="badge badge-danger badge-counter">2</span>
-                    </a>
-                </li>
+            
 
-                <!-- Nav Item - Messages -->
-                <li class="nav-item dropdown no-arrow mx-1">
-                    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-envelope fa-fw"></i>
-                        <!-- Counter - Messages -->
-                        <span class="badge badge-danger badge-counter">1</span>
-                    </a>
-                </li>
-
-                <div class="topbar-divider d-none d-sm-block"></div>
+               
 
                 <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
@@ -397,14 +331,8 @@
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
-                        <a class="dropdown-item" href="/student/settings">
-                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Settings
-                        </a>
-                        <a class="dropdown-item" href="/student/progress">
-                            <i class="fas fa-chart-line fa-sm fa-fw mr-2 text-gray-400"></i>
-                            My Progress
-                        </a>
+                      
+                      
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-dropdown').submit();">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -506,7 +434,6 @@
                     </div>
                 </div>
 
-                <!-- Pending Assignments Card -->
                 
             </div>
 
@@ -520,22 +447,7 @@
                             <h6 class="m-0 font-weight-bold text-primary">
                                 <i class="fas fa-list mr-2"></i>All My Projects
                             </h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="projectsDropdown"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                    aria-labelledby="projectsDropdown">
-                                    <div class="dropdown-header">Project Actions:</div>
-                                    <a class="dropdown-item" href="{{ route('student.projects.proposal') }}">
-                                        <i class="fas fa-plus mr-2"></i>Create New Project
-                                    </a>
-                                    <a class="dropdown-item" href="/student/project/guidelines">
-                                        <i class="fas fa-info-circle mr-2"></i>View Guidelines
-                                    </a>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="card-body">
                             @if($allProjects && $allProjects->count() > 0)
@@ -635,7 +547,7 @@
 
                             @else
                                 <div class="text-center py-5">
-                                    <i class="fas fa-project-diagram fa-4x text-gray-300 mb-3"></i>
+                                   
                                     <h5 class="text-gray-600">No Projects Yet</h5>
                                     <p class="text-muted mb-4">You haven't created any project proposals yet. Get started with your capstone project!</p>
                                     <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary">
