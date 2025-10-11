@@ -22,9 +22,9 @@ class StudentLogController extends Controller
         $student = Auth::user();
         $logs = $student->logs()->with('project')->latest()->paginate(10);
         
-        // Get current project for log creation
+        // Get current project for log creation (any active project)
         $currentProject = $student->projects()
-            ->where('status', 'Approved')
+            ->whereNotIn('status', ['Rejected'])
             ->latest()
             ->first();
 
@@ -34,19 +34,20 @@ class StudentLogController extends Controller
     /**
      * Show the form for creating a new log entry.
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
         $student = Auth::user();
         
-        // Get the student's approved project
+        // Get the student's most recent project (any status except rejected)
         $project = $student->projects()
-            ->where('status', 'Approved')
+            ->whereNotIn('status', ['Rejected'])
+            ->with('supervisor')
             ->latest()
             ->first();
 
         if (!$project) {
             return redirect()->route('student.projects.index')
-                ->with('error', 'You need an approved project before you can submit weekly logs.');
+                ->with('info', 'Create your first project proposal to start tracking your weekly progress.');
         }
 
         // Check if student already submitted a log this week
@@ -68,15 +69,16 @@ class StudentLogController extends Controller
     {
         $student = Auth::user();
         
-        // Get the student's approved project
+        // Get the student's most recent project (any status except rejected)
         $project = $student->projects()
-            ->where('status', 'Approved')
+            ->whereNotIn('status', ['Rejected'])
+            ->with('supervisor')
             ->latest()
             ->first();
 
         if (!$project) {
             return redirect()->route('student.projects.index')
-                ->with('error', 'You need an approved project before you can submit weekly logs.');
+                ->with('info', 'Create your first project proposal to start tracking your weekly progress.');
         }
 
         $request->validate([
@@ -294,5 +296,43 @@ class StudentLogController extends Controller
             ->paginate(10);
 
         return view('student.logs.feedback', compact('logsWithFeedback'));
+    }
+
+    /**
+     * Acknowledge teacher feedback on a log.
+     */
+    public function acknowledgeFeedback(Request $request, Log $log)
+    {
+        $student = Auth::user();
+        
+        // Ensure the log belongs to the current student
+        if ($log->student_id !== $student->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized access to this log.'
+            ], 403);
+        }
+
+        // Validate request
+        $request->validate([
+            'student_question' => 'nullable|string|max:500',
+        ]);
+
+        // Update the log with acknowledgment
+        $log->update([
+            'student_acknowledged' => true,
+            'student_question' => $request->student_question,
+            'acknowledged_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => $request->student_question ? 
+                'Thank you for acknowledging the feedback and asking your question!' : 
+                'Thank you for acknowledging the feedback!',
+            'acknowledged' => true,
+            'acknowledged_at' => $log->acknowledged_at->format('M j, Y g:i A'),
+            'has_question' => !is_null($request->student_question)
+        ]);
     }
 }

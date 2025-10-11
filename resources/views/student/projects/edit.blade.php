@@ -7,14 +7,14 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-            <i class="fas fa-edit text-warning mr-2"></i>Edit Project Proposal
+            Edit Project Proposal
         </h1>
         <div>
             <a href="{{ route('student.projects.show', $project->id) }}" class="btn btn-outline-info btn-sm">
-                <i class="fas fa-eye mr-1"></i>View Current
+                View Current
             </a>
             <a href="{{ route('dashboard.student') }}" class="btn btn-outline-secondary btn-sm">
-                <i class="fas fa-arrow-left mr-1"></i>Back to Dashboard
+                ← Back to Dashboard
             </a>
         </div>
     </div>
@@ -25,10 +25,7 @@
             @if($project->status === 'Pending')
                 <div class="alert alert-warning border-0 shadow-sm">
                     <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-clock fa-lg text-warning"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
+                        <div class="flex-grow-1">
                             <h6 class="alert-heading mb-1">Editing Pending Proposal</h6>
                             <p class="mb-0">Your proposal is currently under review. Making changes will reset the review status to pending.</p>
                         </div>
@@ -37,10 +34,7 @@
             @elseif($project->status === 'Rejected')
                 <div class="alert alert-danger border-0 shadow-sm">
                     <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-exclamation-triangle fa-lg text-danger"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
+                        <div class="flex-grow-1">
                             <h6 class="alert-heading mb-1">Revision Required</h6>
                             <p class="mb-0">Your supervisor has requested changes to your proposal. Please address their feedback and resubmit.</p>
                         </div>
@@ -56,7 +50,7 @@
             <div class="card shadow border-0">
                 <div class="card-header bg-warning py-3">
                     <h6 class="m-0 font-weight-bold text-white">
-                        <i class="fas fa-edit mr-2"></i>Edit Project Proposal
+                        Edit Project Proposal
                     </h6>
                 </div>
                 <div class="card-body">
@@ -67,7 +61,7 @@
                         <!-- Project Title -->
                         <div class="mb-4">
                             <label for="title" class="form-label fw-bold text-gray-800">
-                                <i class="fas fa-heading text-primary mr-2"></i>Project Title *
+                                Project Title *
                             </label>
                             <input type="text" 
                                    class="form-control form-control-lg @error('title') is-invalid @enderror" 
@@ -78,7 +72,6 @@
                                    maxlength="255"
                                    required>
                             <div class="form-text">
-                                <i class="fas fa-lightbulb text-warning mr-1"></i>
                                 Choose a title that clearly represents your project idea
                             </div>
                             @error('title')
@@ -89,7 +82,7 @@
                         <!-- Project Description -->
                         <div class="mb-4">
                             <label for="description" class="form-label fw-bold text-gray-800">
-                                <i class="fas fa-align-left text-primary mr-2"></i>Project Description *
+                                Project Description *
                             </label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
                                       id="description" 
@@ -101,7 +94,6 @@
                                       required>{{ old('description', $project->description) }}</textarea>
                             <div class="form-text d-flex justify-content-between">
                                 <span>
-                                    <i class="fas fa-info-circle text-info mr-1"></i>
                                     Minimum 100 characters required. Address any supervisor feedback.
                                 </span>
                                 <span id="charCount" class="text-muted">0 / 5000</span>
@@ -114,7 +106,7 @@
                         <!-- Supervisor Selection -->
                         <div class="mb-4">
                             <label for="supervisor_id" class="form-label fw-bold text-gray-800">
-                                <i class="fas fa-user-tie text-primary mr-2"></i>Preferred Supervisor *
+                                Preferred Supervisor *
                             </label>
                             <select class="form-select @error('supervisor_id') is-invalid @enderror" 
                                     id="supervisor_id" 
@@ -129,7 +121,6 @@
                                 @endforeach
                             </select>
                             <div class="form-text">
-                                <i class="fas fa-user-graduate text-success mr-1"></i>
                                 You can change your supervisor if needed
                             </div>
                             @error('supervisor_id')
@@ -140,7 +131,7 @@
                         <!-- Change Summary (Optional) -->
                         <div class="mb-4">
                             <label for="change_summary" class="form-label fw-bold text-gray-800">
-                                <i class="fas fa-list-ul text-info mr-2"></i>Summary of Changes (Optional)
+                                Summary of Changes (Optional)
                             </label>
                             <textarea class="form-control" 
                                       id="change_summary" 
@@ -149,7 +140,6 @@
                                       placeholder="Briefly describe what changes you've made to address feedback or improve your proposal..."
                                       maxlength="1000">{{ old('change_summary') }}</textarea>
                             <div class="form-text">
-                                <i class="fas fa-info-circle text-info mr-1"></i>
                                 Help your supervisor understand what you've changed (optional but recommended)
                             </div>
                         </div>
@@ -159,16 +149,15 @@
                             <div class="col-12">
                                 <div class="d-flex justify-content-between align-items-center pt-3 border-top">
                                     <div class="text-muted">
-                                        <i class="fas fa-asterisk text-danger fa-xs mr-1"></i>
                                         <small>All fields marked with * are required</small>
                                     </div>
                                     <div>
                                         <a href="{{ route('student.projects.show', $project->id) }}" 
                                            class="btn btn-outline-secondary me-2">
-                                            <i class="fas fa-times mr-1"></i>Cancel
+                                            Cancel
                                         </a>
                                         <button type="submit" class="btn btn-warning">
-                                            <i class="fas fa-save mr-1"></i>Update Proposal
+                                            Update Proposal
                                         </button>
                                     </div>
                                 </div>
@@ -184,7 +173,7 @@
             <div class="card shadow border-0">
                 <div class="card-header bg-info py-3">
                     <h6 class="m-0 font-weight-bold text-white">
-                        <i class="fas fa-info-circle mr-2"></i>Current Proposal Info
+                        Current Proposal Info
                     </h6>
                 </div>
                 <div class="card-body">
@@ -218,31 +207,30 @@
             <div class="card shadow border-0 mt-4">
                 <div class="card-header bg-success py-3">
                     <h6 class="m-0 font-weight-bold text-white">
-                        <i class="fas fa-lightbulb mr-2"></i>Editing Tips
+                        Editing Tips
                     </h6>
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled mb-0">
                         <li class="mb-2">
-                            <i class="fas fa-check text-success mr-2"></i>
+                            <span class="text-success mr-2">✓</span>
                             <small>Be specific about changes made</small>
                         </li>
                         <li class="mb-2">
-                            <i class="fas fa-check text-success mr-2"></i>
+                            <span class="text-success mr-2">✓</span>
                             <small>Address all supervisor feedback</small>
                         </li>
                         <li class="mb-2">
-                            <i class="fas fa-check text-success mr-2"></i>
+                            <span class="text-success mr-2">✓</span>
                             <small>Ensure description is detailed</small>
                         </li>
                         <li class="mb-2">
-                            <i class="fas fa-check text-success mr-2"></i>
+                            <span class="text-success mr-2">✓</span>
                             <small>Verify supervisor alignment</small>
                         </li>
                     </ul>
                     
                     <div class="alert alert-warning alert-sm mt-3">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
                         <small>Saving changes will reset status to "Pending Review"</small>
                     </div>
                 </div>

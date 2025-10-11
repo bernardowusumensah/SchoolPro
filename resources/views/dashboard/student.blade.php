@@ -174,9 +174,6 @@
     <ul class="sidebar navbar-nav">
         <!-- Sidebar Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard/student">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
             <div class="sidebar-brand-text mx-3">SchoolPro</div>
         </a>
 
@@ -186,7 +183,6 @@
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
             <a class="nav-link" href="/dashboard/student">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
         </li>
@@ -194,22 +190,17 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-     
-
         <!-- Nav Item - My Project -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProject"
                 aria-expanded="true" aria-controls="collapseProject">
-                <i class="fas fa-fw fa-project-diagram"></i>
                 <span>My Project</span>
             </a>
             <div id="collapseProject" class="collapse" aria-labelledby="headingProject" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Project Management:</h6>
-                    <a class="collapse-item" href="/student/project/proposal">Create Proposal</a>
-                    <a class="collapse-item" href="/student/project/edit">Edit Proposal</a>
-                    <a class="collapse-item" href="/student/project/status">Proposal Status</a>
-                    <a class="collapse-item" href="/student/project/final">Final Submission</a>
+                    <a class="collapse-item" href="{{ route('student.projects.index') }}">My Projects</a>
+                    <a class="collapse-item" href="{{ route('student.projects.proposal') }}">New Proposal</a>
                 </div>
             </div>
         </li>
@@ -218,15 +209,13 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLogs"
                 aria-expanded="true" aria-controls="collapseLogs">
-                <i class="fas fa-fw fa-calendar-week"></i>
                 <span>Weekly Progress Logs</span>
             </a>
             <div id="collapseLogs" class="collapse" aria-labelledby="headingLogs" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Progress Tracking:</h6>
-                    <a class="collapse-item" href="/student/logs/upload">Upload New Log</a>
-                    <a class="collapse-item" href="/student/logs/history">Log History</a>
-                    <a class="collapse-item" href="/student/logs/feedback">Supervisor Feedback</a>
+                    <a class="collapse-item" href="{{ route('student.logs.create') }}">Upload New Log</a>
+                    <a class="collapse-item" href="{{ route('student.logs.index') }}">Log History</a>
                 </div>
             </div>
         </li>
@@ -235,7 +224,6 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDeliverables"
                 aria-expanded="true" aria-controls="collapseDeliverables">
-                <i class="fas fa-fw fa-upload"></i>
                 <span>Project Deliverables</span>
             </a>
             <div id="collapseDeliverables" class="collapse" aria-labelledby="headingDeliverables" data-bs-parent="#accordionSidebar">
@@ -243,7 +231,6 @@
                     <h6 class="collapse-header">Submissions:</h6>
                     <a class="collapse-item" href="/student/deliverables/final">Final Project</a>
                     <a class="collapse-item" href="/student/deliverables/documentation">Documentation</a>
-                    <a class="collapse-item" href="/student/deliverables/presentation">Presentation</a>
                 </div>
             </div>
         </li>
@@ -252,7 +239,6 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAnalytics"
                 aria-expanded="true" aria-controls="collapseAnalytics">
-                <i class="fas fa-fw fa-chart-line"></i>
                 <span>Progress Analytics</span>
             </a>
             <div id="collapseAnalytics" class="collapse" aria-labelledby="headingAnalytics" data-bs-parent="#accordionSidebar">
@@ -260,7 +246,6 @@
                     <h6 class="collapse-header">Performance:</h6>
                     <a class="collapse-item" href="/student/analytics/progress">Progress Dashboard</a>
                     <a class="collapse-item" href="/student/analytics/grades">My Grades</a>
-                    <a class="collapse-item" href="/student/analytics/deadlines">Deadlines</a>
                 </div>
             </div>
         </li>
@@ -268,17 +253,12 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-
-      
-       
-
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
         <!-- Nav Item - Profile -->
         <li class="nav-item">
             <a class="nav-link" href="/profile">
-                <i class="fas fa-fw fa-user"></i>
                 <span>My Profile</span>
             </a>
         </li>
@@ -286,7 +266,6 @@
         <!-- Nav Item - Logout -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fas fa-fw fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -302,7 +281,7 @@
         <nav class="navbar navbar-expand topbar mb-4 static-top shadow">
             <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
+                Menu
             </button>
 
         
@@ -328,14 +307,12 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="/profile">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
                       
                       
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-dropdown').submit();">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
                         </a>
                     </div>
@@ -368,12 +345,16 @@
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Total Projects</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $allProjects->count() ?? 0 }}</div>
-                                    <div class="text-xs text-muted">All submitted projects</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $allProjects->count() ?? 0 }}/3</div>
+                                    <div class="text-xs text-muted">
+                                        @if(($allProjects->count() ?? 0) >= 3)
+                                            <span class="text-warning">Maximum limit reached</span>
+                                        @else
+                                            {{ 3 - ($allProjects->count() ?? 0) }} remaining
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-project-diagram fa-2x text-gray-300"></i>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -390,9 +371,7 @@
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['approved'] ?? 0 }}</div>
                                     <div class="text-xs text-muted">Ready for development</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -408,9 +387,7 @@
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['rejected'] ?? 0 }}</div>
                                     <div class="text-xs text-muted">Requires updates</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -426,9 +403,7 @@
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['completed'] ?? 0 }}</div>
                                     <div class="text-xs text-muted">Finished submissions</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-flag-checkered fa-2x text-gray-300"></i>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -445,7 +420,7 @@
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">
-                                <i class="fas fa-list mr-2"></i>All My Projects
+                                All My Projects
                             </h6>
                             
                         </div>
@@ -477,23 +452,23 @@
                                                 <td>
                                                     @if($project->status === 'Pending')
                                                         <span class="badge bg-warning text-dark">
-                                                            <i class="fas fa-clock mr-1"></i>Pending Review
+                                                            Pending Review
                                                         </span>
                                                     @elseif($project->status === 'Approved')
                                                         <span class="badge bg-success">
-                                                            <i class="fas fa-check-circle mr-1"></i>Approved
+                                                            Approved
                                                         </span>
                                                     @elseif($project->status === 'Rejected')
                                                         <span class="badge bg-danger">
-                                                            <i class="fas fa-times-circle mr-1"></i>Needs Revision
+                                                            Needs Revision
                                                         </span>
                                                     @elseif($project->status === 'Completed')
                                                         <span class="badge bg-info">
-                                                            <i class="fas fa-flag-checkered mr-1"></i>Completed
+                                                            Completed
                                                         </span>
                                                     @else
                                                         <span class="badge bg-secondary">
-                                                            <i class="fas fa-question mr-1"></i>{{ $project->status }}
+                                                            {{ $project->status }}
                                                         </span>
                                                     @endif
                                                 </td>
@@ -522,18 +497,18 @@
                                                     <div class="btn-group" role="group">
                                                         <a href="{{ route('student.projects.show', $project->id) }}" 
                                                            class="btn btn-outline-primary btn-sm">
-                                                            <i class="fas fa-eye"></i>
+                                                            View
                                                         </a>
                                                         @if(in_array($project->status, ['Pending', 'Rejected']))
                                                             <a href="{{ route('student.projects.editProject', $project->id) }}" 
                                                                class="btn btn-outline-warning btn-sm">
-                                                                <i class="fas fa-edit"></i>
+                                                                Edit
                                                             </a>
                                                         @endif
                                                         @if($project->status === 'Approved')
-                                                            <a href="/student/logs/upload" 
+                                                            <a href="{{ route('student.logs.create') }}" 
                                                                class="btn btn-outline-success btn-sm">
-                                                                <i class="fas fa-plus"></i>
+                                                                Log
                                                             </a>
                                                         @endif
                                                     </div>
@@ -550,9 +525,16 @@
                                    
                                     <h5 class="text-gray-600">No Projects Yet</h5>
                                     <p class="text-muted mb-4">You haven't created any project proposals yet. Get started with your capstone project!</p>
-                                    <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary">
-                                        <i class="fas fa-plus mr-2"></i>Create Your First Project
-                                    </a>
+                                    @if(($allProjects->count() ?? 0) < 3)
+                                        <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary">
+                                            Create Your First Project
+                                        </a>
+                                        <p class="small text-muted mt-2">You can create up to 3 projects total</p>
+                                    @else
+                                        <button class="btn btn-secondary" disabled>
+                                            Maximum Projects Reached (3/3)
+                                        </button>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -567,7 +549,7 @@
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
+        ↑
     </a>
 
     <!-- Bootstrap JS -->

@@ -13,6 +13,8 @@ use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Student\StudentProjectController;
+use App\Http\Controllers\Student\StudentLogController;
+use App\Http\Controllers\Teacher\TeacherLogController;
 
 Route::get('/dashboard/student', [StudentDashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'role:student'])
@@ -37,6 +39,18 @@ Route::middleware(['auth', 'verified', 'role:student'])->prefix('student')->name
     Route::get('/project/{project}/edit', [StudentProjectController::class, 'editProject'])->name('projects.editProject');
     // Full project resource for other operations
     Route::resource('projects', StudentProjectController::class)->except(['create', 'store', 'edit', 'update']);
+    
+    // Log Management Routes
+    Route::get('logs', [StudentLogController::class, 'index'])->name('logs.index');
+    Route::get('logs/create', [StudentLogController::class, 'create'])->name('logs.create');
+    Route::post('logs', [StudentLogController::class, 'store'])->name('logs.store');
+    Route::get('logs/{log}', [StudentLogController::class, 'show'])->name('logs.show');
+    Route::get('logs/{log}/edit', [StudentLogController::class, 'edit'])->name('logs.edit');
+    Route::put('logs/{log}', [StudentLogController::class, 'update'])->name('logs.update');
+    Route::delete('logs/{log}', [StudentLogController::class, 'destroy'])->name('logs.destroy');
+    Route::get('logs/{log}/download', [StudentLogController::class, 'downloadAttachment'])->name('logs.download');
+    Route::get('logs/feedback', [StudentLogController::class, 'feedback'])->name('logs.feedback');
+    Route::post('logs/{log}/acknowledge', [StudentLogController::class, 'acknowledgeFeedback'])->name('logs.acknowledge');
 });
 
 // Teacher Proposal Management Routes
@@ -48,7 +62,21 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->prefix('teacher')->name
     Route::patch('proposals/{project}/reject', [TeacherDashboardController::class, 'reject'])->name('proposals.reject');
     Route::patch('proposals/{project}/revision', [TeacherDashboardController::class, 'requestRevision'])->name('proposals.revision');
     Route::delete('proposals/{project}', [TeacherDashboardController::class, 'destroy'])->name('proposals.destroy');
-    Route::post('proposals/bulk-action', [TeacherDashboardController::class, 'bulkAction'])->name('proposals.bulk');
+    
+    // Log Management Routes
+    Route::get('logs', [TeacherLogController::class, 'index'])->name('logs.index');
+    Route::get('logs/unreviewed', [TeacherLogController::class, 'unreviewed'])->name('logs.unreviewed');
+    Route::get('logs/analytics', [TeacherLogController::class, 'analytics'])->name('logs.analytics');
+    Route::get('logs/export', [TeacherLogController::class, 'exportLogs'])->name('logs.export');
+    Route::get('logs/{log}', [TeacherLogController::class, 'show'])->name('logs.show');
+    Route::patch('logs/{log}/feedback', [TeacherLogController::class, 'provideFeedback'])->name('logs.feedback');
+    Route::patch('logs/{log}/feedback/update', [TeacherLogController::class, 'updateFeedback'])->name('logs.feedback.update');
+    Route::patch('logs/{log}/rating', [TeacherLogController::class, 'rateLog'])->name('logs.rating');
+    Route::patch('logs/{log}/notes', [TeacherLogController::class, 'updatePrivateNotes'])->name('logs.notes');
+    Route::patch('logs/{log}/followup', [TeacherLogController::class, 'toggleFollowup'])->name('logs.followup');
+    Route::patch('logs/{log}/reviewed', [TeacherLogController::class, 'markReviewed'])->name('logs.reviewed');
+    Route::get('students/{student}/logs', [TeacherLogController::class, 'studentLogs'])->name('students.logs');
+    Route::get('projects/{project}/logs', [TeacherLogController::class, 'projectLogs'])->name('projects.logs');
 });
 
 // Admin User Management Routes

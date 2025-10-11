@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Dashboard - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -72,32 +71,38 @@
         <hr class="sidebar-divider my-2" style="border-color: rgba(255,255,255,0.15);">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt me-2"></i>
+                <a class="nav-link active" href="{{ route('dashboard.teacher') }}">
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#proposals">
-                    <i class="fas fa-fw fa-clipboard-list me-2"></i>
+                <a class="nav-link" href="{{ route('teacher.proposals.index') }}">
                     Proposals
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#students">
-                    <i class="fas fa-fw fa-users me-2"></i>
-                    Students
+                <a class="nav-link" href="{{ route('teacher.logs.index') }}">
+                    Student Logs
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('teacher.logs.unreviewed') }}">
+                    Unreviewed Logs
+                    @if(isset($stats['unreviewed_logs']) && $stats['unreviewed_logs'] > 0)
+                        <span class="badge bg-warning text-dark ms-2">{{ $stats['unreviewed_logs'] }}</span>
+                    @endif
+                </a>
+                <a class="nav-link" href="{{ route('teacher.logs.analytics') }}">
+                    Log Analytics
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#grades">
-                    <i class="fas fa-fw fa-graduation-cap me-2"></i>
                     Grades
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#reports">
-                    <i class="fas fa-fw fa-chart-bar me-2"></i>
                     Reports
                 </a>
             </li>
@@ -109,7 +114,6 @@
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="#profile">
-                    <i class="fas fa-fw fa-user me-2"></i>
                     Profile
                 </a>
             </li>
@@ -117,7 +121,6 @@
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
                     <button type="submit" class="nav-link border-0 bg-transparent text-start w-100" style="color: rgba(255, 255, 255, 0.8);">
-                        <i class="fas fa-fw fa-sign-out-alt me-2"></i>
                         Logout
                     </button>
                 </form>
@@ -146,14 +149,12 @@
                         <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                             aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#profile">
-                                <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                 @csrf
                                 <button type="submit" class="dropdown-item">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
                                     Logout
                                 </button>
                             </form>
@@ -179,9 +180,7 @@
                                     Pending Proposals</div>
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $stats['pending_proposals'] ?? '0' }}</div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-clipboard-check fa-2x text-gray-300"></i>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -197,9 +196,7 @@
                                     Approved Projects</div>
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $stats['approved_projects'] ?? '0' }}</div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -214,9 +211,7 @@
                                 <div class="text-xs fw-bold text-info text-uppercase mb-1">Needs Revision</div>
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $stats['needs_revision'] ?? '0' }}</div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-edit fa-2x text-gray-300"></i>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -232,9 +227,51 @@
                                     Total Projects</div>
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $stats['total_projects'] ?? '0' }}</div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-project-diagram fa-2x text-gray-300"></i>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 fw-bold text-primary">
+                            Quick Actions
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('teacher.logs.unreviewed') }}" class="btn btn-warning w-100">
+                                    Review Unreviewed Logs
+                                    @if(isset($stats['unreviewed_logs']) && $stats['unreviewed_logs'] > 0)
+                                        <span class="badge bg-light text-dark ms-2">{{ $stats['unreviewed_logs'] }}</span>
+                                    @endif
+                                </a>
                             </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('teacher.logs.index') }}" class="btn btn-info w-100">
+                                    View All Student Logs
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('teacher.logs.analytics') }}" class="btn btn-success w-100">
+                                    Log Analytics
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ route('teacher.proposals.index') }}" class="btn btn-primary w-100">
+                                    Review Proposals
+                                    @if(isset($stats['pending_proposals']) && $stats['pending_proposals'] > 0)
+                                        <span class="badge bg-light text-dark ms-2">{{ $stats['pending_proposals'] }}</span>
+                                    @endif
+                                </a>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -247,7 +284,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-clipboard-list fa-fw"></i> Project Proposals
+                            Project Proposals
                         </h6>
                         <span class="badge bg-warning text-dark">{{ $stats['pending_proposals'] ?? 0 }} Pending Review</span>
                     </div>
@@ -257,9 +294,6 @@
                                 <table class="table table-hover" id="dataTable">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>
-                                                <input type="checkbox" id="selectAll" class="form-check-input">
-                                            </th>
                                             <th>Student</th>
                                             <th>Project Title</th>
                                             <th>Status</th>
@@ -270,9 +304,6 @@
                                     <tbody>
                                         @foreach($recentProposals as $proposal)
                                         <tr>
-                                            <td>
-                                                <input type="checkbox" class="form-check-input bulk-action-select" value="{{ $proposal->id }}">
-                                            </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <img class="rounded-circle me-2" 
@@ -313,35 +344,35 @@
                                                             data-action="view-proposal"
                                                             data-proposal-id="{{ $proposal->id }}" 
                                                             title="View Details">
-                                                        <i class="fas fa-eye"></i>
+                                                        View
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-success" 
                                                             data-action="approve-proposal"
                                                             data-proposal-id="{{ $proposal->id }}" 
                                                             data-proposal-title="{{ $proposal->title }}"
                                                             title="Approve">
-                                                        <i class="fas fa-check"></i>
+                                                        Approve
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-warning" 
                                                             data-action="revision-proposal"
                                                             data-proposal-id="{{ $proposal->id }}" 
                                                             data-proposal-title="{{ $proposal->title }}"
                                                             title="Request Revision">
-                                                        <i class="fas fa-edit"></i>
+                                                        Revise
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-danger" 
                                                             data-action="reject-proposal"
                                                             data-proposal-id="{{ $proposal->id }}" 
                                                             data-proposal-title="{{ $proposal->title }}"
                                                             title="Reject">
-                                                        <i class="fas fa-times"></i>
+                                                        Reject
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-dark" 
                                                             data-action="delete-proposal"
                                                             data-proposal-id="{{ $proposal->id }}" 
                                                             data-proposal-title="{{ $proposal->title }}"
                                                             title="Delete">
-                                                        <i class="fas fa-trash"></i>
+                                                        Delete
                                                     </button>
                                                 </div>
                                             </td>
@@ -352,7 +383,7 @@
                             </div>
                         @else
                             <div class="text-center py-5">
-                                <i class="fas fa-clipboard-list fa-3x text-gray-300 mb-3"></i>
+
                                 <h5 class="text-gray-500">No Project Proposals</h5>
                                 <p class="text-muted">No project proposals have been submitted yet.</p>
                             </div>
@@ -362,46 +393,7 @@
             </div>
         </div>
 
-        <!-- Bulk Actions -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-tasks fa-fw"></i> Bulk Actions
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <button class="btn btn-success w-100 bulk-action-btn" data-action="approve" disabled>
-                                    <i class="fas fa-check me-2"></i>
-                                    Approve Selected <span class="badge bg-light text-dark">0</span>
-                                </button>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <button class="btn btn-warning w-100 bulk-action-btn" data-action="revision" disabled>
-                                    <i class="fas fa-edit me-2"></i>
-                                    Request Revision <span class="badge bg-light text-dark">0</span>
-                                </button>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <button class="btn btn-danger w-100 bulk-action-btn" data-action="reject" disabled>
-                                    <i class="fas fa-times me-2"></i>
-                                    Reject Selected <span class="badge bg-light text-dark">0</span>
-                                </button>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <button class="btn btn-dark w-100 bulk-action-btn" data-action="delete" disabled>
-                                    <i class="fas fa-trash me-2"></i>
-                                    Delete Selected <span class="badge bg-light text-dark">0</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
     </div>
 
@@ -442,7 +434,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-success">
-                            <i class="fas fa-check me-2"></i>Approve Proposal
+                            Approve Proposal
                         </button>
                     </div>
                 </form>
@@ -469,7 +461,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-times me-2"></i>Reject Proposal
+                            Reject Proposal
                         </button>
                     </div>
                 </form>
@@ -496,7 +488,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-warning">
-                            <i class="fas fa-edit me-2"></i>Request Revision
+                            Request Revision
                         </button>
                     </div>
                 </form>
@@ -504,30 +496,7 @@
         </div>
     </div>
 
-    <!-- Bulk Action Modal -->
-    <div class="modal fade" id="bulkActionModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bulkActionTitle">Bulk Action</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="bulkActionForm">
-                    <div class="modal-body">
-                        <p id="bulkActionMessage"></p>
-                        <div class="mb-3" id="bulkCommentsSection" style="display: none;">
-                            <label for="bulkComments" class="form-label" id="bulkCommentsLabel">Comments</label>
-                            <textarea class="form-control" id="bulkComments" name="comments" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn" id="bulkActionBtn">Confirm Action</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -683,113 +652,8 @@
             }
         });
 
-        // Enhanced Bulk Actions
-        $('.bulk-action-select').on('change', function() {
-            updateBulkActionButtons();
-        });
-
-        $('#selectAll').on('change', function() {
-            $('.bulk-action-select').prop('checked', this.checked);
-            updateBulkActionButtons();
-        });
-
-        function updateBulkActionButtons() {
-            const selectedCount = $('.bulk-action-select:checked').length;
-            if (selectedCount > 0) {
-                $('.bulk-action-btn').prop('disabled', false);
-                $('.bulk-action-btn').each(function() {
-                    $(this).find('.badge').text(selectedCount);
-                });
-            } else {
-                $('.bulk-action-btn').prop('disabled', true);
-            }
-        }
-
-        $('.bulk-action-btn').on('click', function() {
-            const action = $(this).data('action');
-            const selectedIds = $('.bulk-action-select:checked').map(function() {
-                return $(this).val();
-            }).get();
-
-            if (selectedIds.length === 0) {
-                alert('Please select at least one proposal');
-                return;
-            }
-
-            setupBulkActionModal(action, selectedIds);
-        });
-
-        function setupBulkActionModal(action, selectedIds) {
-            let title, message, btnClass, btnText, showComments = false;
-            
-            switch(action) {
-                case 'approve':
-                    title = 'Bulk Approve Proposals';
-                    message = `Are you sure you want to approve ${selectedIds.length} selected proposal(s)?`;
-                    btnClass = 'btn-success';
-                    btnText = '<i class="fas fa-check me-2"></i>Approve All';
-                    showComments = true;
-                    $('#bulkCommentsLabel').text('Approval Comments (Optional)');
-                    break;
-                case 'reject':
-                    title = 'Bulk Reject Proposals';
-                    message = `Are you sure you want to reject ${selectedIds.length} selected proposal(s)?`;
-                    btnClass = 'btn-danger';
-                    btnText = '<i class="fas fa-times me-2"></i>Reject All';
-                    showComments = true;
-                    $('#bulkCommentsLabel').text('Rejection Reason (Required)');
-                    $('#bulkComments').prop('required', true);
-                    break;
-                case 'delete':
-                    title = 'Bulk Delete Proposals';
-                    message = `Are you sure you want to delete ${selectedIds.length} selected proposal(s)? This action cannot be undone.`;
-                    btnClass = 'btn-danger';
-                    btnText = '<i class="fas fa-trash me-2"></i>Delete All';
-                    break;
-            }
-            
-            $('#bulkActionTitle').text(title);
-            $('#bulkActionMessage').text(message);
-            $('#bulkActionBtn').removeClass().addClass(`btn ${btnClass}`).html(btnText);
-            $('#bulkActionForm').data('action', action).data('ids', selectedIds);
-            
-            if (showComments) {
-                $('#bulkCommentsSection').show();
-            } else {
-                $('#bulkCommentsSection').hide();
-            }
-            
-            $('#bulkActionModal').modal('show');
-        }
-
-        $('#bulkActionForm').on('submit', function(e) {
-            e.preventDefault();
-            const action = $(this).data('action');
-            const ids = $(this).data('ids');
-            const comments = $('#bulkComments').val();
-            
-            if (action === 'reject' && !comments.trim()) {
-                alert('Please provide a rejection reason');
-                return;
-            }
-            
-            $.ajax({
-                url: '/teacher/proposals/bulk',
-                method: 'POST',
-                data: {
-                    action: action,
-                    ids: ids,
-                    comments: comments
-                },
-                success: function(response) {
-                    $('#bulkActionModal').modal('hide');
-                    location.reload();
-                },
-                error: function(xhr) {
-                    alert('Error performing bulk action');
-                }
-            });
-        });
+       
+        
 
         // Reset modal forms when hidden
         $('.modal').on('hidden.bs.modal', function() {

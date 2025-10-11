@@ -33,7 +33,14 @@ class StudentProjectController extends Controller
         
          $student = Auth::user();
         
-        // INDUSTRY STANDARD: Only block if student has ACTIVE work (Approved/In Progress)
+        // ANTI-SPAM RULE: Maximum 3 total projects at any time (regardless of status)
+        $totalProjectCount = $student->projects()->count();
+        if ($totalProjectCount >= 3) {
+            return redirect()->route('student.projects.index')
+                ->with('warning', 'You have reached the maximum limit of 3 projects per student. You cannot create more proposals.');
+        }
+
+        // ACADEMIC WORKFLOW: Only block if student has ACTIVE work (Approved/In Progress)
         $activeProject = $student->projects()
             ->whereIn('status', ['Approved', 'In Progress'])
             ->first();
@@ -41,13 +48,6 @@ class StudentProjectController extends Controller
         if ($activeProject) {
             return redirect()->route('student.projects.show', $activeProject->id)
                 ->with('info', 'Complete your current active project before starting a new proposal.');
-        }
-
-        // INDUSTRY STANDARD: Reasonable limit on pending proposals (prevents spam)
-        $pendingCount = $student->projects()->where('status', 'Pending')->count();
-        if ($pendingCount >= 3) {
-            return redirect()->route('student.projects.index')
-                ->with('warning', 'You have 3 pending proposals. Please wait for supervisor feedback before submitting more.');
         }
 
         $supervisors = User::where('role', 'teacher')
@@ -65,6 +65,13 @@ class StudentProjectController extends Controller
     {
         $validatedData = $request->validated();
         $student = Auth::user();
+        
+        // Double-check project limit (security measure)
+        $totalProjectCount = $student->projects()->count();
+        if ($totalProjectCount >= 3) {
+            return redirect()->route('student.projects.index')
+                ->with('error', 'Cannot create new project: Maximum limit of 3 projects reached.');
+        }
         
         $isDraft = $validatedData['is_draft'] ?? false;
 
@@ -135,12 +142,21 @@ class StudentProjectController extends Controller
     public function edit(): View|RedirectResponse
     {
         $student = Auth::user();
-        $project = $student->projects()->whereIn('status', ['Pending', 'Rejected'])->latest()->first();
+        $editableProjects = $student->projects()->whereIn('status', ['Pending', 'Rejected'])->get();
 
-        if (!$project) {
+        if ($editableProjects->isEmpty()) {
             return redirect()->route('student.projects.proposal')
                 ->with('info', 'No editable project found. Create a new proposal instead.');
         }
+
+        // If student has multiple editable projects, redirect to projects list for clarity
+        if ($editableProjects->count() > 1) {
+            return redirect()->route('student.projects.index')
+                ->with('info', 'You have multiple editable proposals. Please select which one to edit from the list below.');
+        }
+
+        // Only if there's exactly one editable project, edit it directly
+        $project = $editableProjects->first();
 
         $supervisors = User::where('role', 'teacher')
             ->where('status', 'active')

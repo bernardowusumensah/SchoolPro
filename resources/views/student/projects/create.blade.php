@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Proposal - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <style>
         .step-indicator {
@@ -106,8 +106,7 @@
             align-items: center;
         }
         .file-icon {
-            width: 24px;
-            height: 24px;
+            font-size: 1.5rem;
             margin-right: 0.5rem;
         }
         .file-details {
@@ -140,11 +139,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="/dashboard/student">
-                <i class="fas fa-graduation-cap me-2"></i>SchoolPro - Student Portal
+                SchoolPro - Student Portal
             </a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link text-white" href="/dashboard/student">
-                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                    Dashboard
                 </a>
             </div>
         </div>
@@ -153,7 +152,7 @@
     <!-- Auto-save indicator -->
     <div id="autoSaveIndicator" class="auto-save-indicator">
         <div class="alert alert-success d-none" role="alert">
-            <i class="fas fa-check-circle me-2"></i>Draft saved automatically
+            Draft saved automatically
         </div>
     </div>
 
@@ -163,7 +162,7 @@
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white">
                         <h4 class="mb-0">
-                            <i class="fas fa-lightbulb me-2"></i>Create New Project Proposal
+                            Create New Project Proposal
                         </h4>
                         <small class="opacity-75">Complete all sections to submit your proposal</small>
                     </div>
@@ -201,9 +200,28 @@
                             </div>
                         </div>
 
+                        <!-- Project Limits Information -->
+                        <div class="alert alert-info border-0 mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0 me-3">
+                                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Project Guidelines</h6>
+                                    <p class="mb-0 small">
+                                        Students can have a maximum of <strong>3 total projects</strong> at any time. You can work on multiple proposals 
+                                        simultaneously, but only <strong>one active project</strong> at a time. Save drafts to continue later.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                         @if(session('info'))
                             <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>{{ session('info') }}
+                                {{ session('info') }}
                             </div>
                         @endif
 
@@ -212,13 +230,13 @@
                             
                             <!-- Step 1: Basic Information -->
                             <div class="form-section active" id="step1">
-                                <h5 class="mb-4"><i class="fas fa-info-circle me-2"></i>Basic Project Information</h5>
+                                <h5 class="mb-4">Basic Project Information</h5>
                                 
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="mb-3">
                                             <label for="title" class="form-label">
-                                                <i class="fas fa-heading me-1"></i>Project Title *
+                                                Project Title *
                                             </label>
                                             <input type="text" class="form-control @error('title') is-invalid @enderror" 
                                                    id="title" name="title" value="{{ old('title') }}" 
@@ -234,7 +252,7 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="category" class="form-label">
-                                                <i class="fas fa-tags me-1"></i>Project Category *
+                                                Project Category *
                                             </label>
                                             <select class="form-control @error('category') is-invalid @enderror" 
                                                     id="category" name="category" required>
@@ -256,8 +274,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">
-                                        <i class="fas fa-align-left me-1"></i>Project Description *
+                                        <label for="description" class="form-label">
+                                        Project Description *
                                     </label>
                                     <textarea class="form-control @error('description') is-invalid @enderror" 
                                               id="description" name="description" rows="6" 
@@ -272,8 +290,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="supervisor_id" class="form-label">
-                                        <i class="fas fa-user-tie me-1"></i>Preferred Supervisor *
+                                        <label for="supervisor_id" class="form-label">
+                                        Preferred Supervisor *
                                     </label>
                                     <select class="form-control @error('supervisor_id') is-invalid @enderror" 
                                             id="supervisor_id" name="supervisor_id" required>
@@ -288,7 +306,6 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                     <div class="form-text">
-                                        <i class="fas fa-lightbulb me-1"></i>
                                         Choose a supervisor whose expertise aligns with your project
                                     </div>
                                 </div>
@@ -296,11 +313,11 @@
 
                             <!-- Step 2: Project Details -->
                             <div class="form-section" id="step2">
-                                <h5 class="mb-4"><i class="fas fa-cogs me-2"></i>Detailed Project Planning</h5>
+                                <h5 class="mb-4">Detailed Project Planning</h5>
                                 
                                 <div class="mb-3">
-                                    <label for="objectives" class="form-label">
-                                        <i class="fas fa-bullseye me-1"></i>Project Objectives *
+                                        <label for="objectives" class="form-label">
+                                        Project Objectives *
                                     </label>
                                     <textarea class="form-control @error('objectives') is-invalid @enderror" 
                                               id="objectives" name="objectives" rows="4" 
@@ -315,8 +332,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="methodology" class="form-label">
-                                        <i class="fas fa-route me-1"></i>Methodology & Approach *
+                                        <label for="methodology" class="form-label">
+                                        Methodology & Approach *
                                     </label>
                                     <textarea class="form-control @error('methodology') is-invalid @enderror" 
                                               id="methodology" name="methodology" rows="4" 
@@ -331,8 +348,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="expected_outcomes" class="form-label">
-                                        <i class="fas fa-flag-checkered me-1"></i>Expected Outcomes *
+                                        <label for="expected_outcomes" class="form-label">
+                                        Expected Outcomes *
                                     </label>
                                     <textarea class="form-control @error('expected_outcomes') is-invalid @enderror" 
                                               id="expected_outcomes" name="expected_outcomes" rows="4" 
@@ -349,13 +366,13 @@
 
                             <!-- Step 3: Timeline & Resources -->
                             <div class="form-section" id="step3">
-                                <h5 class="mb-4"><i class="fas fa-calendar-alt me-2"></i>Timeline & Resource Planning</h5>
+                                <h5 class="mb-4">Timeline & Resource Planning</h5>
                                 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="expected_start_date" class="form-label">
-                                                <i class="fas fa-play me-1"></i>Expected Start Date *
+                                                <label for="start_date" class="form-label">
+                                                Expected Start Date *
                                             </label>
                                             <input type="date" class="form-control @error('expected_start_date') is-invalid @enderror" 
                                                    id="expected_start_date" name="expected_start_date" 
@@ -367,8 +384,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="expected_completion_date" class="form-label">
-                                                <i class="fas fa-flag me-1"></i>Expected Completion Date *
+                                                                                            <label for="end_date" class="form-label">
+                                                Expected Completion Date *
                                             </label>
                                             <input type="date" class="form-control @error('expected_completion_date') is-invalid @enderror" 
                                                    id="expected_completion_date" name="expected_completion_date" 
@@ -381,8 +398,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="estimated_hours" class="form-label">
-                                        <i class="fas fa-clock me-1"></i>Estimated Hours *
+                                        <label for="estimated_hours" class="form-label">
+                                        Estimated Hours *
                                     </label>
                                     <input type="number" class="form-control @error('estimated_hours') is-invalid @enderror" 
                                            id="estimated_hours" name="estimated_hours" 
@@ -391,14 +408,13 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                     <div class="form-text">
-                                        <i class="fas fa-info-circle me-1"></i>
                                         Total estimated hours for project completion (40-500 hours)
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="required_resources" class="form-label">
-                                        <i class="fas fa-tools me-1"></i>Required Resources
+                                        <label for="required_resources" class="form-label">
+                                        Required Resources
                                     </label>
                                     <textarea class="form-control @error('required_resources') is-invalid @enderror" 
                                               id="required_resources" name="required_resources" rows="3" 
@@ -411,11 +427,11 @@
 
                             <!-- Step 4: Technology Stack -->
                             <div class="form-section" id="step4">
-                                <h5 class="mb-4"><i class="fas fa-code me-2"></i>Technology Stack & Tools</h5>
+                                <h5 class="mb-4">Technology Stack & Tools</h5>
                                 
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        <i class="fas fa-laptop-code me-1"></i>Technology Stack *
+                                        Technology Stack *
                                     </label>
                                     <div class="border rounded p-3 mb-2">
                                         <div class="mb-2"><strong>Frontend:</strong></div>
@@ -474,7 +490,6 @@
                                         <div id="selectedTechList" class="mt-2"></div>
                                     </div>
                                     <div class="form-text">
-                                        <i class="fas fa-info-circle me-1"></i>
                                         Click on technologies you plan to use in your project
                                     </div>
                                     @error('technology_stack')
@@ -484,7 +499,7 @@
 
                                 <div class="mb-3">
                                     <label for="tools_and_software" class="form-label">
-                                        <i class="fas fa-wrench me-1"></i>Development Tools & Software
+                                        Development Tools & Software
                                     </label>
                                     <textarea class="form-control @error('tools_and_software') is-invalid @enderror" 
                                               id="tools_and_software" name="tools_and_software" rows="3" 
@@ -497,10 +512,10 @@
 
                             <!-- Step 5: Supporting Documents -->
                             <div class="form-section" id="step5">
-                                <h5 class="mb-4"><i class="fas fa-paperclip me-2"></i>Supporting Documents (Optional)</h5>
+                                <h5 class="mb-4">Supporting Documents (Optional)</h5>
                                 
                                 <div class="alert alert-info">
-                                    <h6><i class="fas fa-info-circle me-2"></i>File Upload Guidelines:</h6>
+                                    <h6>File Upload Guidelines:</h6>
                                     <ul class="mb-0">
                                         <li><strong>Maximum 5 files</strong> per proposal</li>
                                         <li><strong>File size limit:</strong> 10MB per file</li>
@@ -510,8 +525,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="supporting_documents" class="form-label">
-                                        <i class="fas fa-upload me-1"></i>Upload Supporting Documents
+                                        <label for="supporting_documents" class="form-label">
+                                        Upload Supporting Documents
                                     </label>
                                     <div class="upload-area border-2 border-dashed rounded p-4 text-center" 
                                          id="uploadArea" 
@@ -519,10 +534,15 @@
                                          ondragover="handleDragOver(event)" 
                                          ondragleave="handleDragLeave(event)">
                                         <div class="upload-content">
-                                            <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                            <div class="mb-3 text-muted">
+                                                <svg width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M.5 3l.04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09l-.636 7A1 1 0 0 1 13.174 13H9v1h4.174a2 2 0 0 0 1.991-1.823l.637-7A2 2 0 0 0 13.81 3H.5zM2.19 4a1 1 0 0 1 .996 1.09l.636 7A1 1 0 0 1 2.826 13H2.19a1 1 0 0 1-.996-1.09l-.636-7A1 1 0 0 1 1.554 4h.636z"/>
+                                                    <path d="M6.5 6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6zM8.5 6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6zM10.5 6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                </svg>
+                                            </div>
                                             <p class="mb-2">Drag and drop files here or</p>
                                             <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('supporting_documents').click()">
-                                                <i class="fas fa-folder-open me-1"></i>Browse Files
+                                                Browse Files
                                             </button>
                                             <input type="file" 
                                                    class="form-control d-none @error('supporting_documents') is-invalid @enderror" 
@@ -542,12 +562,11 @@
                                 </div>
 
                                 <div id="fileList" class="mt-3" style="display: none;">
-                                    <h6><i class="fas fa-files me-2"></i>Selected Files:</h6>
+                                    <h6>Selected Files:</h6>
                                     <div id="fileItems"></div>
                                 </div>
 
                                 <div class="form-text">
-                                    <i class="fas fa-lightbulb me-1"></i>
                                     <strong>Tip:</strong> Supporting documents help supervisors better understand your project. 
                                     Consider uploading research papers, wireframes, or technical specifications.
                                 </div>
@@ -555,10 +574,10 @@
 
                             <!-- Step 6: Review & Submit -->
                             <div class="form-section" id="step6">
-                                <h5 class="mb-4"><i class="fas fa-check-circle me-2"></i>Review & Submit</h5>
+                                <h5 class="mb-4">Review & Submit</h5>
                                 
                                 <div class="alert alert-info">
-                                    <h6><i class="fas fa-info-circle me-2"></i>Before Submitting:</h6>
+                                    <h6>Before Submitting:</h6>
                                     <ul class="mb-0">
                                         <li>Review all information for accuracy</li>
                                         <li>Ensure all required fields are completed</li>
@@ -569,7 +588,7 @@
 
                                 <div class="card">
                                     <div class="card-header">
-                                        <h6><i class="fas fa-eye me-2"></i>Proposal Summary</h6>
+                                        <h6>Proposal Summary</h6>
                                     </div>
                                     <div class="card-body" id="proposalSummary">
                                         <!-- Summary will be populated by JavaScript -->
@@ -580,17 +599,17 @@
                             <!-- Navigation Buttons -->
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">
-                                    <i class="fas fa-arrow-left me-1"></i>Previous
+                                    ← Previous
                                 </button>
                                 <div>
                                     <button type="button" class="btn btn-outline-primary me-2" id="saveDraftBtn">
-                                        <i class="fas fa-save me-1"></i>Save as Draft
+                                        Save as Draft
                                     </button>
                                     <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">
-                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                        Next →
                                     </button>
                                     <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
-                                        <i class="fas fa-paper-plane me-1"></i>Submit Proposal
+                                        Submit Proposal
                                     </button>
                                 </div>
                             </div>
@@ -874,14 +893,14 @@
                 
                 fileItem.innerHTML = `
                     <div class="file-info">
-                        <i class="${fileIcon} file-icon"></i>
+                        <span class="file-icon">${fileIcon}</span>
                         <div class="file-details">
                             <div class="file-name">${file.name}</div>
                             <div class="file-size">${fileSize}</div>
                         </div>
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFile(${index})">
-                        <i class="fas fa-times"></i>
+                        Remove
                     </button>
                 `;
                 
@@ -898,11 +917,11 @@
         }
 
         function getFileIcon(fileType) {
-            if (fileType.includes('pdf')) return 'fas fa-file-pdf text-danger';
-            if (fileType.includes('word') || fileType.includes('document')) return 'fas fa-file-word text-primary';
-            if (fileType.includes('text')) return 'fas fa-file-alt text-secondary';
-            if (fileType.includes('image')) return 'fas fa-file-image text-success';
-            return 'fas fa-file text-muted';
+            if (fileType.includes('pdf')) return 'PDF';
+            if (fileType.includes('word') || fileType.includes('document')) return 'DOC';
+            if (fileType.includes('text')) return 'TXT';
+            if (fileType.includes('image')) return 'IMG';
+            return 'FILE';
         }
 
         function formatFileSize(bytes) {

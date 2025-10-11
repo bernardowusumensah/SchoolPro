@@ -25,7 +25,7 @@ class AdminDashboardController extends Controller
         $recentUsers = User::orderBy('created_at', 'desc')->take(10)->get();
 
         // Get recent projects for oversight section (last 10)
-        $recentProjects = Project::with('user')->orderBy('created_at', 'desc')->take(10)->get();
+        $recentProjects = Project::with(['student', 'supervisor'])->orderBy('created_at', 'desc')->take(10)->get();
 
         return view('dashboard.admin', compact('stats', 'recentUsers', 'recentProjects'));
     }
@@ -35,11 +35,11 @@ class AdminDashboardController extends Controller
      */
     public function projects(Request $request)
     {
-        $query = Project::with('user');
+        $query = Project::with(['student', 'supervisor']);
 
         // Filter by user role if specified
         if ($request->filled('user_role')) {
-            $query->whereHas('user', function ($q) use ($request) {
+            $query->whereHas('student', function ($q) use ($request) {
                 $q->where('role', $request->user_role);
             });
         }
@@ -48,8 +48,11 @@ class AdminDashboardController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhereHas('user', function ($userQuery) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhereHas('student', function ($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('supervisor', function ($userQuery) use ($search) {
                       $userQuery->where('name', 'like', "%{$search}%");
                   });
             });

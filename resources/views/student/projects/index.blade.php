@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Projects - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="/dashboard/student">
-                <i class="fas fa-graduation-cap me-2"></i>SchoolPro - Student Portal
+                SchoolPro - Student Portal
             </a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link text-white" href="/dashboard/student">
-                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                    Dashboard
                 </a>
                 <a class="nav-link text-white" href="{{ route('student.projects.proposal') }}">
-                    <i class="fas fa-plus me-1"></i>New Proposal
+                    New Proposal
                 </a>
             </div>
         </div>
@@ -29,23 +29,29 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="text-primary">
-                        <i class="fas fa-project-diagram me-2"></i>My Projects
+                        My Projects ({{ $projects->count() }}/3)
                     </h2>
-                    <a href="{{ route('student.projects.proposal') }}" class="btn btn-success">
-                        <i class="fas fa-plus me-2"></i>Create New Proposal
-                    </a>
+                    @if($projects->count() < 3)
+                        <a href="{{ route('student.projects.proposal') }}" class="btn btn-success">
+                            Create New Proposal
+                        </a>
+                    @else
+                        <span class="btn btn-secondary" disabled>
+                            Maximum Projects Reached
+                        </span>
+                    @endif
                 </div>
 
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                        {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
 
                 @if(session('warning'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>{{ session('warning') }}
+                        {{ session('warning') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
@@ -55,15 +61,22 @@
                     <div class="card border-0 shadow-sm">
                         <div class="card-body text-center py-5">
                             <div class="mb-4">
-                                <i class="fas fa-clipboard-list fa-4x text-muted"></i>
+                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                    <svg width="40" height="40" fill="currentColor" class="text-muted" viewBox="0 0 16 16">
+                                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                                    </svg>
+                                </div>
                             </div>
                             <h4 class="text-muted mb-3">No Projects Yet</h4>
                             <p class="text-muted mb-4">
                                 You haven't created any project proposals yet. Get started by creating your first proposal!
                             </p>
-                            <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary btn-lg">
-                                <i class="fas fa-plus me-2"></i>Create Your First Proposal
-                            </a>
+                            @if($projects->count() < 3)
+                                <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary btn-lg">
+                                    Create Your First Proposal
+                                </a>
+                            @endif
                         </div>
                     </div>
                 @else
@@ -80,27 +93,27 @@
                                             @switch($project->status)
                                                 @case('Pending')
                                                     <span class="badge bg-warning text-dark">
-                                                        <i class="fas fa-clock me-1"></i>Pending
+                                                        Pending
                                                     </span>
                                                     @break
                                                 @case('Approved')
                                                     <span class="badge bg-success">
-                                                        <i class="fas fa-check me-1"></i>Approved
+                                                        Approved
                                                     </span>
                                                     @break
                                                 @case('Rejected')
                                                     <span class="badge bg-danger">
-                                                        <i class="fas fa-times me-1"></i>Rejected
+                                                        Rejected
                                                     </span>
                                                     @break
                                                 @case('In Progress')
                                                     <span class="badge bg-info">
-                                                        <i class="fas fa-cog fa-spin me-1"></i>In Progress
+                                                        In Progress
                                                     </span>
                                                     @break
                                                 @case('Completed')
                                                     <span class="badge bg-primary">
-                                                        <i class="fas fa-flag me-1"></i>Completed
+                                                        Completed
                                                     </span>
                                                     @break
                                             @endswitch
@@ -114,14 +127,12 @@
                                         
                                         <div class="mb-3">
                                             <small class="text-muted">
-                                                <i class="fas fa-user-tie me-1"></i>
                                                 <strong>Supervisor:</strong> {{ $project->supervisor->name ?? 'Not assigned' }}
                                             </small>
                                         </div>
                                         
                                         <div class="mb-3">
                                             <small class="text-muted">
-                                                <i class="fas fa-calendar me-1"></i>
                                                 <strong>Submitted:</strong> {{ $project->created_at->format('M d, Y') }}
                                             </small>
                                         </div>
@@ -131,17 +142,17 @@
                                         <div class="d-flex justify-content-between">
                                             <a href="{{ route('student.projects.show', $project->id) }}" 
                                                class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-eye me-1"></i>View Details
+                                                View Details
                                             </a>
                                             
                                             @if(in_array($project->status, ['Pending', 'Rejected']))
                                                 <a href="{{ route('student.projects.editProject', $project->id) }}" 
                                                    class="btn btn-outline-secondary btn-sm">
-                                                    <i class="fas fa-edit me-1"></i>Edit
+                                                    Edit
                                                 </a>
                                             @elseif($project->status === 'Approved')
                                                 <span class="btn btn-outline-success btn-sm">
-                                                    <i class="fas fa-check me-1"></i>Active
+                                                    Active
                                                 </span>
                                             @endif
                                         </div>
@@ -152,14 +163,23 @@
                     </div>
                     
                     <!-- Create New Proposal Button (Bottom) -->
-                    <div class="text-center mt-4">
-                        <a href="{{ route('student.projects.proposal') }}" class="btn btn-success btn-lg">
-                            <i class="fas fa-plus me-2"></i>Create Another Proposal
-                        </a>
-                        <p class="text-muted mt-2 small">
-                            You can submit up to 3 pending proposals at once
-                        </p>
-                    </div>
+                    @if($projects->count() < 3)
+                        <div class="text-center mt-4">
+                            <a href="{{ route('student.projects.proposal') }}" class="btn btn-success btn-lg">
+                                Create Another Proposal
+                            </a>
+                            <p class="text-muted mt-2 small">
+                                You can have a maximum of 3 projects total
+                            </p>
+                        </div>
+                    @else
+                        <div class="text-center mt-4">
+                            <div class="alert alert-info">
+                                <strong>Maximum Limit Reached:</strong> You have reached the maximum of 3 projects. 
+                                Complete or have a supervisor delete an existing project to create new proposals.
+                            </div>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>

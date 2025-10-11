@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Student Dashboard') - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <style>
         body {
@@ -95,6 +94,7 @@
         
         .sidebar .collapse-inner {
             margin: 0 1rem;
+            background-color: transparent !important;
         }
         
         .sidebar .collapse-item {
@@ -198,9 +198,6 @@
     <ul class="sidebar navbar-nav">
         <!-- Sidebar Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.student') }}">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
             <div class="sidebar-brand-text mx-3">SchoolPro</div>
         </a>
 
@@ -210,7 +207,6 @@
         <!-- Nav Item - Dashboard -->
         <li class="nav-item {{ request()->routeIs('dashboard.student') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('dashboard.student') }}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
         </li>
@@ -227,15 +223,13 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProject"
                 aria-expanded="true" aria-controls="collapseProject">
-                <i class="fas fa-fw fa-project-diagram"></i>
                 <span>My Project</span>
             </a>
             <div id="collapseProject" class="collapse {{ request()->routeIs('student.projects.*') ? 'show' : '' }}" aria-labelledby="headingProject" data-bs-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
+                <div class="py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Project Management:</h6>
-                    <a class="collapse-item {{ request()->routeIs('student.projects.proposal') ? 'active' : '' }}" href="{{ route('student.projects.proposal') }}">Create Proposal</a>
-                    <a class="collapse-item {{ request()->routeIs('student.projects.edit') ? 'active' : '' }}" href="{{ route('student.projects.edit') }}">Edit Proposal</a>
-                    <a class="collapse-item {{ request()->routeIs('student.projects.status') ? 'active' : '' }}" href="{{ route('student.projects.status') }}">Proposal Status</a>
+                    <a class="collapse-item {{ request()->routeIs('student.projects.index') ? 'active' : '' }}" href="{{ route('student.projects.index') }}">My Projects</a>
+                    <a class="collapse-item {{ request()->routeIs('student.projects.proposal') ? 'active' : '' }}" href="{{ route('student.projects.proposal') }}">New Proposal</a>
                     <a class="collapse-item" href="/student/project/final">Final Submission</a>
                 </div>
             </div>
@@ -245,15 +239,14 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLogs"
                 aria-expanded="true" aria-controls="collapseLogs">
-                <i class="fas fa-fw fa-calendar-week"></i>
                 <span>Weekly Progress Logs</span>
             </a>
             <div id="collapseLogs" class="collapse" aria-labelledby="headingLogs" data-bs-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
+                <div class="py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Progress Tracking:</h6>
                     <a class="collapse-item" href="/student/logs/upload">Upload New Log</a>
                     <a class="collapse-item" href="/student/logs/history">Log History</a>
-                    <a class="collapse-item" href="/student/logs/feedback">Supervisor Feedback</a>
+
                 </div>
             </div>
         </li>
@@ -261,7 +254,6 @@
         <!-- Nav Item - Profile -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('profile.edit') }}">
-                <i class="fas fa-fw fa-user"></i>
                 <span>My Profile</span>
             </a>
         </li>
@@ -275,7 +267,6 @@
                 @csrf
                 <a class="nav-link" href="{{ route('logout') }}" 
                    onclick="event.preventDefault(); this.closest('form').submit();">
-                    <i class="fas fa-fw fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
             </form>
@@ -294,7 +285,7 @@
         <nav class="topbar navbar navbar-expand navbar-light bg-white shadow">
             <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
+                ☰
             </button>
 
             <!-- Topbar Navbar -->
@@ -311,7 +302,6 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
                         <div class="dropdown-divider"></div>
@@ -319,7 +309,6 @@
                             @csrf
                             <a class="dropdown-item" href="{{ route('logout') }}" 
                                onclick="event.preventDefault(); this.closest('form').submit();">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
                         </form>
@@ -334,7 +323,6 @@
             @if(session('success'))
                 <div class="container-fluid px-4">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check-circle mr-2"></i>
                         {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -344,7 +332,6 @@
             @if(session('error'))
                 <div class="container-fluid px-4">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
                         {{ session('error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -354,7 +341,6 @@
             @if(session('warning'))
                 <div class="container-fluid px-4">
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
                         {{ session('warning') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -364,7 +350,6 @@
             @if(session('info'))
                 <div class="container-fluid px-4">
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        <i class="fas fa-info-circle mr-2"></i>
                         {{ session('info') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
