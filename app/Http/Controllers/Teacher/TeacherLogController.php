@@ -24,8 +24,10 @@ class TeacherLogController extends Controller
         // Get all projects supervised by this teacher
         $supervisedProjectIds = Project::where('supervisor_id', $teacherId)->pluck('id');
         
-        // Build query for logs from supervised projects
+        // Build query for logs from supervised projects (student weekly logs only)
         $query = Log::whereIn('project_id', $supervisedProjectIds)
+            ->whereNotNull('content') // Only student weekly logs, not system audit logs
+            ->where('content', '!=', '') // Ensure content is not empty
             ->with(['student', 'project'])
             ->latest();
 
@@ -72,6 +74,7 @@ class TeacherLogController extends Controller
 
     /**
      * Display logs that need review (unreviewed).
+     * Only shows student weekly logs, not system audit logs.
      */
     public function unreviewed(): View
     {
@@ -81,6 +84,8 @@ class TeacherLogController extends Controller
         
         $unreviewedLogs = Log::whereIn('project_id', $supervisedProjectIds)
             ->whereNull('supervisor_feedback')
+            ->whereNotNull('content') // Only student weekly logs, not system audit logs
+            ->where('content', '!=', '') // Ensure content is not empty
             ->with(['student', 'project'])
             ->latest()
             ->paginate(15);

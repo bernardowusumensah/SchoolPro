@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unreviewed Logs - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -117,14 +116,12 @@
                         <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                             aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#profile">
-                                <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                 @csrf
                                 <button type="submit" class="dropdown-item">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
                                     Logout
                                 </button>
                             </form>

@@ -25,6 +25,9 @@ class TeacherDashboardController extends Controller
 
         $assignedStudentIds = $assignedStudents->pluck("id");
         
+        // Get supervised project IDs for accurate log counting
+        $supervisedProjectIds = $allProjects->pluck('id');
+        
         $stats = [
             "assigned_students" => $assignedStudents->count(),
             "pending_proposals" => $allProjects->where("status", "Pending")->count(),
@@ -32,8 +35,10 @@ class TeacherDashboardController extends Controller
             "needs_revision" => $allProjects->where("status", "Needs Revision")->count(),
             "rejected_proposals" => $allProjects->where("status", "Rejected")->count(),
             "pending_grading" => $allProjects->where("status", "Completed")->count(),
-            "unreviewed_logs" => Log::whereIn("student_id", $assignedStudentIds)
-                ->where("created_at", ">=", now()->subDays(7))
+            "unreviewed_logs" => Log::whereIn("project_id", $supervisedProjectIds)
+                ->whereNull('supervisor_feedback')
+                ->whereNotNull('content') // Only student weekly logs, not system audit logs
+                ->where('content', '!=', '') // Ensure content is not empty
                 ->count(),
             "total_projects" => $allProjects->count(),
         ];
