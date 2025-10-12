@@ -31,8 +31,11 @@ class StudentDashboardController extends Controller
             'completed' => $allProjects->where('status', 'Completed')->count(),
         ];
         
-        // Get student's logs
-        $studentLogs = Log::where('student_id', $studentId)->get();
+        // Get student's weekly logs (only actual student logs, not system audit logs)
+        $studentLogs = Log::where('student_id', $studentId)
+            ->whereNotNull('content') // Only student weekly logs
+            ->where('content', '!=', '') // Ensure content is not empty
+            ->get();
         $weeklyLogs = $studentLogs->where('created_at', '>=', now()->subDays(84))->count(); // 12 weeks
         
         // Calculate days until deadline (assuming 16-week semester)

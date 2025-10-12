@@ -196,6 +196,10 @@ class TeacherLogController extends Controller
         }
 
         $logs = Log::where('student_id', $student->id)
+            ->whereNotNull('content')
+            ->where('content', '!=', '')
+            ->whereNull('action')
+            ->whereNull('description')
             ->whereHas('project', function ($query) use ($teacherId) {
                 $query->where('supervisor_id', $teacherId);
             })
@@ -219,6 +223,10 @@ class TeacherLogController extends Controller
         }
 
         $logs = Log::where('project_id', $project->id)
+            ->whereNotNull('content')
+            ->where('content', '!=', '')
+            ->whereNull('action')
+            ->whereNull('description')
             ->with(['student'])
             ->latest()
             ->paginate(15);

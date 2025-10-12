@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Weekly Log - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -219,15 +218,15 @@
                 " role="alert">
                     <h6 class="alert-heading mb-2">
                         @if($project->status === 'Draft')
-                            📝 Draft Project - Track Your Preparation Work
+                            Draft Project - Track Your Preparation Work
                         @elseif($project->status === 'Pending')
-                            ⏳ Pending Approval - Log Your Proposal Work
+                            Pending Approval - Log Your Proposal Work
                         @elseif($project->status === 'Approved') 
-                            ✅ Approved Project - Track Your Progress
+                            Approved Project - Track Your Progress
                         @elseif($project->status === 'Completed')
-                            🎯 Completed Project - Final Documentation
+                            Completed Project - Final Documentation
                         @else
-                            📋 Project Status: {{ ucfirst($project->status) }}
+                            Project Status: {{ ucfirst($project->status) }}
                         @endif
                     </h6>
                     <p class="mb-0">

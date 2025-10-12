@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log Analytics - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -60,31 +60,26 @@
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('dashboard.teacher') }}">
-                    <i class="fas fa-tachometer-alt fa-fw"></i>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('teacher.proposals.index') }}">
-                    <i class="fas fa-file-alt fa-fw"></i>
                     Project Proposals
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('teacher.logs.index') }}">
-                    <i class="fas fa-calendar-week fa-fw"></i>
                     Student Logs
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('teacher.logs.unreviewed') }}">
-                    <i class="fas fa-exclamation-triangle fa-fw"></i>
                     Unreviewed Logs
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="{{ route('teacher.logs.analytics') }}">
-                    <i class="fas fa-chart-bar fa-fw"></i>
                     Log Analytics
                 </a>
             </li>
@@ -96,7 +91,6 @@
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
                     <button type="submit" class="nav-link btn btn-link text-start">
-                        <i class="fas fa-sign-out-alt fa-fw"></i>
                         Logout
                     </button>
                 </form>
@@ -109,14 +103,14 @@
         <!-- Page Header -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">
-                <i class="fas fa-chart-bar me-2"></i>Log Analytics Dashboard
+                Log Analytics Dashboard
             </h1>
             <div>
                 <a href="{{ route('teacher.logs.export') }}" class="btn btn-success">
-                    <i class="fas fa-download me-2"></i>Export Logs
+                    Export Logs
                 </a>
                 <a href="{{ route('teacher.logs.index') }}" class="btn btn-primary">
-                    <i class="fas fa-arrow-left me-2"></i>Back to Logs
+                    Back to Logs
                 </a>
             </div>
         </div>
@@ -132,7 +126,7 @@
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $totalLogs }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+
                             </div>
                         </div>
                     </div>
@@ -148,7 +142,7 @@
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $reviewedLogs }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+
                             </div>
                         </div>
                     </div>
@@ -164,7 +158,7 @@
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $unreviewedLogs }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-clock fa-2x text-gray-300"></i>
+
                             </div>
                         </div>
                     </div>
@@ -180,7 +174,7 @@
                                 <div class="h5 mb-0 fw-bold text-gray-800">{{ $followupLogs }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-flag fa-2x text-gray-300"></i>
+
                             </div>
                         </div>
                     </div>
@@ -195,7 +189,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-star me-2"></i>Rating Distribution
+                            Rating Distribution
                         </h6>
                     </div>
                     <div class="card-body">
@@ -211,7 +205,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-chart-line me-2"></i>Recent Activity (Last 30 Days)
+                            Recent Activity (Last 30 Days)
                         </h6>
                     </div>
                     <div class="card-body">
@@ -229,7 +223,7 @@
                 <div class="card shadow">
                     <div class="card-header py-3">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-users me-2"></i>Student Performance Overview
+                            Student Performance Overview
                         </h6>
                     </div>
                     <div class="card-body">
@@ -301,7 +295,7 @@
                                     <tr>
                                         <td colspan="5" class="text-center py-4">
                                             <div class="text-muted">
-                                                <i class="fas fa-inbox fa-3x mb-3"></i>
+
                                                 <p>No student data available yet.</p>
                                             </div>
                                         </td>

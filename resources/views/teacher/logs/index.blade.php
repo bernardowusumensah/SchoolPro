@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Logs - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -114,14 +113,12 @@
                         <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                             aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#profile">
-                                <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                 @csrf
                                 <button type="submit" class="dropdown-item">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
                                     Logout
                                 </button>
                             </form>
@@ -292,15 +289,6 @@
                                                                 title="Mark as Reviewed">
                                                             Mark Reviewed
                                                         </button>
-                                                    @else
-                                                        <button class="btn btn-sm btn-outline-warning" 
-                                                                data-action="update-feedback"
-                                                                data-log-id="{{ $log->id }}" 
-                                                                data-student-name="{{ $log->student->name }}"
-                                                                data-current-feedback="{{ $log->supervisor_feedback }}"
-                                                                title="Update Feedback">
-                                                            Update
-                                                        </button>
                                                     @endif
                                                 </div>
                                             </td>
@@ -351,7 +339,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-success">
-                            <i class="fas fa-comment me-2"></i>Provide Feedback
+                            Provide Feedback
                         </button>
                     </div>
                 </form>
@@ -374,7 +362,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-info" id="confirmReviewed">
-                        <i class="fas fa-check me-2"></i>Mark as Reviewed
+                        Mark as Reviewed
                     </button>
                 </div>
             </div>

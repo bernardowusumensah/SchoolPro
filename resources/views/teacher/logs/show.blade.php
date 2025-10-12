@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Log Details - SchoolPro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -68,25 +69,21 @@
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('dashboard.teacher') }}">
-                    <i class="fas fa-fw fa-tachometer-alt me-2"></i>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('teacher.proposals.index') }}">
-                    <i class="fas fa-fw fa-clipboard-list me-2"></i>
                     Proposals
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="{{ route('teacher.logs.index') }}">
-                    <i class="fas fa-fw fa-calendar-week me-2"></i>
                     Student Logs
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('teacher.logs.unreviewed') }}">
-                    <i class="fas fa-fw fa-exclamation-circle me-2"></i>
                     Unreviewed Logs
                 </a>
             </li>
@@ -98,7 +95,6 @@
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="#profile">
-                    <i class="fas fa-fw fa-user me-2"></i>
                     Profile
                 </a>
             </li>
@@ -106,7 +102,6 @@
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
                     <button type="submit" class="nav-link border-0 bg-transparent text-start w-100" style="color: rgba(255, 255, 255, 0.8);">
-                        <i class="fas fa-fw fa-sign-out-alt me-2"></i>
                         Logout
                     </button>
                 </form>
@@ -134,14 +129,12 @@
                         <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                             aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#profile">
-                                <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                 @csrf
                                 <button type="submit" class="dropdown-item">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
                                     Logout
                                 </button>
                             </form>
@@ -167,16 +160,16 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-calendar-week fa-fw"></i> Log Entry
+                            Log Entry
                         </h6>
                         <div>
                             @if($log->supervisor_feedback)
                                 <span class="badge bg-success">
-                                    <i class="fas fa-check-circle me-1"></i>Reviewed
+                                    Reviewed
                                 </span>
                             @else
                                 <span class="badge bg-warning text-dark">
-                                    <i class="fas fa-clock me-1"></i>Pending Review
+                                    Pending Review
                                 </span>
                             @endif
                         </div>
@@ -210,7 +203,7 @@
                             <div class="mt-3">
                                 <h6 class="fw-bold mb-2">Attachment:</h6>
                                 <a href="{{ Storage::url($log->file_path) }}" class="btn btn-outline-primary" target="_blank">
-                                    <i class="fas fa-download me-2"></i>Download Attachment
+                                    Download Attachment
                                 </a>
                             </div>
                         @endif
@@ -222,7 +215,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 fw-bold text-primary">
-                                <i class="fas fa-history fa-fw"></i> Previous Logs from {{ $log->student->name }}
+                                Previous Logs from {{ $log->student->name }}
                             </h6>
                         </div>
                         <div class="card-body">
@@ -251,7 +244,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-user fa-fw"></i> Student Information
+                            Student Information
                         </h6>
                     </div>
                     <div class="card-body text-center">
@@ -261,7 +254,7 @@
                         <h5 class="fw-bold">{{ $log->student->name }}</h5>
                         <p class="text-muted">{{ $log->student->email }}</p>
                         <a href="{{ route('teacher.students.logs', $log->student->id) }}" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-list me-2"></i>View All Logs
+                            View All Logs
                         </a>
                     </div>
                 </div>
@@ -270,7 +263,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-project-diagram fa-fw"></i> Project Information
+                            Project Information
                         </h6>
                     </div>
                     <div class="card-body">
@@ -289,7 +282,7 @@
                         </div>
                         
                         <a href="{{ route('teacher.projects.logs', $log->project->id) }}" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-list me-2"></i>View Project Logs
+                            View Project Logs
                         </a>
                     </div>
                 </div>
@@ -298,7 +291,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 fw-bold text-primary">
-                            <i class="fas fa-comment fa-fw"></i> Feedback Actions
+                            Feedback Actions
                         </h6>
                     </div>
                     <div class="card-body">
@@ -312,16 +305,16 @@
                                     Provided on {{ $log->feedback_date->format('M j, Y g:i A') }}
                                 </small>
                             </div>
-                            <button class="btn btn-warning w-100" data-action="update-feedback" data-log-id="{{ $log->id }}" data-student-name="{{ $log->student->name }}" data-current-feedback="{{ $log->supervisor_feedback }}">
-                                <i class="fas fa-edit me-2"></i>Update Feedback
+                            <button class="btn btn-warning w-100" onclick="openFeedbackModal({{ $log->id }}, '{{ addslashes($log->student->name) }}', '{{ addslashes($log->supervisor_feedback) }}')">
+                                Update Feedback
                             </button>
                         @else
                             <p class="text-muted mb-3">This log entry is waiting for your feedback.</p>
-                            <button class="btn btn-success w-100 mb-2" data-action="provide-feedback" data-log-id="{{ $log->id }}" data-student-name="{{ $log->student->name }}">
-                                <i class="fas fa-comment me-2"></i>Provide Feedback
+                            <button class="btn btn-success w-100 mb-2" onclick="openFeedbackModal({{ $log->id }}, '{{ addslashes($log->student->name) }}')">
+                                Provide Feedback
                             </button>
-                            <button class="btn btn-info w-100" data-action="mark-reviewed" data-log-id="{{ $log->id }}" data-student-name="{{ $log->student->name }}">
-                                <i class="fas fa-check me-2"></i>Mark as Reviewed
+                            <button class="btn btn-info w-100" onclick="markAsReviewed({{ $log->id }}, '{{ addslashes($log->student->name) }}')">
+                                Mark as Reviewed
                             </button>
                         @endif
                     </div>
@@ -330,154 +323,211 @@
         </div>
     </div>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <!-- Provide Feedback Modal -->
-    <div class="modal fade" id="feedbackModal" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Provide Feedback</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="feedbackForm">
-                    <div class="modal-body">
-                        <p>Provide feedback for <strong id="feedbackStudentName"></strong>'s log entry:</p>
-                        <div class="mb-3">
-                            <label for="supervisor_feedback" class="form-label">Feedback <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="supervisor_feedback" name="supervisor_feedback" rows="4" 
-                                      placeholder="Provide constructive feedback on the student's progress..." required></textarea>
-                            <div class="form-text">Minimum 10 characters, maximum 2000 characters.</div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-comment me-2"></i>Provide Feedback
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mark as Reviewed Modal -->
-    <div class="modal fade" id="reviewedModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Mark as Reviewed</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="feedbackModalLabel">Provide Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to mark <strong id="reviewedStudentName"></strong>'s log as reviewed?</p>
-                    <p class="text-muted">This will add a generic "Reviewed" message without specific feedback.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-info" id="confirmReviewed">
-                        <i class="fas fa-check me-2"></i>Mark as Reviewed
-                    </button>
+                    <p>Provide feedback for <strong id="feedbackStudentName"></strong>'s log entry:</p>
+                    <form id="feedbackForm" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <div class="mb-3">
+                            <label for="supervisor_feedback" class="form-label">Feedback <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="supervisor_feedback" name="supervisor_feedback" rows="5" 
+                                      placeholder="Provide constructive feedback on the student's progress..." required minlength="10" maxlength="2000"></textarea>
+                            <div class="form-text">Minimum 10 characters, maximum 2000 characters.</div>
+                            <div id="feedback-error" class="text-danger mt-2" style="display: none;"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success" id="submitFeedback">
+                                <span id="submitText">Provide Feedback</span>
+                                <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Setup CSRF token for AJAX requests
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        let feedbackLogId = null;
+        let reviewLogId = null;
 
-        let currentLogId = null;
-
-        // Provide Feedback
-        $(document).on('click', '[data-action="provide-feedback"]', function() {
-            const logId = $(this).data('log-id');
-            const studentName = $(this).data('student-name');
+        // Initialize when document is ready
+        $(document).ready(function() {
+            console.log('Page loaded, initializing feedback system...');
             
-            currentLogId = logId;
-            $('#feedbackStudentName').text(studentName);
-            $('#supervisor_feedback').val('');
-            $('#feedbackModal').modal('show');
-        });
-
-        // Update Feedback
-        $(document).on('click', '[data-action="update-feedback"]', function() {
-            const logId = $(this).data('log-id');
-            const studentName = $(this).data('student-name');
-            const currentFeedback = $(this).data('current-feedback');
-            
-            currentLogId = logId;
-            $('#feedbackStudentName').text(studentName);
-            $('#supervisor_feedback').val(currentFeedback);
-            $('#feedbackModal').modal('show');
-        });
-
-        $('#feedbackForm').on('submit', function(e) {
-            e.preventDefault();
-            const feedback = $('#supervisor_feedback').val();
-            
-            if (!feedback.trim()) {
-                alert('Please provide feedback');
+            // Test jQuery and Bootstrap
+            if (typeof $ === 'undefined') {
+                console.error('jQuery not loaded!');
                 return;
             }
             
-            $.ajax({
-                url: `/teacher/logs/${currentLogId}/feedback`,
-                method: 'PATCH',
-                data: { 
-                    supervisor_feedback: feedback,
-                    _method: 'PATCH'
-                },
-                success: function(response) {
-                    $('#feedbackModal').modal('hide');
-                    location.reload();
-                },
-                error: function(xhr) {
-                    alert('Error providing feedback');
+            if (typeof bootstrap === 'undefined') {
+                console.error('Bootstrap not loaded!');
+                return;
+            }
+
+            // Setup CSRF token
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (!token) {
+                console.error('CSRF token not found!');
+                return;
+            }
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': token
                 }
             });
+
+            console.log('Feedback system initialized successfully');
         });
 
-        // Mark as Reviewed
-        $(document).on('click', '[data-action="mark-reviewed"]', function() {
-            const logId = $(this).data('log-id');
-            const studentName = $(this).data('student-name');
+        // Simple feedback button handler
+        function openFeedbackModal(logId, studentName, currentFeedback = '') {
+            console.log('Opening feedback modal for log:', logId, 'student:', studentName);
             
-            currentLogId = logId;
-            $('#reviewedStudentName').text(studentName);
-            $('#reviewedModal').modal('show');
-        });
+            if (!logId) {
+                alert('Error: Invalid log ID');
+                return;
+            }
 
-        $('#confirmReviewed').on('click', function() {
+            feedbackLogId = logId;
+            $('#feedbackStudentName').text(studentName || 'Unknown Student');
+            $('#supervisor_feedback').val(currentFeedback);
+            $('#feedback-error').hide();
+
+            // Show modal using Bootstrap's JavaScript API
+            const modal = new bootstrap.Modal(document.getElementById('feedbackModal'));
+            modal.show();
+        }
+
+        // Handle feedback form submission
+        $(document).on('submit', '#feedbackForm', function(e) {
+            e.preventDefault();
+            
+            const feedback = $('#supervisor_feedback').val().trim();
+            const submitBtn = $('#submitFeedback');
+            const submitText = $('#submitText');
+            const submitSpinner = $('#submitSpinner');
+            const errorDiv = $('#feedback-error');
+
+            console.log('Submitting feedback for log:', feedbackLogId);
+            console.log('Feedback content length:', feedback.length);
+
+            // Validation
+            if (!feedback) {
+                errorDiv.text('Please provide feedback').show();
+                return;
+            }
+
+            if (feedback.length < 10) {
+                errorDiv.text('Feedback must be at least 10 characters long').show();
+                return;
+            }
+
+            if (!feedbackLogId) {
+                errorDiv.text('Error: No log selected').show();
+                return;
+            }
+
+            // Show loading state
+            submitBtn.prop('disabled', true);
+            submitText.text('Submitting...');
+            submitSpinner.show();
+            errorDiv.hide();
+
+            // Submit via AJAX
             $.ajax({
-                url: `/teacher/logs/${currentLogId}/reviewed`,
-                method: 'PATCH',
-                data: { 
-                    _method: 'PATCH'
+                url: `/teacher/logs/${feedbackLogId}/feedback`,
+                method: 'POST',
+                data: {
+                    _method: 'PATCH',
+                    supervisor_feedback: feedback,
+                    _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    $('#reviewedModal').modal('hide');
+                    console.log('Feedback submitted successfully:', response);
+                    
+                    // Hide modal and reload page
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('feedbackModal'));
+                    modal.hide();
+                    
+                    // Show success message briefly before reload
+                    alert('Feedback submitted successfully!');
                     location.reload();
                 },
                 error: function(xhr) {
-                    alert('Error marking log as reviewed');
+                    console.error('Feedback submission error:', xhr);
+                    
+                    let errorMessage = 'Failed to submit feedback';
+                    if (xhr.responseJSON) {
+                        if (xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.responseJSON.errors) {
+                            const errors = Object.values(xhr.responseJSON.errors).flat();
+                            errorMessage = errors.join(', ');
+                        }
+                    }
+                    
+                    errorDiv.text(errorMessage).show();
+                },
+                complete: function() {
+                    // Reset loading state
+                    submitBtn.prop('disabled', false);
+                    submitText.text('Provide Feedback');
+                    submitSpinner.hide();
                 }
             });
         });
 
-        // Reset modal forms when hidden
-        $('.modal').on('hidden.bs.modal', function() {
-            $(this).find('form')[0]?.reset();
-        });
+        // Mark as reviewed handler
+        function markAsReviewed(logId, studentName) {
+            if (!logId) {
+                alert('Error: Invalid log ID');
+                return;
+            }
+
+            if (!confirm(`Mark ${studentName}'s log as reviewed without specific feedback?`)) {
+                return;
+            }
+
+            $.ajax({
+                url: `/teacher/logs/${logId}/reviewed`,
+                method: 'POST',
+                data: {
+                    _method: 'PATCH',
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log('Log marked as reviewed:', response);
+                    alert('Log marked as reviewed successfully!');
+                    location.reload();
+                },
+                error: function(xhr) {
+                    console.error('Review error:', xhr);
+                    let errorMessage = 'Failed to mark as reviewed';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    alert(errorMessage);
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -392,10 +392,14 @@
                                     Back to Log History
                                 </a>
                                 
-                                @if($log->created_at->diffInHours(now()) <= 48)
+                                @if($log->created_at->diffInHours(now()) <= 48 && !$log->supervisor_feedback)
                                     <a href="{{ route('student.logs.edit', $log->id) }}" class="btn btn-outline-warning">
                                         Edit This Log
                                     </a>
+                                @elseif($log->supervisor_feedback)
+                                    <button class="btn btn-outline-secondary" disabled title="Logs cannot be edited after supervisor feedback has been provided">
+                                        Edit This Log
+                                    </button>
                                 @else
                                     <button class="btn btn-outline-secondary" disabled title="Logs can only be edited within 48 hours of submission">
                                         Edit This Log
@@ -407,7 +411,13 @@
                                 </a>
                             </div>
                             
-                            @if($log->created_at->diffInHours(now()) > 48)
+                            @if($log->supervisor_feedback)
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        Logs cannot be edited after supervisor feedback has been provided. This preserves the integrity of the feedback process.
+                                    </small>
+                                </div>
+                            @elseif($log->created_at->diffInHours(now()) > 48)
                                 <div class="mt-3">
                                     <small class="text-muted">
                                         Logs can only be edited within 48 hours of submission.

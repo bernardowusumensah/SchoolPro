@@ -20,15 +20,39 @@ class StudentLogController extends Controller
     public function index(): View
     {
         $student = Auth::user();
-        $logs = $student->logs()->with('project')->latest()->paginate(10);
+        // Only show actual student weekly logs, not system audit logs
+        $logs = $student->logs()
+            ->whereNotNull('content') // Only student weekly logs
+            ->where('content', '!=', '') // Ensure content is not empty
+            ->with('project')
+            ->latest()
+            ->paginate(10);
         
-        // Get current project for log creation (any active project)
+        // Get current project for log creation (only approved projects)
         $currentProject = $student->projects()
-            ->whereNotIn('status', ['Rejected'])
+            ->whereIn('status', ['Approved', 'In Progress'])
             ->latest()
             ->first();
 
-        return view('student.logs.index', compact('logs', 'currentProject'));
+        // Check if they have any pending proposals
+        $pendingProject = $student->projects()
+            ->where('status', 'Pending')
+            ->latest()
+            ->first();
+
+        // Check if they have any projects needing revision
+        $revisionProject = $student->projects()
+            ->where('status', 'Needs Revision')
+            ->latest()
+            ->first();
+
+        // Check if they have any draft projects (not submitted)
+        $draftProject = $student->projects()
+            ->where('status', 'Draft')
+            ->latest()
+            ->first();
+
+        return view('student.logs.index', compact('logs', 'currentProject', 'pendingProject', 'revisionProject', 'draftProject'));
     }
 
     /**
@@ -38,24 +62,46 @@ class StudentLogController extends Controller
     {
         $student = Auth::user();
         
-        // Get the student's most recent project (any status except rejected)
+        // Get student's project that can receive logging (only approved projects)
         $project = $student->projects()
-            ->whereNotIn('status', ['Rejected'])
+            ->whereIn('status', ['Approved', 'In Progress'])
             ->with('supervisor')
             ->latest()
             ->first();
 
         if (!$project) {
-            return redirect()->route('student.projects.index')
-                ->with('info', 'Create your first project proposal to start tracking your weekly progress.');
+            // Check if they have any projects needing revision
+            $revisionProject = $student->projects()
+                ->where('status', 'Needs Revision')
+                ->latest()
+                ->first();
+
+            // Check if they have any pending proposals
+            $pendingProject = $student->projects()
+                ->where('status', 'Pending')
+                ->latest()
+                ->first();
+
+            if ($revisionProject) {
+                return redirect()->route('student.projects.edit', $revisionProject->id)
+                    ->with('info', 'Your project proposal needs revisions. Please address the feedback and resubmit before logging can begin.');
+            } elseif ($pendingProject) {
+                return redirect()->route('student.projects.index')
+                    ->with('info', 'Your project proposal is under review by your supervisor. Weekly logging will be available once they approve it.');
+            } else {
+                return redirect()->route('student.projects.index')
+                    ->with('info', 'Create your first project proposal to start tracking your weekly progress.');
+            }
         }
 
-        // Check if student already submitted a log this week
+        // Check if student already submitted a weekly log this week (only actual student logs, not system audit logs)
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
         
         $weeklyLogExists = Log::where('student_id', $student->id)
             ->where('project_id', $project->id)
+            ->whereNotNull('content') // Only actual student weekly logs
+            ->where('content', '!=', '') // Ensure content is not empty
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->exists();
 
@@ -69,16 +115,36 @@ class StudentLogController extends Controller
     {
         $student = Auth::user();
         
-        // Get the student's most recent project (any status except rejected)
+        // Get student's project that can receive logging (only approved projects)
         $project = $student->projects()
-            ->whereNotIn('status', ['Rejected'])
+            ->whereIn('status', ['Approved', 'In Progress'])
             ->with('supervisor')
             ->latest()
             ->first();
 
         if (!$project) {
-            return redirect()->route('student.projects.index')
-                ->with('info', 'Create your first project proposal to start tracking your weekly progress.');
+            // Check if they have any projects needing revision
+            $revisionProject = $student->projects()
+                ->where('status', 'Needs Revision')
+                ->latest()
+                ->first();
+
+            // Check if they have any pending proposals
+            $pendingProject = $student->projects()
+                ->where('status', 'Pending')
+                ->latest()
+                ->first();
+
+            if ($revisionProject) {
+                return redirect()->route('student.projects.edit', $revisionProject->id)
+                    ->with('info', 'Your project proposal needs revisions. Please address the feedback and resubmit before logging can begin.');
+            } elseif ($pendingProject) {
+                return redirect()->route('student.projects.index')
+                    ->with('info', 'Your project proposal is under review by your supervisor. Weekly logging will be available once they approve it.');
+            } else {
+                return redirect()->route('student.projects.index')
+                    ->with('info', 'Create your first project proposal to start tracking your weekly progress.');
+            }
         }
 
         $request->validate([
@@ -89,12 +155,14 @@ class StudentLogController extends Controller
             'content.max' => 'Log content cannot exceed 5000 characters.',
         ]);
 
-        // Check if student already submitted a log this week
+        // Check if student already submitted a weekly log this week (only actual student logs, not system audit logs)
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
         
         $weeklyLogExists = Log::where('student_id', $student->id)
             ->where('project_id', $project->id)
+            ->whereNotNull('content') // Only actual student weekly logs
+            ->where('content', '!=', '') // Ensure content is not empty
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->exists();
 
@@ -145,6 +213,12 @@ class StudentLogController extends Controller
             abort(403, 'Unauthorized access to log entry.');
         }
 
+        // Prevent editing after supervisor feedback has been provided
+        if ($log->supervisor_feedback) {
+            return redirect()->route('student.logs.show', $log->id)
+                ->with('error', 'Log entries cannot be edited after supervisor feedback has been provided. This preserves the integrity of the feedback process.');
+        }
+
         // Only allow editing within 48 hours of creation
         if ($log->created_at->diffInHours(now()) > 48) {
             return redirect()->route('student.logs.show', $log->id)
@@ -162,6 +236,12 @@ class StudentLogController extends Controller
         // Ensure student can only update their own logs
         if ($log->student_id !== Auth::id()) {
             abort(403, 'Unauthorized access to log entry.');
+        }
+
+        // Prevent editing after supervisor feedback has been provided
+        if ($log->supervisor_feedback) {
+            return redirect()->route('student.logs.show', $log->id)
+                ->with('error', 'Log entries cannot be edited after supervisor feedback has been provided. This preserves the integrity of the feedback process.');
         }
 
         // Only allow editing within 48 hours of creation

@@ -197,8 +197,22 @@
                         <a href="{{ route('student.logs.create') }}" class="btn btn-primary">
                             Submit New Log
                         </a>
+                    @elseif($revisionProject)
+                        <a href="{{ route('student.projects.edit', $revisionProject->id) }}" class="btn btn-danger">
+                            Edit Proposal
+                        </a>
+                    @elseif($draftProject)
+                        <a href="{{ route('student.projects.edit', $draftProject->id) }}" class="btn btn-info">
+                            Complete Draft
+                        </a>
+                    @elseif($pendingProject)
+                        <span class="badge bg-warning text-dark">
+                            Proposal Under Review
+                        </span>
                     @else
-                        <span class="text-muted">No approved project to submit logs for</span>
+                        <a href="{{ route('student.projects.create') }}" class="btn btn-outline-primary">
+                            Create Project Proposal
+                        </a>
                     @endif
                 </div>
             </div>
@@ -235,6 +249,93 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <!-- No Active Project Available for Logging -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-warning">
+                                    Logging Status
+                                </h6>
+                            </div>
+                            <div class="card-body text-center py-5">
+                                @if($revisionProject)
+                                    <div class="mb-4">
+                                        <svg width="64" height="64" class="text-danger mb-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <h5 class="text-danger">Proposal Needs Revision</h5>
+                                    <p class="text-muted mb-4">
+                                        Your project proposal "<strong>{{ $revisionProject->title }}</strong>" needs revisions based on your supervisor's feedback. 
+                                        Please address the feedback and resubmit before logging can begin.
+                                    </p>
+                                    <div class="alert alert-warning">
+                                        <strong>Next steps:</strong><br>
+                                        • Review your supervisor's feedback<br>
+                                        • Edit and improve your proposal<br>
+                                        • Resubmit for approval<br>
+                                        • Once approved, you can start weekly logging
+                                    </div>
+                                    <a href="{{ route('student.projects.edit', $revisionProject->id) }}" class="btn btn-danger">
+                                        Edit Proposal
+                                    </a>
+                                @elseif($draftProject)
+                                    <div class="mb-4">
+                                        <svg width="64" height="64" class="text-info mb-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <h5 class="text-info">Draft Proposal Ready</h5>
+                                    <p class="text-muted mb-4">
+                                        You have a draft proposal "<strong>{{ $draftProject->title }}</strong>" ready to submit. 
+                                        Complete and submit your proposal to start the review process.
+                                    </p>
+                                    <div class="alert alert-info">
+                                        <strong>Next steps:</strong><br>
+                                        • Review and finalize your draft proposal<br>
+                                        • Submit it for supervisor review<br>
+                                        • Once approved, you can start weekly logging
+                                    </div>
+                                    <a href="{{ route('student.projects.edit', $draftProject->id) }}" class="btn btn-info">
+                                        Complete & Submit Proposal
+                                    </a>
+                                @elseif($pendingProject)
+                                    <div class="mb-4">
+                                        <svg width="64" height="64" class="text-warning mb-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <h5 class="text-warning">Proposal Under Review</h5>
+                                    <p class="text-muted mb-4">
+                                        Your project proposal "<strong>{{ $pendingProject->title }}</strong>" is currently under review by your supervisor. 
+                                        Weekly logging will be available once they approve it.
+                                    </p>
+                                    <div class="alert alert-info">
+                                        <strong>What happens next:</strong><br>
+                                        • Your supervisor will review your proposal<br>
+                                        • If approved, you can start logging your weekly progress<br>
+                                        • If revisions are needed, you'll be asked to edit your proposal
+                                    </div>
+                                @else
+                                    <div class="mb-4">
+                                        <svg width="64" height="64" class="text-info mb-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <h5 class="text-info">Ready to Get Started</h5>
+                                    <p class="text-muted mb-4">
+                                        Create your first project proposal to start tracking your weekly progress.
+                                    </p>
+                                    <a href="{{ route('student.projects.create') }}" class="btn btn-primary">
+                                        Create Project Proposal
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -321,7 +422,7 @@
                                                            class="btn btn-outline-primary btn-sm" title="View Details">
                                                             View
                                                         </a>
-                                                        @if($log->created_at->diffInHours(now()) <= 48)
+                                                        @if($log->created_at->diffInHours(now()) <= 48 && !$log->supervisor_feedback)
                                                             <a href="{{ route('student.logs.edit', $log->id) }}" 
                                                                class="btn btn-outline-warning btn-sm" title="Edit Log">
                                                                 Edit
@@ -342,13 +443,29 @@
                             @else
                                 <div class="text-center py-5">
                                     <h5 class="text-gray-600">No Progress Logs Yet</h5>
-                                    <p class="text-muted mb-4">You haven't submitted any weekly progress logs yet. Start tracking your project progress!</p>
                                     @if($currentProject)
+                                        <p class="text-muted mb-4">You haven't submitted any weekly progress logs yet. Start tracking your project progress!</p>
                                         <a href="{{ route('student.logs.create') }}" class="btn btn-primary">
                                             Submit Your First Log
                                         </a>
+                                    @elseif($revisionProject)
+                                        <p class="text-muted mb-4">Your proposal needs revisions. Address the feedback and resubmit before logging can begin.</p>
+                                        <a href="{{ route('student.projects.edit', $revisionProject->id) }}" class="btn btn-danger">
+                                            Edit Proposal
+                                        </a>
+                                    @elseif($draftProject)
+                                        <p class="text-muted mb-4">Complete and submit your draft proposal to start the approval process.</p>
+                                        <a href="{{ route('student.projects.edit', $draftProject->id) }}" class="btn btn-info">
+                                            Complete Draft Proposal
+                                        </a>
+                                    @elseif($pendingProject)
+                                        <p class="text-muted mb-4">Your project proposal is under review. Logging will be available once your supervisor approves it.</p>
+                                        <span class="badge bg-warning text-dark">Proposal Under Review</span>
                                     @else
-                                        <p class="text-warning">You need an approved project before you can submit logs.</p>
+                                        <p class="text-muted mb-4">Create your first project proposal to start tracking your progress.</p>
+                                        <a href="{{ route('student.projects.create') }}" class="btn btn-outline-primary">
+                                            Create Project Proposal
+                                        </a>
                                     @endif
                                 </div>
                             @endif
