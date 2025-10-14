@@ -80,8 +80,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('teacher.logs.analytics') }}">
-                    Log Analytics
+                <a class="nav-link" href="{{ route('teacher.analytics.index') }}">
+                    Analytics
                 </a>
             </li>
         </ul>

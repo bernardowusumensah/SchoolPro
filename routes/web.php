@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Student\StudentProjectController;
 use App\Http\Controllers\Student\StudentLogController;
 use App\Http\Controllers\Teacher\TeacherLogController;
+use App\Http\Controllers\Teacher\TeacherAnalyticsController;
 
 Route::get('/dashboard/student', [StudentDashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'role:student'])
@@ -51,6 +52,38 @@ Route::middleware(['auth', 'verified', 'role:student'])->prefix('student')->name
     Route::get('logs/{log}/download', [StudentLogController::class, 'downloadAttachment'])->name('logs.download');
     Route::get('logs/feedback', [StudentLogController::class, 'feedback'])->name('logs.feedback');
     Route::post('logs/{log}/acknowledge', [StudentLogController::class, 'acknowledgeFeedback'])->name('logs.acknowledge');
+    
+    // Analytics Routes - Debug
+    Route::get('analytics/debug', function() { 
+        return response()->json(['message' => 'Analytics route group is working!', 'user' => Auth::user()->name ?? 'Not logged in']); 
+    })->name('analytics.debug');
+    
+    Route::get('analytics', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'index'])->name('analytics.index');
+    Route::get('analytics/progress', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'index'])->name('analytics.progress');
+    Route::get('analytics/test', function() { 
+        $student = Auth::user();
+        $service = app(\App\Services\AnalyticsService::class);
+        $startDate = \Carbon\Carbon::now()->subMonths(3);
+        $endDate = \Carbon\Carbon::now();
+        
+        try {
+            $analytics = $service->getStudentProgressAnalytics($student, $startDate, $endDate);
+            return response()->json([
+                'success' => true,
+                'data' => $analytics,
+                'student' => $student->name,
+                'date_range' => $startDate->format('Y-m-d') . ' to ' . $endDate->format('Y-m-d')
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+    })->name('analytics.test');
+    Route::get('analytics/weekly-data', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'getWeeklyData'])->name('analytics.weekly');
+    Route::get('analytics/milestones', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'milestones'])->name('analytics.milestones');
 });
 
 // Teacher Proposal Management Routes
@@ -66,17 +99,28 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->prefix('teacher')->name
     // Log Management Routes
     Route::get('logs', [TeacherLogController::class, 'index'])->name('logs.index');
     Route::get('logs/unreviewed', [TeacherLogController::class, 'unreviewed'])->name('logs.unreviewed');
-    Route::get('logs/analytics', [TeacherLogController::class, 'analytics'])->name('logs.analytics');
     Route::get('logs/export', [TeacherLogController::class, 'exportLogs'])->name('logs.export');
     Route::get('logs/{log}', [TeacherLogController::class, 'show'])->name('logs.show');
     Route::patch('logs/{log}/feedback', [TeacherLogController::class, 'provideFeedback'])->name('logs.feedback');
     Route::patch('logs/{log}/feedback/update', [TeacherLogController::class, 'updateFeedback'])->name('logs.feedback.update');
+    
+    // Unified Analytics Routes
+    Route::get('analytics', [TeacherAnalyticsController::class, 'index'])->name('analytics.index');
+    Route::get('logs/analytics', [TeacherAnalyticsController::class, 'index'])->name('logs.analytics'); // Redirect old route
     Route::patch('logs/{log}/rating', [TeacherLogController::class, 'rateLog'])->name('logs.rating');
     Route::patch('logs/{log}/notes', [TeacherLogController::class, 'updatePrivateNotes'])->name('logs.notes');
     Route::patch('logs/{log}/followup', [TeacherLogController::class, 'toggleFollowup'])->name('logs.followup');
     Route::patch('logs/{log}/reviewed', [TeacherLogController::class, 'markReviewed'])->name('logs.reviewed');
     Route::get('students/{student}/logs', [TeacherLogController::class, 'studentLogs'])->name('students.logs');
     Route::get('projects/{project}/logs', [TeacherLogController::class, 'projectLogs'])->name('projects.logs');
+    
+    // Teacher Analytics Routes
+    Route::get('analytics', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'index'])->name('analytics.index');
+    Route::get('analytics/student-performance', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'studentPerformance'])->name('analytics.students');
+    Route::get('analytics/workload', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'workloadAnalysis'])->name('analytics.workload');
+    Route::get('analytics/insights', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'insights'])->name('analytics.insights');
+    Route::get('analytics/realtime', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'getRealtimeData'])->name('analytics.realtime');
+    Route::get('analytics/export', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'generateReport'])->name('analytics.export');
 });
 
 // Admin User Management Routes

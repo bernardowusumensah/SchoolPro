@@ -129,6 +129,13 @@
             </div>
         </li>
 
+        <!-- Nav Item - Analytics -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('student.analytics.progress') }}">
+                <span>Progress Analytics</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

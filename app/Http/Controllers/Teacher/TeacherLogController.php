@@ -408,62 +408,7 @@ class TeacherLogController extends Controller
             ->header('Content-Disposition', 'attachment; filename="student_logs_' . date('Y-m-d') . '.csv"');
     }
 
-    /**
-     * Get analytics data for logs.
-     */
-    public function analytics(): View
-    {
-        $teacherId = Auth::id();
-        
-        // Get all projects supervised by this teacher
-        $supervisedProjectIds = Project::where('supervisor_id', $teacherId)->pluck('id');
-        
-        $totalLogs = Log::whereIn('project_id', $supervisedProjectIds)->count();
-        $reviewedLogs = Log::whereIn('project_id', $supervisedProjectIds)->reviewed()->count();
-        $unreviewedLogs = $totalLogs - $reviewedLogs;
-        
-        // Rating distribution
-        $ratingStats = Log::whereIn('project_id', $supervisedProjectIds)
-            ->whereNotNull('supervisor_rating')
-            ->groupBy('supervisor_rating')
-            ->selectRaw('supervisor_rating, count(*) as count')
-            ->pluck('count', 'supervisor_rating')
-            ->toArray();
-
-        // Logs requiring follow-up
-        $followupLogs = Log::whereIn('project_id', $supervisedProjectIds)
-            ->where('requires_followup', true)
-            ->count();
-
-        // Recent activity (last 30 days)
-        $recentActivity = Log::whereIn('project_id', $supervisedProjectIds)
-            ->where('created_at', '>=', now()->subDays(30))
-            ->selectRaw('DATE(created_at) as date, count(*) as count')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        // Student performance overview
-        $studentStats = Log::whereIn('project_id', $supervisedProjectIds)
-            ->with('student')
-            ->get()
-            ->groupBy('student_id')
-            ->map(function ($logs) {
-                $student = $logs->first()->student;
-                return [
-                    'name' => $student->name,
-                    'total_logs' => $logs->count(),
-                    'avg_rating' => $this->calculateAverageRating($logs),
-                    'follow_up_needed' => $logs->where('requires_followup', true)->count()
-                ];
-            })
-            ->values();
-
-        return view('teacher.logs.analytics', compact(
-            'totalLogs', 'reviewedLogs', 'unreviewedLogs', 
-            'ratingStats', 'followupLogs', 'recentActivity', 'studentStats'
-        ));
-    }
+    // Removed analytics method - now using unified TeacherAnalyticsController
 
     /**
      * Calculate average rating score for logs.

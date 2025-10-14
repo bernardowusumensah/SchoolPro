@@ -71,6 +71,11 @@
                     Unreviewed Logs
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('teacher.analytics.index') }}">
+                    Analytics Dashboard
+                </a>
+            </li>
         </ul>
         <hr class="sidebar-divider my-2" style="border-color: rgba(255,255,255,0.15);">
         <div class="px-3">

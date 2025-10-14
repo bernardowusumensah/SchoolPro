@@ -92,8 +92,9 @@
                         <span class="badge bg-warning text-dark ms-2">{{ $stats['unreviewed_logs'] }}</span>
                     @endif
                 </a>
-                <a class="nav-link" href="{{ route('teacher.logs.analytics') }}">
-                    Log Analytics
+                                <a class="nav-link" href="{{ route('teacher.analytics.index') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Analytics</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -259,8 +260,8 @@
                                 </a>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <a href="{{ route('teacher.logs.analytics') }}" class="btn btn-success w-100">
-                                    Log Analytics
+                                <a href="{{ route('teacher.analytics.index') }}" class="btn btn-success w-100">
+                                    Analytics
                                 </a>
                             </div>
                             <div class="col-md-3 mb-3">
