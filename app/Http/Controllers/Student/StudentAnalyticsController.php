@@ -111,4 +111,51 @@ class StudentAnalyticsController extends Controller
             ]
         ];
     }
+
+    /**
+     * Show student grades
+     */
+    public function grades()
+    {
+        $student = Auth::user();
+        
+        // Get projects with their deliverables and submissions
+        $projects = $student->projects()
+            ->with(['deliverables.submissions' => function($query) use ($student) {
+                $query->where('student_id', $student->id)
+                      ->whereNotNull('grade')
+                      ->orderBy('submitted_at', 'desc');
+            }])
+            ->whereHas('deliverables.submissions', function($query) use ($student) {
+                $query->where('student_id', $student->id)
+                      ->whereNotNull('grade');
+            })
+            ->get();
+
+        // Calculate overall statistics
+        $totalGrades = 0;
+        $gradeCount = 0;
+        $completedProjects = 0;
+        
+        foreach ($projects as $project) {
+            if ($project->final_grade) {
+                $totalGrades += $project->final_grade;
+                $gradeCount++;
+            }
+            if ($project->status === 'Completed') {
+                $completedProjects++;
+            }
+        }
+        
+        $averageGrade = $gradeCount > 0 ? round($totalGrades / $gradeCount, 2) : 0;
+        
+        $stats = [
+            'total_projects' => $projects->count(),
+            'completed_projects' => $completedProjects,
+            'average_grade' => $averageGrade,
+            'highest_grade' => $gradeCount > 0 ? $projects->max('final_grade') : 0,
+        ];
+
+        return view('student.grades.index', compact('projects', 'stats'));
+    }
 }

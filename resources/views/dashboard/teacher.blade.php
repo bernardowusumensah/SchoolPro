@@ -92,19 +92,22 @@
                         <span class="badge bg-warning text-dark ms-2">{{ $stats['unreviewed_logs'] }}</span>
                     @endif
                 </a>
-                                <a class="nav-link" href="{{ route('teacher.analytics.index') }}">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('teacher.analytics.index') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Analytics</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#grades">
-                    Grades
+                <a class="nav-link" href="{{ route('teacher.deliverables.index') }}">
+                    <i class="fas fa-fw fa-tasks"></i>
+                    <span>Deliverables</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#reports">
-                    Reports
+                <a class="nav-link" href="{{ route('teacher.deliverables.index') }}">
+                    Grades
                 </a>
             </li>
         </ul>

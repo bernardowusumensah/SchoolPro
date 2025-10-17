@@ -250,26 +250,6 @@
 
        
 
-        <!-- Nav Item - Reports -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReports"
-                aria-expanded="true" aria-controls="collapseReports">
-                <i class="fas fa-fw fa-chart-bar"></i>
-                <span>Reports</span>
-            </a>
-            <div id="collapseReports" class="collapse" aria-labelledby="headingReports" data-bs-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">System Reports:</h6>
-                    <a class="collapse-item" href="/admin/reports/users">Active Users Report</a>
-                    <a class="collapse-item" href="/admin/reports/projects">Projects Report</a>
-                    <a class="collapse-item" href="/admin/reports/approvals">Pending Approvals</a>
-                    <a class="collapse-item" href="/admin/reports/performance">System Performance</a>
-                </div>
-            </div>
-        </li>
-
-        
-
         <!-- Divider -->
         <hr class="sidebar-divider">
 

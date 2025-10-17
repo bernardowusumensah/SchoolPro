@@ -14,8 +14,10 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Student\StudentProjectController;
 use App\Http\Controllers\Student\StudentLogController;
+use App\Http\Controllers\Student\StudentDeliverableController;
 use App\Http\Controllers\Teacher\TeacherLogController;
 use App\Http\Controllers\Teacher\TeacherAnalyticsController;
+use App\Http\Controllers\Teacher\TeacherDeliverableController;
 
 Route::get('/dashboard/student', [StudentDashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'role:student'])
@@ -58,8 +60,11 @@ Route::middleware(['auth', 'verified', 'role:student'])->prefix('student')->name
         return response()->json(['message' => 'Analytics route group is working!', 'user' => Auth::user()->name ?? 'Not logged in']); 
     })->name('analytics.debug');
     
+    // Main Analytics Routes
     Route::get('analytics', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'index'])->name('analytics.index');
     Route::get('analytics/progress', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'index'])->name('analytics.progress');
+    Route::get('analytics/grades', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'grades'])->name('analytics.grades');
+    
     Route::get('analytics/test', function() { 
         $student = Auth::user();
         $service = app(\App\Services\AnalyticsService::class);
@@ -84,6 +89,13 @@ Route::middleware(['auth', 'verified', 'role:student'])->prefix('student')->name
     })->name('analytics.test');
     Route::get('analytics/weekly-data', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'getWeeklyData'])->name('analytics.weekly');
     Route::get('analytics/milestones', [\App\Http\Controllers\Student\StudentAnalyticsController::class, 'milestones'])->name('analytics.milestones');
+    
+    // Student Deliverable Routes
+    Route::get('deliverables', [StudentDeliverableController::class, 'index'])->name('deliverables.index');
+    Route::get('deliverables/{deliverable}', [StudentDeliverableController::class, 'show'])->name('deliverables.show');
+    Route::get('deliverables/{deliverable}/submit', [StudentDeliverableController::class, 'create'])->name('deliverables.submit');
+    Route::post('deliverables/{deliverable}', [StudentDeliverableController::class, 'store'])->name('deliverables.store');
+    Route::get('deliverables/submissions/{submission}/download/{fileIndex}', [StudentDeliverableController::class, 'downloadFile'])->name('deliverables.download');
 });
 
 // Teacher Proposal Management Routes
@@ -121,6 +133,13 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->prefix('teacher')->name
     Route::get('analytics/insights', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'insights'])->name('analytics.insights');
     Route::get('analytics/realtime', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'getRealtimeData'])->name('analytics.realtime');
     Route::get('analytics/export', [\App\Http\Controllers\Teacher\TeacherAnalyticsController::class, 'generateReport'])->name('analytics.export');
+    
+    // Teacher Deliverable Routes
+    Route::get('deliverables', [TeacherDeliverableController::class, 'index'])->name('deliverables.index');
+    Route::get('projects/{project}/deliverables', [TeacherDeliverableController::class, 'projectDeliverables'])->name('deliverables.project');
+    Route::get('submissions/{submission}/review', [TeacherDeliverableController::class, 'reviewSubmission'])->name('deliverables.review');
+    Route::patch('submissions/{submission}/review', [TeacherDeliverableController::class, 'storeReview'])->name('deliverables.review.store');
+    Route::get('submissions/{submission}/download/{fileIndex}', [TeacherDeliverableController::class, 'downloadFile'])->name('deliverables.download');
 });
 
 // Admin User Management Routes

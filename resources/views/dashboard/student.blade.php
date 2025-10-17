@@ -222,17 +222,10 @@
 
         <!-- Nav Item - Deliverables -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDeliverables"
-                aria-expanded="true" aria-controls="collapseDeliverables">
+            <a class="nav-link" href="{{ route('student.deliverables.index') }}">
+                <i class="fas fa-tasks fa-fw"></i>
                 <span>Project Deliverables</span>
             </a>
-            <div id="collapseDeliverables" class="collapse" aria-labelledby="headingDeliverables" data-bs-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Submissions:</h6>
-                    <a class="collapse-item" href="/student/deliverables/final">Final Project</a>
-                    <a class="collapse-item" href="/student/deliverables/documentation">Documentation</a>
-                </div>
-            </div>
         </li>
 
         <!-- Nav Item - My Grades & Analytics -->
@@ -244,8 +237,8 @@
             <div id="collapseAnalytics" class="collapse" aria-labelledby="headingAnalytics" data-bs-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Performance:</h6>
-                    <a class="collapse-item" href="/student/analytics/progress">Progress Dashboard</a>
-                    <a class="collapse-item" href="/student/analytics/grades">My Grades</a>
+                    <a class="collapse-item" href="{{ route('student.analytics.progress') }}">Progress Dashboard</a>
+                    <a class="collapse-item" href="{{ route('student.analytics.grades') }}">My Grades</a>
                 </div>
             </div>
         </li>

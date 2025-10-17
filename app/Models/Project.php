@@ -22,7 +22,7 @@ class Project extends Model
         'objectives', 'methodology', 'expected_outcomes', 'expected_start_date',
         'expected_completion_date', 'estimated_hours', 'technology_stack',
         'required_resources', 'tools_and_software', 'supporting_documents',
-        'status', 'supervisor_feedback', 'submitted_at', 'reviewed_at'
+        'status', 'supervisor_feedback', 'final_grade', 'submitted_at', 'reviewed_at', 'completed_at'
     ];
 
     /**
@@ -34,7 +34,8 @@ class Project extends Model
         'expected_start_date' => 'date',
         'expected_completion_date' => 'date',
         'submitted_at' => 'datetime',
-        'reviewed_at' => 'datetime'
+        'reviewed_at' => 'datetime',
+        'completed_at' => 'datetime'
     ];
 
     /**
@@ -67,6 +68,14 @@ class Project extends Model
     public function logs(): HasMany
     {
         return $this->hasMany(Log::class);
+    }
+
+    /**
+     * Get the deliverables for this project.
+     */
+    public function deliverables(): HasMany
+    {
+        return $this->hasMany(Deliverable::class);
     }
 
     /**
