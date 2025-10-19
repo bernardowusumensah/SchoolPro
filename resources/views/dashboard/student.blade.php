@@ -223,7 +223,6 @@
         <!-- Nav Item - Deliverables -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('student.deliverables.index') }}">
-                <i class="fas fa-tasks fa-fw"></i>
                 <span>Project Deliverables</span>
             </a>
         </li>

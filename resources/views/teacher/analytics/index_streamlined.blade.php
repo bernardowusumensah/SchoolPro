@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                            <!-- Removed users icon -->
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-project-diagram fa-2x text-gray-300"></i>
+                            <!-- Removed project diagram icon -->
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-clipboard-check fa-2x text-gray-300"></i>
+                            <!-- Removed clipboard check icon -->
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                            <!-- Removed check circle icon -->
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                         </div>
                     @else
                         <div class="text-center py-4">
-                            <i class="fas fa-info-circle fa-3x text-gray-300 mb-3"></i>
+                            <!-- Removed info circle icon -->
                             <p class="text-muted">No student progress data available for the selected period.</p>
                         </div>
                     @endif

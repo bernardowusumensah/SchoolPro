@@ -217,7 +217,7 @@
                             Proposal Under Review
                         </span>
                     @else
-                        <a href="{{ route('student.projects.create') }}" class="btn btn-outline-primary">
+                        <a href="{{ route('student.projects.proposal') }}" class="btn btn-outline-primary">
                             Create Project Proposal
                         </a>
                     @endif
@@ -272,11 +272,7 @@
                             </div>
                             <div class="card-body text-center py-5">
                                 @if($revisionProject)
-                                    <div class="mb-4">
-                                        <svg width="64" height="64" class="text-danger mb-3" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
+                                    <!-- Icon removed for cleaner empty state -->
                                     <h5 class="text-danger">Proposal Needs Revision</h5>
                                     <p class="text-muted mb-4">
                                         Your project proposal "<strong>{{ $revisionProject->title }}</strong>" needs revisions based on your supervisor's feedback. 
@@ -293,11 +289,7 @@
                                         Edit Proposal
                                     </a>
                                 @elseif($draftProject)
-                                    <div class="mb-4">
-                                        <svg width="64" height="64" class="text-info mb-3" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
+                                    <!-- Icon removed for cleaner empty state -->
                                     <h5 class="text-info">Draft Proposal Ready</h5>
                                     <p class="text-muted mb-4">
                                         You have a draft proposal "<strong>{{ $draftProject->title }}</strong>" ready to submit. 
@@ -313,11 +305,7 @@
                                         Complete & Submit Proposal
                                     </a>
                                 @elseif($pendingProject)
-                                    <div class="mb-4">
-                                        <svg width="64" height="64" class="text-warning mb-3" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
+                                    <!-- Icon removed for cleaner empty state -->
                                     <h5 class="text-warning">Proposal Under Review</h5>
                                     <p class="text-muted mb-4">
                                         Your project proposal "<strong>{{ $pendingProject->title }}</strong>" is currently under review by your supervisor. 
@@ -330,16 +318,12 @@
                                         • If revisions are needed, you'll be asked to edit your proposal
                                     </div>
                                 @else
-                                    <div class="mb-4">
-                                        <svg width="64" height="64" class="text-info mb-3" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
+                                    <!-- Icon removed for cleaner empty state -->
                                     <h5 class="text-info">Ready to Get Started</h5>
                                     <p class="text-muted mb-4">
                                         Create your first project proposal to start tracking your weekly progress.
                                     </p>
-                                    <a href="{{ route('student.projects.create') }}" class="btn btn-primary">
+                                    <a href="{{ route('student.projects.proposal') }}" class="btn btn-primary">
                                         Create Project Proposal
                                     </a>
                                 @endif
@@ -470,7 +454,7 @@
                                         <span class="badge bg-warning text-dark">Proposal Under Review</span>
                                     @else
                                         <p class="text-muted mb-4">Create your first project proposal to start tracking your progress.</p>
-                                        <a href="{{ route('student.projects.create') }}" class="btn btn-outline-primary">
+                                        <a href="{{ route('student.projects.proposal') }}" class="btn btn-outline-primary">
                                             Create Project Proposal
                                         </a>
                                     @endif

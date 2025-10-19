@@ -60,14 +60,7 @@
                     <!-- No Projects State -->
                     <div class="card border-0 shadow-sm">
                         <div class="card-body text-center py-5">
-                            <div class="mb-4">
-                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                                    <svg width="40" height="40" fill="currentColor" class="text-muted" viewBox="0 0 16 16">
-                                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
-                                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
-                                    </svg>
-                                </div>
-                            </div>
+                            <!-- Icon removed for cleaner empty state -->
                             <h4 class="text-muted mb-3">No Projects Yet</h4>
                             <p class="text-muted mb-4">
                                 You haven't created any project proposals yet. Get started by creating your first proposal!

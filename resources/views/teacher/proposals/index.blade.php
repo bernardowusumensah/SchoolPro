@@ -251,9 +251,7 @@
                     </div>
                 @else
                     <div class="text-center py-4">
-                        <div class="mb-3">
-                            <div class="display-1 text-muted">📋</div>
-                        </div>
+                        <!-- Removed clipboard emoji from empty state -->
                         <h5 class="text-muted">No Proposals Yet</h5>
                         <p class="text-muted">You haven't received any project proposals from students yet.</p>
                     </div>
