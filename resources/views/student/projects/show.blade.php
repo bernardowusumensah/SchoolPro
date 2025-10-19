@@ -67,6 +67,32 @@
                                         </span>
                                         @break
                                 @endswitch
+
+                                @if($project->status === 'Approved')
+                                    @php
+                                        $deliverable = $project->deliverables()->first();
+                                        $logCount = $project->logs()->where('student_id', auth()->id())->count();
+                                    @endphp
+                                    <hr class="my-3">
+                                    <div class="small">
+                                        <div class="mb-2">
+                                            <strong>📝 Work Logs:</strong> {{ $logCount }} entries
+                                        </div>
+                                        @if($deliverable)
+                                            <div class="mb-2">
+                                                <strong>📅 Due Date:</strong> {{ $deliverable->due_date->format('M j, Y') }}
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>📋 Status:</strong> 
+                                                @if($deliverable->due_date->isPast())
+                                                    <span class="text-danger">Final submission due!</span>
+                                                @else
+                                                    <span class="text-success">Work phase - log progress</span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -82,6 +108,19 @@
                         <a href="{{ route('student.projects.editProject', $project->id) }}" class="btn btn-warning">
                             Edit Project
                         </a>
+                    @endif
+
+                    @if($project->status === 'Approved')
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('student.logs.index') }}" class="btn btn-primary">
+                                Work Logs
+                            </a>
+                            @if($project->deliverables()->count() > 0)
+                                <a href="{{ route('student.deliverables.index') }}" class="btn btn-success">
+                                    Final Deliverable
+                                </a>
+                            @endif
+                        </div>
                     @endif
                 </div>
             </div>

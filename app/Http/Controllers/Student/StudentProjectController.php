@@ -22,7 +22,12 @@ class StudentProjectController extends Controller
         $student = Auth::user();
         $projects = $student->projects()->with('supervisor', 'grades')->latest()->get();
         
-        return view('student.projects.index', compact('projects'));
+        // Calculate active projects for UI display
+        $activeProjectCount = $student->projects()
+            ->whereIn('status', ['Pending', 'Approved', 'Needs Revision'])
+            ->count();
+        
+        return view('student.projects.index', compact('projects', 'activeProjectCount'));
     }
 
     /**
@@ -30,24 +35,17 @@ class StudentProjectController extends Controller
      */
     public function create(): View|RedirectResponse
     {
+        $student = Auth::user();
         
-         $student = Auth::user();
-        
-        // ANTI-SPAM RULE: Maximum 3 total projects at any time (regardless of status)
-        $totalProjectCount = $student->projects()->count();
-        if ($totalProjectCount >= 3) {
+        // ANTI-SPAM RULE: Maximum 3 ACTIVE projects (Pending + Approved + Needs Revision)
+        // Completed and Rejected projects don't count toward this limit
+        $activeProjectCount = $student->projects()
+            ->whereIn('status', ['Pending', 'Approved', 'Needs Revision'])
+            ->count();
+            
+        if ($activeProjectCount >= 3) {
             return redirect()->route('student.projects.index')
-                ->with('warning', 'You have reached the maximum limit of 3 projects per student. You cannot create more proposals.');
-        }
-
-        // ACADEMIC WORKFLOW: Only block if student has ACTIVE work (Approved/In Progress)
-        $activeProject = $student->projects()
-            ->whereIn('status', ['Approved', 'In Progress'])
-            ->first();
-        
-        if ($activeProject) {
-            return redirect()->route('student.projects.show', $activeProject->id)
-                ->with('info', 'Complete your current active project before starting a new proposal.');
+                ->with('warning', 'You have reached the maximum limit of 3 active projects. Please complete or receive a decision on your current projects before submitting new proposals.');
         }
 
         $supervisors = User::where('role', 'teacher')
@@ -66,11 +64,14 @@ class StudentProjectController extends Controller
         $validatedData = $request->validated();
         $student = Auth::user();
         
-        // Double-check project limit (security measure)
-        $totalProjectCount = $student->projects()->count();
-        if ($totalProjectCount >= 3) {
+        // Double-check active project limit (security measure)
+        $activeProjectCount = $student->projects()
+            ->whereIn('status', ['Pending', 'Approved', 'Needs Revision'])
+            ->count();
+            
+        if ($activeProjectCount >= 3) {
             return redirect()->route('student.projects.index')
-                ->with('error', 'Cannot create new project: Maximum limit of 3 projects reached.');
+                ->with('error', 'Cannot create new project: Maximum limit of 3 active projects reached.');
         }
         
         $isDraft = $validatedData['is_draft'] ?? false;
@@ -346,4 +347,6 @@ class StudentProjectController extends Controller
         return redirect()->route('student.projects.show', $project->id)
             ->with('success', 'Final project submitted successfully! Your supervisor will review and grade your submission.');
     }
+
+
 }

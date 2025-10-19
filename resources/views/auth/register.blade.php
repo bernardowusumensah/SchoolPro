@@ -57,7 +57,6 @@
                     <option value="">Select Role</option>
                     <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Student</option>
                     <option value="teacher" {{ old('role') == 'teacher' ? 'selected' : '' }}>Teacher</option>
-                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                 </select>
                 <x-input-error :messages="$errors->get('role')" class="mt-2" />
             </div>

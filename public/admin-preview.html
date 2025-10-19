@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPro - User Management Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-6">
+                    <div class="flex items-center">
+                        <h1 class="text-3xl font-bold text-gray-900">📚 SchoolPro Admin</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-500">Logged in as: admin@gmail.com</span>
+                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
+                            <i class="fas fa-circle text-green-400"></i> Online
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-blue-600 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex space-x-8">
+                    <a href="#" class="bg-blue-700 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-users mr-2"></i> User Management
+                    </a>
+                    <a href="#" class="hover:bg-blue-500 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-project-diagram mr-2"></i> Projects
+                    </a>
+                    <a href="#" class="hover:bg-blue-500 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-chart-bar mr-2"></i> Analytics
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <div class="px-4 py-6 sm:px-0">
+                <!-- Page Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">User Management</h2>
+                        <p class="text-gray-600">Create, edit, and manage all user accounts</p>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Create New User
+                    </button>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-users text-blue-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Total Users</dt>
+                                        <dd class="text-lg font-medium text-gray-900">8</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-user-graduate text-green-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Students</dt>
+                                        <dd class="text-lg font-medium text-gray-900">4</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-chalkboard-teacher text-yellow-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Teachers</dt>
+                                        <dd class="text-lg font-medium text-gray-900">3</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-user-check text-purple-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Active Users</dt>
+                                        <dd class="text-lg font-medium text-gray-900">7</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters and Search -->
+                <div class="bg-white shadow rounded-lg mb-6">
+                    <div class="p-6">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1">
+                                <input type="text" placeholder="Search users by name or email..." 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div class="flex gap-4">
+                                <select class="px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option>All Roles</option>
+                                    <option>Student</option>
+                                    <option>Teacher</option>
+                                    <option>Admin</option>
+                                </select>
+                                <select class="px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option>All Status</option>
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">All Users (8 total)</h3>
+                    </div>
+                    <ul class="divide-y divide-gray-200">
+                        <!-- User 1: Admin -->
+                        <li class="px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-12 w-12">
+                                        <div class="h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center">
+                                            <i class="fas fa-user-shield text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">System Administrator</div>
+                                        <div class="text-sm text-gray-500">admin@gmail.com</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">ADMIN</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">ACTIVE</span>
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-900"><i class="fas fa-eye"></i></button>
+                                        <button class="text-gray-400 cursor-not-allowed" title="Cannot edit admin"><i class="fas fa-edit"></i></button>
+                                        <button class="text-gray-400 cursor-not-allowed" title="Cannot delete admin"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- User 2: Teacher -->
+                        <li class="px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-12 w-12">
+                                        <div class="h-12 w-12 rounded-full bg-yellow-500 flex items-center justify-center">
+                                            <i class="fas fa-chalkboard-teacher text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">TestTeacher</div>
+                                        <div class="text-sm text-gray-500">teacher@gmail.com</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">TEACHER</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">ACTIVE</span>
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-900"><i class="fas fa-eye"></i></button>
+                                        <button class="text-indigo-600 hover:text-indigo-900"><i class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-user-slash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- User 3: Student -->
+                        <li class="px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-12 w-12">
+                                        <div class="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center">
+                                            <i class="fas fa-user-graduate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Alice Johnson</div>
+                                        <div class="text-sm text-gray-500">alice.johnson@student.edu</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">STUDENT</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">ACTIVE</span>
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-900"><i class="fas fa-eye"></i></button>
+                                        <button class="text-indigo-600 hover:text-indigo-900"><i class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-user-slash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- User 4: Inactive Student -->
+                        <li class="px-6 py-4 bg-gray-50">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-12 w-12">
+                                        <div class="h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center">
+                                            <i class="fas fa-user-graduate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Carol Davis</div>
+                                        <div class="text-sm text-gray-500">carol.davis@student.edu</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">STUDENT</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">INACTIVE</span>
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-900"><i class="fas fa-eye"></i></button>
+                                        <button class="text-indigo-600 hover:text-indigo-900"><i class="fas fa-edit"></i></button>
+                                        <button class="text-green-600 hover:text-green-900" title="Activate User"><i class="fas fa-user-check"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 flex justify-between items-center">
+                    <div class="flex space-x-4">
+                        <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-medium">
+                            <i class="fas fa-plus mr-2"></i> Add Student
+                        </button>
+                        <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-md font-medium">
+                            <i class="fas fa-plus mr-2"></i> Add Teacher  
+                        </button>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium">
+                            <i class="fas fa-download mr-2"></i> Export Users
+                        </button>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Showing 4 of 8 users
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t mt-12">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-500">SchoolPro Admin Panel - User Management System</p>
+                    <div class="flex space-x-4 text-sm text-gray-500">
+                        <span>📊 8 Users Managed</span>
+                        <span>🔒 Secure Access</span>
+                        <span>✅ All Systems Operational</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-info-circle text-blue-500 text-2xl mr-3"></i>
+                <h3 class="text-lg font-medium text-gray-900">Access Your Live Admin Panel</h3>
+            </div>
+            
+            <div class="mb-6">
+                <p class="text-gray-600 mb-4">This is a preview of your user management interface. To access the live version:</p>
+                
+                <div class="bg-blue-50 p-4 rounded-md mb-4">
+                    <h4 class="font-medium text-blue-900 mb-2">🔐 Login Credentials:</h4>
+                    <div class="text-sm text-blue-800 space-y-1">
+                        <div><strong>Email:</strong> admin@gmail.com</div>
+                        <div><strong>Password:</strong> password1234*</div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 p-4 rounded-md">
+                    <h4 class="font-medium text-green-900 mb-2">🌐 Access URLs:</h4>
+                    <div class="text-sm text-green-800 space-y-1">
+                        <div><strong>Login:</strong> http://127.0.0.1:8000/login</div>
+                        <div><strong>User Management:</strong> http://127.0.0.1:8000/admin/users</div>
+                        <div><strong>Create User:</strong> http://127.0.0.1:8000/admin/users/create</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="this.parentElement.parentElement.style.display='none'" 
+                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-medium">
+                Got it! Take me to the login page
+            </button>
+        </div>
+    </div>
+</body>
+</html>

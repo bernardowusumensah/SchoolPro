@@ -67,13 +67,13 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $project->user->name ?? 'Unknown User' }}</div>
-                                            <div class="text-sm text-gray-500">{{ $project->user->email ?? 'No email' }}</div>
+                                            <div class="text-sm text-gray-900">{{ $project->student ? $project->student->name : 'Unknown User' }}</div>
+                                            <div class="text-sm text-gray-500">{{ $project->student ? $project->student->email : 'No email' }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                {{ ($project->user->role ?? '') === 'teacher' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
-                                                {{ ucfirst($project->user->role ?? 'Unknown') }}
+                                                {{ ($project->student && $project->student->role === 'teacher') ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
+                                                {{ $project->student ? ucfirst($project->student->role) : 'Unknown' }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -84,8 +84,11 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div class="flex space-x-2">
-                                                <a href="{{ route('admin.users.show', $project->user) }}" 
-                                                   class="text-blue-600 hover:text-blue-900">View Owner</a>
+                                                @if($project->student)
+                                                    <a href="{{ route('admin.users.show', $project->student->id) }}" class="text-blue-600 hover:text-blue-900">View Owner</a>
+                                                @else
+                                                    <span class="text-gray-400">No Owner</span>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

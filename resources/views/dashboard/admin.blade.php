@@ -219,9 +219,6 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Account Management:</h6>
                     <a class="collapse-item" href="/admin/users">All Users</a>
-                    <a class="collapse-item" href="/admin/users/create">Create Account</a>
-                    <a class="collapse-item" href="/admin/users/students">Manage Students</a>
-                    <a class="collapse-item" href="/admin/users/teachers">Manage Teachers</a>
                     <a class="collapse-item" href="/admin/users/inactive">Deactivated Users</a>
                 </div>
             </div>
@@ -238,9 +235,6 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Platform Projects:</h6>
                     <a class="collapse-item" href="/admin/projects">All Projects</a>
-                    <a class="collapse-item" href="/admin/projects/active">Active Projects</a>
-                    <a class="collapse-item" href="/admin/projects/completed">Completed Projects</a>
-                    <a class="collapse-item" href="/admin/projects/pending">Pending Approval</a>
                 </div>
             </div>
         </li>
@@ -255,13 +249,7 @@
 
      
 
-        <!-- Nav Item - Analytics Dashboard -->
-        <li class="nav-item">
-            <a class="nav-link" href="/admin/analytics">
-                <i class="fas fa-fw fa-chart-line"></i>
-                <span>Analytics Dashboard</span>
-            </a>
-        </li>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -445,7 +433,7 @@
                                 aria-labelledby="dropdownMenuLink">
                                 <div class="dropdown-header">Chart Options:</div>
                                 <a class="dropdown-item" href="/admin/reports/users">Detailed User Report</a>
-                                <a class="dropdown-item" href="/admin/analytics">Full Analytics</a>
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/admin/reports/export">Export Data</a>
                             </div> -->

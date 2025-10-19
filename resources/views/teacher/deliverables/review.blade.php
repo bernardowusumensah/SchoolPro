@@ -148,8 +148,8 @@
                         @method('PATCH')
                         
                         <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="grade" class="form-label">Grade (%)</label>
+                            <div class="col-md-6 mb-3">
+                                <label for="grade" class="form-label">Final Grade (%) <span class="text-danger">*</span></label>
                                 <input type="number" 
                                        name="grade" 
                                        id="grade" 
@@ -157,28 +157,28 @@
                                        min="0" 
                                        max="100" 
                                        step="0.1"
-                                       value="{{ old('grade', $submission->grade) }}">
+                                       value="{{ old('grade', $submission->grade) }}"
+                                       required>
+                                <div class="form-text">This grade will complete the project. Enter 0-100.</div>
                                 @error('grade')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
                             
-                            <div class="col-md-8 mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select name="status" id="status" class="form-select">
-                                    <option value="reviewed" {{ old('status', $submission->status) === 'reviewed' ? 'selected' : '' }}>
-                                        Reviewed
-                                    </option>
-                                    <option value="approved" {{ old('status', $submission->status) === 'approved' ? 'selected' : '' }}>
-                                        Approved
-                                    </option>
-                                    <option value="rejected" {{ old('status', $submission->status) === 'rejected' ? 'selected' : '' }}>
-                                        Rejected (Needs Revision)
-                                    </option>
-                                </select>
-                                @error('status')
-                                    <div class="text-danger small">{{ $message }}</div>
-                                @enderror
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Resubmission Option</label>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" 
+                                           type="checkbox" 
+                                           name="allow_resubmission" 
+                                           id="allow_resubmission"
+                                           value="1"
+                                           {{ old('allow_resubmission') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="allow_resubmission">
+                                        Allow student to resubmit to improve grade
+                                    </label>
+                                </div>
+                                <div class="form-text">Check this if the student should be allowed to resubmit for a better grade.</div>
                             </div>
                         </div>
 

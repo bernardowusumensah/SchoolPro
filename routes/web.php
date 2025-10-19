@@ -144,6 +144,7 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->prefix('teacher')->name
 
 // Admin User Management Routes
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('users/inactive', [AdminUserController::class, 'deactivated'])->name('users.inactive');
     Route::resource('users', AdminUserController::class);
     Route::patch('users/{user}/deactivate', [AdminUserController::class, 'deactivate'])->name('users.deactivate');
     Route::patch('users/{user}/activate', [AdminUserController::class, 'activate'])->name('users.activate');

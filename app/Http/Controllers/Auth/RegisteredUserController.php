@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:student,teacher,admin'],
+            'role' => ['required', 'in:student,teacher'], // Removed admin - admins must be created by existing admins
             'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
@@ -57,15 +57,14 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        // Redirect based on role (admin accounts cannot be created through registration)
         if ($user->role === 'student') {
             return redirect()->route('dashboard.student');
         } elseif ($user->role === 'teacher') {
             return redirect()->route('dashboard.teacher');
-        } elseif ($user->role === 'admin') {
-            return redirect()->route('dashboard.admin');
         }
 
-        // Optionally, handle unexpected roles
+        // Fallback redirect (should not occur with current validation)
         return redirect('/');
     }
 }

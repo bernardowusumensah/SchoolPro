@@ -60,6 +60,6 @@ class AdminDashboardController extends Controller
 
         $projects = $query->paginate(15);
 
-        return view('admin.projects', compact('projects'));
+    return view('admin.projects.index', compact('projects'));
     }
 }

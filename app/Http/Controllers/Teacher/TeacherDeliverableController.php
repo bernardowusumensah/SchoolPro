@@ -113,39 +113,50 @@ class TeacherDeliverableController extends Controller
         $request->validate([
             'grade' => 'required|numeric|min:0|max:100',
             'teacher_feedback' => 'required|string|min:10',
-            'status' => 'required|in:reviewed,approved,rejected'
+            'allow_resubmission' => 'sometimes|boolean'
         ]);
 
         $deliverable = $submission->deliverable;
         $project = $deliverable->project;
 
+        // Update submission with grade and feedback
         $submission->update([
             'grade' => $request->grade,
             'teacher_feedback' => $request->teacher_feedback,
-            'status' => $request->status,
+            'status' => 'graded',
             'reviewed_at' => now(),
             'reviewed_by' => $teacher->id
         ]);
 
-        // Update deliverable status
+        // Update deliverable status to completed
         $deliverable->update([
-            'status' => $request->status
+            'status' => 'graded'
         ]);
 
-        // Prepare success message
-        $message = 'Submission reviewed successfully!';
-        
-        if ($request->status === 'approved') {
-            // Record the final grade in the project
-            $project->update([
-                'final_grade' => $request->grade,
-                'status' => 'Completed',
-                'completed_at' => now()
+        // Always complete the project with the given grade
+        $project->update([
+            'final_grade' => $request->grade,
+            'status' => 'Completed',
+            'completed_at' => now()
+        ]);
+
+        // Handle resubmission permission
+        if ($request->has('allow_resubmission') && $request->allow_resubmission) {
+            // Allow resubmission by setting deliverable status back to pending
+            $deliverable->update([
+                'status' => 'pending',
+                'resubmission_allowed' => true
             ]);
             
-            $message .= ' Project has been completed with a final grade of ' . $request->grade . '%!';
-        } elseif ($request->status === 'rejected') {
-            $message .= ' Student can resubmit their work for reevaluation.';
+            $message = "Submission graded with {$request->grade}%. Student is allowed to resubmit to improve their grade.";
+        } else {
+            // Mark deliverable as completely finished
+            $deliverable->update([
+                'status' => 'completed',
+                'resubmission_allowed' => false
+            ]);
+            
+            $message = "Submission graded successfully! Project completed with a final grade of {$request->grade}%.";
         }
 
         return redirect()->route('teacher.deliverables.index')

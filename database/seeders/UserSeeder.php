@@ -10,40 +10,14 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create specific test users first
+        // Create only the super admin user
         \App\Models\User::create([
-            'name' => 'Test Student',
-            'email' => 'test1@gmail.com',
-            'password' => Hash::make('password123'),
-            'role' => 'student',
-            'status' => 'active',
-        ]);
-
-        \App\Models\User::create([
-            'name' => 'Test Teacher',
-            'email' => 'test2@gmail.com',
-            'password' => Hash::make('password123'),
-            'role' => 'teacher',
-            'status' => 'active',
-        ]);
-
-        \App\Models\User::create([
-            'name' => 'Test Admin',
-            'email' => 'test3@gmail.com',
-            'password' => Hash::make('password123'),
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'password' => Hash::make('superpassword'),
             'role' => 'admin',
             'status' => 'active',
+            'super_admin' => true,
         ]);
-
-        // Then create random users
-        \App\Models\User::factory()
-            ->count(17)
-            ->state(function () {
-                return [
-                    'role' => fake()->randomElement(['student', 'teacher', 'admin']),
-                    'status' => fake()->randomElement(['active', 'inactive']),
-                ];
-            })
-            ->create();
     }
 }
