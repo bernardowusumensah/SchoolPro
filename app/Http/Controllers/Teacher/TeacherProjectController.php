@@ -71,9 +71,13 @@ class TeacherProjectController extends Controller
      */
     public function approve(Request $request, Project $project)
     {
-        // Ensure teacher can only approve their assigned projects
-        if ($project->supervisor_id !== Auth::id()) {
-            abort(403, 'Unauthorized to approve this project.');
+
+        // Ensure teacher can only approve their assigned projects and only if status is Pending
+        if (
+            $project->supervisor_id !== Auth::id() ||
+            strcasecmp($project->status, 'Pending') !== 0
+        ) {
+            abort(403, 'Unauthorized to approve this project. Only pending projects can be approved.');
         }
 
         $request->validate([
@@ -96,9 +100,13 @@ class TeacherProjectController extends Controller
      */
     public function reject(Request $request, Project $project)
     {
-        // Ensure teacher can only reject their assigned projects
-        if ($project->supervisor_id !== Auth::id()) {
-            abort(403, 'Unauthorized to reject this project.');
+
+        // Ensure teacher can only reject their assigned projects and only if status is Pending
+        if (
+            $project->supervisor_id !== Auth::id() ||
+            strcasecmp($project->status, 'Pending') !== 0
+        ) {
+            abort(403, 'Unauthorized to reject this project. Only pending projects can be rejected.');
         }
 
         $request->validate([
@@ -121,9 +129,13 @@ class TeacherProjectController extends Controller
      */
     public function requestRevision(Request $request, Project $project)
     {
-        // Ensure teacher can only request revision for their assigned projects
-        if ($project->supervisor_id !== Auth::id()) {
-            abort(403, 'Unauthorized to request revision for this project.');
+
+        // Ensure teacher can only request revision for their assigned projects and only if status is Pending
+        if (
+            $project->supervisor_id !== Auth::id() ||
+            strcasecmp($project->status, 'Pending') !== 0
+        ) {
+            abort(403, 'Unauthorized to request revision for this project. Only pending projects can be revised.');
         }
 
         $request->validate([

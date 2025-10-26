@@ -8,6 +8,21 @@
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Top-right profile image dropdown for teacher */
+        .topbar .navbar-nav {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 4.375rem;
+            display: flex;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .topbar .navbar-nav {
+                position: static;
+                height: auto;
+            }
+        }
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             background-color: #f8f9fc;
@@ -271,10 +286,10 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name ?? 'Teacher' }}</span>
-                                <i class="fas fa-user-circle fa-fw"></i>
+                                <img class="img-profile rounded-circle" src="{{ Auth::user()->profile_picture_url }}" alt="Profile Picture" style="width: 40px; height: 40px; object-fit: cover;">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

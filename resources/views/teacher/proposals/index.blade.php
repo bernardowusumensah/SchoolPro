@@ -13,44 +13,42 @@
         .sidebar {
             position: fixed;
             top: 0;
-            left: 0;
-            height: 100vh;
-            width: 250px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            z-index: 1000;
-        }
-        .sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            padding: 0.75rem 1rem;
-            border-radius: 0.375rem;
-            margin: 0.25rem 0.5rem;
-        }
-        .sidebar .nav-link:hover {
-            color: #fff;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .sidebar .nav-link.active {
-            color: #fff;
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 2rem;
-        }
-        .badge-status {
-            font-size: 0.75rem;
-            padding: 0.5rem 0.75rem;
-        }
-        .table th {
-            border-top: none;
-            font-weight: 600;
-            color: #5a5c69;
-            font-size: 0.85rem;
-        }
-    </style>
-</head>
-<body>
+                                                <a href="{{ route('teacher.proposals.show', $proposal) }}" 
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    View Details
+                                                </a>
+                                                @if($proposal->status === 'Pending')
+                                                    <div class="btn-group" role="group">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                                data-bs-toggle="dropdown">
+                                                            Actions
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <form method="POST" action="{{ route('teacher.proposals.approve', $proposal) }}" class="d-inline">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit" class="dropdown-item text-success" 
+                                                                            onclick="return confirm('Are you sure you want to approve this proposal?')">
+                                                                        Approve
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button" class="dropdown-item text-warning" 
+                                                                        data-bs-toggle="modal" data-bs-target="#revisionModal{{ $proposal->id }}">
+                                                                    Request Revision
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button" class="dropdown-item text-danger" 
+                                                                        data-bs-toggle="modal" data-bs-target="#rejectModal{{ $proposal->id }}">
+                                                                    Reject
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                @endif
     <!-- Left Sidebar -->
     <nav class="sidebar">
         <div class="text-center py-3">
@@ -132,12 +130,13 @@
                                         </td>
                                         <td>
                                             <span class="badge badge-status
-                                                @if($proposal->status === 'approved') bg-success
-                                                @elseif($proposal->status === 'rejected') bg-danger  
-                                                @elseif($proposal->status === 'revision_requested') bg-warning
-                                                @else bg-primary
+                                                @if($proposal->status === 'Approved') bg-success
+                                                @elseif($proposal->status === 'Rejected') bg-danger  
+                                                @elseif($proposal->status === 'Needs Revision') bg-warning
+                                                @elseif($proposal->status === 'Completed') bg-primary
+                                                @else bg-secondary
                                                 @endif">
-                                                {{ ucfirst(str_replace('_', ' ', $proposal->status)) }}
+                                                {{ $proposal->status }}
                                             </span>
                                         </td>
                                         <td>
@@ -151,7 +150,7 @@
                                                     View Details
                                                 </a>
                                                 
-                                                @if($proposal->status === 'pending')
+                                                @if($proposal->status === 'Pending')
                                                     <div class="btn-group" role="group">
                                                         <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" 
                                                                 data-bs-toggle="dropdown">
@@ -182,6 +181,8 @@
                                                             </li>
                                                         </ul>
                                                     </div>
+                                                @else
+                                                    <span class="text-muted small">No actions available</span>
                                                 @endif
                                             </div>
                                         </td>

@@ -135,11 +135,16 @@ class TeacherDashboardController extends Controller
         if ($project->supervisor_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this proposal.');
         }
-
+        // Only allow if status is Pending
+        if (strcasecmp($project->status, 'Pending') !== 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Only proposals with Pending status can be approved.'
+            ], 422);
+        }
         $request->validate([
             'approval_comments' => 'nullable|string|max:1000'
         ]);
-
         $project->update([
             'status' => 'Approved',
             'approval_comments' => $request->approval_comments,
@@ -148,7 +153,6 @@ class TeacherDashboardController extends Controller
             'reviewed_at' => now(),
             'reviewed_by' => auth()->id()
         ]);
-
         return response()->json([
             'success' => true,
             'message' => 'Proposal approved successfully.'
@@ -160,18 +164,22 @@ class TeacherDashboardController extends Controller
         if ($project->supervisor_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this proposal.');
         }
-
+        // Only allow if status is Pending
+        if (strcasecmp($project->status, 'Pending') !== 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Only proposals with Pending status can be rejected.'
+            ], 422);
+        }
         $request->validate([
             'rejection_reason' => 'required|string|max:1000'
         ]);
-
         $project->update([
             'status' => 'Rejected',
             'rejection_reason' => $request->rejection_reason,
             'reviewed_at' => now(),
             'reviewed_by' => auth()->id()
         ]);
-
         return response()->json([
             'success' => true,
             'message' => 'Proposal rejected successfully.'
@@ -183,18 +191,22 @@ class TeacherDashboardController extends Controller
         if ($project->supervisor_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this proposal.');
         }
-
+        // Only allow if status is Pending
+        if (strcasecmp($project->status, 'Pending') !== 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Only proposals with Pending status can be sent for revision.'
+            ], 422);
+        }
         $request->validate([
             'revision_comments' => 'required|string|max:1000'
         ]);
-
         $project->update([
             'status' => 'Needs Revision',
             'rejection_reason' => $request->revision_comments,
             'reviewed_at' => now(),
             'reviewed_by' => auth()->id()
         ]);
-
         return response()->json([
             'success' => true,
             'message' => 'Revision requested successfully.'
@@ -206,18 +218,15 @@ class TeacherDashboardController extends Controller
         if ($project->supervisor_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this proposal.');
         }
-
-        // BUSINESS LOGIC: Prevent deletion of projects that have been reviewed
-        if ($project->status !== 'Pending') {
+        // Only allow if status is Pending
+        if (strcasecmp($project->status, 'Pending') !== 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'Cannot delete a project that has already been reviewed. Projects can only be deleted while in "Pending" status to maintain audit trail.'
             ], 422);
         }
-
         $projectTitle = $project->title;
         $studentName = $project->student->name;
-        
         // Delete associated files if any
         if ($project->supporting_documents) {
             $documents = json_decode($project->supporting_documents, true);
@@ -229,9 +238,7 @@ class TeacherDashboardController extends Controller
                 }
             }
         }
-
         $project->delete();
-
         return response()->json([
             'success' => true,
             'message' => "Project '{$projectTitle}' by {$studentName} has been deleted successfully."
