@@ -20,6 +20,8 @@
             background: linear-gradient(180deg, #2c3e50 10%, #34495e 100%);
             z-index: 1000;
             padding-top: 1rem;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
@@ -65,6 +67,7 @@
     <!-- Left Sidebar -->
     <nav class="sidebar">
         <div class="text-center py-3">
+            <img src="{{ asset('images/background.png') }}" alt="SchoolPro Logo" style="height:48px;width:auto;margin-bottom:8px;">
             <h5 class="text-white mb-0">SchoolPro</h5>
             <small class="text-white-50">Teacher Portal</small>
         </div>

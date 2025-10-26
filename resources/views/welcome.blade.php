@@ -67,7 +67,7 @@
 </head>
 <body>
     <div class="landing-card">
-        <img src="/images/background.png" alt="SchoolPro Logo" class="logo">
+    <img src="{{ asset('images/background.png') }}" alt="SchoolPro Logo" class="logo">
         <h1>SchoolPro</h1>
         <div class="subtitle">A Student Project Management System</div>
         <div class="welcome">Welcome!</div>

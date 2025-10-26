@@ -167,6 +167,21 @@
         .dropdown-toggle::after { display: none; }
         .btn-link { color: #5a5c69; text-decoration: none; }
         .btn-link:hover { color: #4e73df; text-decoration: none; }
+        /* Top-right profile image dropdown */
+        .topbar .navbar-nav {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .topbar .navbar-nav {
+                position: static;
+                height: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -174,6 +189,7 @@
     <ul class="sidebar navbar-nav">
         <!-- Sidebar Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard/student">
+            <img src="{{ asset('images/background.png') }}" alt="SchoolPro Logo" style="height:40px; width:auto; margin-right:10px;">
             <div class="sidebar-brand-text mx-3">SchoolPro</div>
         </a>
 
@@ -276,33 +292,22 @@
                 Menu
             </button>
 
-        
-
-            <!-- Topbar Navbar -->
+            <!-- Topbar Navbar (Profile at top right) -->
             <ul class="navbar-nav ml-auto">
-                <!-- Nav Item - Alerts -->
-            
-
-               
-
-                <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name ?? 'Student' }}</span>
                         <img class="img-profile rounded-circle"
-                            src="{{ auth()->user()->profile_picture_url }}" 
+                            src="{{ auth()->user()->profile_picture_url }}"
                             alt="Profile Picture"
                             style="width: 60px; height: 60px; object-fit: cover;">
                     </a>
-                    <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="/profile">
                             Profile
                         </a>
-                      
-                      
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-dropdown').submit();">
                             Logout

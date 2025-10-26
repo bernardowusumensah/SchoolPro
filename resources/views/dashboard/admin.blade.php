@@ -188,7 +188,7 @@
         <!-- Sidebar Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard/admin">
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-graduation-cap"></i>
+                <img src="{{ asset('images/background.png') }}" alt="SchoolPro Logo" style="height:40px;width:auto;">
             </div>
             <div class="sidebar-brand-text mx-3">SchoolPro</div>
         </a>
@@ -199,7 +199,7 @@
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
             <a class="nav-link" href="/dashboard/admin">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <!-- Removed tachometer icon -->
                 <span>Dashboard</span>
             </a>
         </li>
@@ -212,7 +212,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers"
                 aria-expanded="true" aria-controls="collapseUsers">
-                <i class="fas fa-fw fa-users"></i>
+                <!-- Removed users icon -->
                 <span>User Accounts</span>
             </a>
             <div id="collapseUsers" class="collapse" aria-labelledby="headingUsers" data-bs-parent="#accordionSidebar">
@@ -228,7 +228,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProjects"
                 aria-expanded="true" aria-controls="collapseProjects">
-                <i class="fas fa-fw fa-project-diagram"></i>
+                <!-- Removed project diagram icon -->
                 <span>Project Oversight</span>
             </a>
             <div id="collapseProjects" class="collapse" aria-labelledby="headingProjects" data-bs-parent="#accordionSidebar">
@@ -258,7 +258,7 @@
         <!-- Nav Item - Logout -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fas fa-fw fa-sign-out-alt"></i>
+                <!-- Removed sign out icon -->
                 <span>Logout</span>
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -292,16 +292,13 @@
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name ?? 'Admin User' }}</span>
-                        <img class="img-profile rounded-circle"
-                            src="{{ auth()->user()->profile_picture_url }}" 
-                            alt="Profile Picture"
-                            style="width: 60px; height: 60px; object-fit: cover;">
+                        <!-- Removed profile image -->
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="/profile">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            <!-- Removed user icon -->
                             Profile
                         </a>
                     
