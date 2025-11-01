@@ -477,7 +477,7 @@
                                                     @if($project->supervisor)
                                                         <div class="d-flex align-items-center">
                                                             <img class="rounded-circle mr-2" 
-                                                                 src="{{ $project->supervisor->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                                                                 src="{{ $project->supervisor->profile_picture_url ?? asset('images/default-avatar.png') }}" 
                                                                  alt="Supervisor" 
                                                                  style="width: 30px; height: 30px; object-fit: cover;">
                                                             <span class="text-gray-800">{{ $project->supervisor->name }}</span>

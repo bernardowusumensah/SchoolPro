@@ -153,7 +153,7 @@
                         <div class="row">
                             <div class="col-md-3 text-center">
                                 <img class="rounded-circle mb-3" 
-                                     src="{{ $student->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                                     src="{{ $student->profile_picture_url ?? asset('images/default-avatar.png') }}" 
                                      alt="Student" style="width: 100px; height: 100px; object-fit: cover;">
                             </div>
                             <div class="col-md-9">

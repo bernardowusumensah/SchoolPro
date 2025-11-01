@@ -101,7 +101,7 @@
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="me-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name ?? 'Student' }}</span>
                             <img class="img-profile rounded-circle"
-                                src="{{ auth()->user()->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                                src="{{ auth()->user()->profile_picture_url ?? asset('images/default-avatar.png') }}" 
                                 alt="Profile Picture"
                                 style="width: 40px; height: 40px; object-fit: cover;">
                         </a>

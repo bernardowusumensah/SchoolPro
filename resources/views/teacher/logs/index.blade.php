@@ -232,7 +232,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <img class="rounded-circle me-2" 
-                                                         src="{{ $log->student->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                                                         src="{{ $log->student->profile_picture_url ?? asset('images/default-avatar.png') }}" 
                                                          alt="Student" style="width: 30px; height: 30px;">
                                                     <div>
                                                         <div class="fw-bold">{{ $log->student->name }}</div>

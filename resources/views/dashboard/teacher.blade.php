@@ -314,7 +314,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <img class="rounded-circle me-2" 
-                                                         src="{{ $proposal->student->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                                                         src="{{ $proposal->student->profile_picture_url ?? asset('images/default-avatar.png') }}" 
                                                          alt="Student" style="width: 30px; height: 30px;">
                                                     <div>
                                                         <div class="fw-bold">{{ $proposal->student->name }}</div>

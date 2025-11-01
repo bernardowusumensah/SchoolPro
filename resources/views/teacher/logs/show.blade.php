@@ -250,7 +250,7 @@
                     </div>
                     <div class="card-body text-center">
                         <img class="rounded-circle mb-3" 
-                             src="{{ $log->student->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                             src="{{ $log->student->profile_picture_url ?? asset('images/default-avatar.png') }}" 
                              alt="Student" style="width: 80px; height: 80px; object-fit: cover;">
                         <h5 class="fw-bold">{{ $log->student->name }}</h5>
                         <p class="text-muted">{{ $log->student->email }}</p>
