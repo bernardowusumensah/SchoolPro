@@ -283,23 +283,18 @@
     <div class="content-wrapper">
         <!-- Top Navbar -->
         <nav class="topbar navbar navbar-expand navbar-light bg-white shadow">
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                ☰
-            </button>
-
             <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
                 <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
+                        <span class="me-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
                         <img class="img-profile rounded-circle"
-                            src="{{ auth()->user()->profile_picture_url ?? asset('images/default-avatar.png') }}" width="32" height="32">
+                            src="{{ auth()->user()->profile_picture_url ?? asset('images/default-avatar.png') }}" width="40" height="40">
                     </a>
                     <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{{ route('profile.edit') }}">
                             Profile
