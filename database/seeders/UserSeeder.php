@@ -10,11 +10,11 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create only the super admin user
+        // Create only one admin account
         \App\Models\User::create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@example.com',
-            'password' => Hash::make('superpassword'),
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password1234*'),
             'role' => 'admin',
             'status' => 'active',
             'super_admin' => true,

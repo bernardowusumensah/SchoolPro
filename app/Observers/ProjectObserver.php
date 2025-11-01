@@ -13,7 +13,8 @@ class ProjectObserver
     public function updated(Project $project): void
     {
         // When project is approved, create deliverable with future due date
-        if ($project->isDirty('status') && $project->status === 'approved') {
+        if ($project->isDirty('status') && $project->status === 'Approved') {
+            \Log::info('ProjectObserver: Project approved, creating deliverable for project ID ' . $project->id);
             $this->createProjectDeliverable($project);
         }
     }
@@ -23,25 +24,27 @@ class ProjectObserver
      */
     private function createProjectDeliverable(Project $project): void
     {
-        // Check if deliverable already exists for this project
-        if ($project->deliverables()->count() > 0) {
-            return;
-        }
+    // Check if deliverable already exists for this project
+    if ($project->deliverables()->count() > 0) {
+        \Log::info('ProjectObserver: Deliverable already exists for project ID ' . $project->id);
+        return;
+    }
 
-        // Set deliverable due date (8 weeks from approval for project work)
-        $dueDate = now()->addWeeks(8);
+    // Set deliverable due date (8 weeks from approval for project work)
+    $dueDate = now()->addWeeks(8);
 
-        Deliverable::create([
-            'project_id' => $project->id,
-            'title' => 'Final Project Deliverable - ' . $project->title,
-            'description' => 'Submit your completed project including all required components and documentation. Work on your project and log progress regularly. Submit final deliverable when due.',
-            'type' => 'final_project',
-            'due_date' => $dueDate,
-            'weight_percentage' => 100, // Single deliverable gets full weight
-            'max_file_size_mb' => 50, // 50MB limit
-            'file_types_allowed' => ['pdf', 'doc', 'docx', 'zip', 'rar'],
-            'requirements' => 'Submit your completed project with all documentation, code, and supporting materials.',
-            'status' => 'pending'
-        ]);
+    Deliverable::create([
+        'project_id' => $project->id,
+        'title' => 'Final Project Deliverable - ' . $project->title,
+        'description' => 'Submit your completed project including all required components and documentation. Work on your project and log progress regularly. Submit final deliverable when due.',
+        'type' => 'final_project',
+        'due_date' => $dueDate,
+        'weight_percentage' => 100, // Single deliverable gets full weight
+        'max_file_size_mb' => 50, // 50MB limit
+        'file_types_allowed' => ['pdf', 'doc', 'docx', 'zip', 'rar'],
+        'requirements' => 'Submit your completed project with all documentation, code, and supporting materials.',
+        'status' => 'Pending'
+    ]);
+    \Log::info('ProjectObserver: Deliverable created for project ID ' . $project->id);
     }
 }

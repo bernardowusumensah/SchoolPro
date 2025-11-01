@@ -20,6 +20,22 @@
             </div>
         </div>
 
+        @if($weeklyLogsCount < $requiredLogs)
+            <div class="alert alert-warning border-warning mb-4">
+                <h6 class="alert-heading mb-2">
+                    <strong>Weekly Logging Requirement</strong>
+                </h6>
+                <p class="mb-2">
+                    You need at least <strong>{{ $requiredLogs }} weekly logs</strong> before you can submit your final deliverable. 
+                    You currently have <strong>{{ $weeklyLogsCount }} log{{ $weeklyLogsCount !== 1 ? 's' : '' }}</strong>.
+                </p>
+                <p class="mb-0 small">
+                    Please maintain consistent weekly logging to document your project progress. 
+                    <a href="{{ route('student.logs.index') }}" class="alert-link">Go to Weekly Logs</a>
+                </p>
+            </div>
+        @endif
+
         @if($deliverables->isEmpty())
             <div class="text-center py-5">
                 <div class="mb-3">

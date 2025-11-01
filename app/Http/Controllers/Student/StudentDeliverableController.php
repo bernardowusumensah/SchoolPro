@@ -42,19 +42,26 @@ class StudentDeliverableController extends Controller
 
         // Separate upcoming and overdue deliverables
         $upcoming = $deliverables->filter(function($deliverable) {
-            return !$deliverable->isOverdue() && $deliverable->status === 'pending';
+            return !$deliverable->isOverdue() && $deliverable->status === 'Pending';
         });
 
         $overdue = $deliverables->filter(function($deliverable) {
-            return $deliverable->isOverdue() && $deliverable->status === 'pending';
+            return $deliverable->isOverdue() && $deliverable->status === 'Pending';
         });
 
         $completed = $deliverables->filter(function($deliverable) {
             return $deliverable->submissions->isNotEmpty();
         });
 
+        // Check weekly logs count
+        $weeklyLogsCount = $project->logs()
+            ->where('student_id', $student->id)
+            ->whereNotNull('content')
+            ->count();
+        $requiredLogs = 8;
+
         return view('student.deliverables.index', compact(
-            'project', 'deliverables', 'upcoming', 'overdue', 'completed'
+            'project', 'deliverables', 'upcoming', 'overdue', 'completed', 'weeklyLogsCount', 'requiredLogs'
         ));
     }
 
@@ -86,7 +93,7 @@ class StudentDeliverableController extends Controller
     /**
      * Show submission form
      */
-    public function create(Deliverable $deliverable): View
+    public function create(Deliverable $deliverable): View|RedirectResponse
     {
         $student = Auth::user();
         
@@ -98,6 +105,20 @@ class StudentDeliverableController extends Controller
         if ($deliverable->isOverdue()) {
             return redirect()->route('student.deliverables.show', $deliverable)
                 ->with('warning', 'This deliverable is overdue. Contact your supervisor for late submission approval.');
+        }
+
+        // Check if student has sufficient weekly logs before allowing submission
+        $project = $deliverable->project;
+        $weeklyLogsCount = $project->logs()
+            ->where('student_id', $student->id)
+            ->whereNotNull('content') // Only count actual weekly logs, not system logs
+            ->count();
+
+        // Require at least 8 weekly logs before submission (adjust as needed)
+        $requiredLogs = 8;
+        if ($weeklyLogsCount < $requiredLogs) {
+            return redirect()->route('student.deliverables.index')
+                ->with('error', "You need at least {$requiredLogs} weekly logs before submitting your final deliverable. You currently have {$weeklyLogsCount} logs. Please maintain consistent weekly logging.");
         }
 
         return view('student.deliverables.create', compact('deliverable'));
@@ -113,6 +134,20 @@ class StudentDeliverableController extends Controller
         // Validate access
         if ($deliverable->project->student_id !== $student->id) {
             abort(403);
+        }
+
+        // Check if student has sufficient weekly logs before allowing submission
+        $project = $deliverable->project;
+        $weeklyLogsCount = $project->logs()
+            ->where('student_id', $student->id)
+            ->whereNotNull('content') // Only count actual weekly logs, not system logs
+            ->count();
+
+        // Require at least 8 weekly logs before submission
+        $requiredLogs = 8;
+        if ($weeklyLogsCount < $requiredLogs) {
+            return redirect()->route('student.deliverables.index')
+                ->with('error', "You need at least {$requiredLogs} weekly logs before submitting your final deliverable. You currently have {$weeklyLogsCount} logs.");
         }
 
         // Validate file uploads

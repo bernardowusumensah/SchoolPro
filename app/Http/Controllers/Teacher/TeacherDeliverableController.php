@@ -123,14 +123,14 @@ class TeacherDeliverableController extends Controller
         $submission->update([
             'grade' => $request->grade,
             'teacher_feedback' => $request->teacher_feedback,
-            'status' => 'graded',
+            'status' => 'reviewed',
             'reviewed_at' => now(),
             'reviewed_by' => $teacher->id
         ]);
 
-        // Update deliverable status to completed
+        // Update deliverable status to reviewed
         $deliverable->update([
-            'status' => 'graded'
+            'status' => 'reviewed'
         ]);
 
         // Always complete the project with the given grade
@@ -150,9 +150,9 @@ class TeacherDeliverableController extends Controller
             
             $message = "Submission graded with {$request->grade}%. Student is allowed to resubmit to improve their grade.";
         } else {
-            // Mark deliverable as completely finished
+            // Mark deliverable as approved (completely finished)
             $deliverable->update([
-                'status' => 'completed',
+                'status' => 'approved',
                 'resubmission_allowed' => false
             ]);
             

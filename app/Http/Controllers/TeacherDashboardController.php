@@ -145,14 +145,13 @@ class TeacherDashboardController extends Controller
         $request->validate([
             'approval_comments' => 'nullable|string|max:1000'
         ]);
-        $project->update([
-            'status' => 'Approved',
-            'approval_comments' => $request->approval_comments,
-            'approved_at' => now(),
-            'approved_by' => auth()->id(),
-            'reviewed_at' => now(),
-            'reviewed_by' => auth()->id()
-        ]);
+        $project->status = 'Approved';
+        $project->approval_comments = $request->approval_comments;
+        $project->approved_at = now();
+        $project->approved_by = auth()->id();
+        $project->reviewed_at = now();
+        $project->reviewed_by = auth()->id();
+        $project->save();
         return response()->json([
             'success' => true,
             'message' => 'Proposal approved successfully.'

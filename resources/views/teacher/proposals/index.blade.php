@@ -13,42 +13,38 @@
         .sidebar {
             position: fixed;
             top: 0;
-                                                <a href="{{ route('teacher.proposals.show', $proposal) }}" 
-                                                   class="btn btn-sm btn-outline-primary">
-                                                    View Details
-                                                </a>
-                                                @if($proposal->status === 'Pending')
-                                                    <div class="btn-group" role="group">
-                                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                                                                data-bs-toggle="dropdown">
-                                                            Actions
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li>
-                                                                <form method="POST" action="{{ route('teacher.proposals.approve', $proposal) }}" class="d-inline">
-                                                                    @csrf
-                                                                    @method('PATCH')
-                                                                    <button type="submit" class="dropdown-item text-success" 
-                                                                            onclick="return confirm('Are you sure you want to approve this proposal?')">
-                                                                        Approve
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="dropdown-item text-warning" 
-                                                                        data-bs-toggle="modal" data-bs-target="#revisionModal{{ $proposal->id }}">
-                                                                    Request Revision
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="dropdown-item text-danger" 
-                                                                        data-bs-toggle="modal" data-bs-target="#rejectModal{{ $proposal->id }}">
-                                                                    Reject
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                @endif
+            bottom: 0;
+            left: 0;
+            width: 250px;
+            background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            display: block;
+            text-decoration: none;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .badge-status {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body>
     <!-- Left Sidebar -->
     <nav class="sidebar">
         <div class="text-center py-3">
@@ -241,6 +237,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 @endforeach
                             </tbody>
                         </table>
@@ -250,17 +247,19 @@
                     <div class="d-flex justify-content-center">
                         {{ $proposals->links() }}
                     </div>
+
                 @else
                     <div class="text-center py-4">
                         <!-- Removed clipboard emoji from empty state -->
                         <h5 class="text-muted">No Proposals Yet</h5>
                         <p class="text-muted">You haven't received any project proposals from students yet.</p>
                     </div>
-                @endif
-            </div>
-        </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                @endif
+            </div> <!-- end .card-body -->
+        </div> <!-- end .card -->
+    </div> <!-- end .main-content -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

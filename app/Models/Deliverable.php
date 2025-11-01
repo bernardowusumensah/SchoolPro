@@ -83,11 +83,11 @@ class Deliverable extends Model
     public function getStatusBadgeClass(): string
     {
         return match($this->status) {
-            'pending' => 'badge-warning',
-            'submitted' => 'badge-info',
-            'reviewed' => 'badge-primary',
-            'approved' => 'badge-success',
-            'rejected' => 'badge-danger',
+            'Pending' => 'badge-warning',
+            'Submitted' => 'badge-info',
+            'Reviewed' => 'badge-primary',
+            'Approved' => 'badge-success',
+            'Rejected' => 'badge-danger',
             default => 'badge-secondary'
         };
     }

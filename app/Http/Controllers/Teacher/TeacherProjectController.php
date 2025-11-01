@@ -84,12 +84,11 @@ class TeacherProjectController extends Controller
             'approval_comments' => 'nullable|string|max:1000'
         ]);
 
-        $project->update([
-            'status' => 'Approved',
-            'approval_comments' => $request->approval_comments,
-            'approved_at' => now(),
-            'approved_by' => Auth::id()
-        ]);
+        $project->status = 'Approved';
+        $project->approval_comments = $request->approval_comments;
+        $project->approved_at = now();
+        $project->approved_by = Auth::id();
+        $project->save();
 
         return redirect()->route('teacher.projects.pending')
             ->with('success', 'Project proposal approved successfully!');
