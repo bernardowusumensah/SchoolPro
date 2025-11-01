@@ -330,7 +330,12 @@
                                             </td>
                                             <td>
                                                 @if($proposal->status === 'Pending')
-                                                    <span class="badge bg-warning text-dark">Pending Review</span>
+                                                    <div>
+                                                        <span class="badge bg-warning text-dark">Pending Review</span>
+                                                        @if($proposal->resubmitted_at)
+                                                            <br><small class="text-info"><i class="fas fa-redo-alt"></i> Resubmitted</small>
+                                                        @endif
+                                                    </div>
                                                 @elseif($proposal->status === 'Needs Revision')
                                                     <span class="badge bg-info">Needs Revision</span>
                                                 @elseif($proposal->status === 'Approved')
@@ -353,6 +358,7 @@
                                                             title="View Details">
                                                         View
                                                     </button>
+                                                    @if($proposal->status === 'Pending' || $proposal->status === 'Needs Revision')
                                                     <button class="btn btn-sm btn-outline-success" 
                                                             data-action="approve-proposal"
                                                             data-proposal-id="{{ $proposal->id }}" 
@@ -374,13 +380,7 @@
                                                             title="Reject">
                                                         Reject
                                                     </button>
-                                                    <button class="btn btn-sm btn-outline-dark" 
-                                                            data-action="delete-proposal"
-                                                            data-proposal-id="{{ $proposal->id }}" 
-                                                            data-proposal-title="{{ $proposal->title }}"
-                                                            title="Delete">
-                                                        Delete
-                                                    </button>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -561,7 +561,8 @@
                     location.reload();
                 },
                 error: function(xhr) {
-                    alert('Error approving proposal');
+                    const errorMessage = xhr.responseJSON?.message || 'Error approving proposal';
+                    alert(errorMessage);
                 }
             });
         });
@@ -598,7 +599,8 @@
                     location.reload();
                 },
                 error: function(xhr) {
-                    alert('Error rejecting proposal');
+                    const errorMessage = xhr.responseJSON?.message || 'Error rejecting proposal';
+                    alert(errorMessage);
                 }
             });
         });
@@ -635,32 +637,11 @@
                     location.reload();
                 },
                 error: function(xhr) {
-                    alert('Error requesting revision');
+                    const errorMessage = xhr.responseJSON?.message || 'Error requesting revision';
+                    alert(errorMessage);
                 }
             });
         });
-
-        // Delete Proposal
-        $(document).on('click', '[data-action="delete-proposal"]', function() {
-            const proposalId = $(this).data('proposal-id');
-            const proposalTitle = $(this).data('proposal-title');
-            
-            if (confirm(`Are you sure you want to delete the proposal "${proposalTitle}"? This action cannot be undone.`)) {
-                $.ajax({
-                    url: `/teacher/proposals/${proposalId}`,
-                    method: 'DELETE',
-                    success: function(response) {
-                        location.reload();
-                    },
-                    error: function(xhr) {
-                        alert('Error deleting proposal');
-                    }
-                });
-            }
-        });
-
-       
-        
 
         // Reset modal forms when hidden
         $('.modal').on('hidden.bs.modal', function() {

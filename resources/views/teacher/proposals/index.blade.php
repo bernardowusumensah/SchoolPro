@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposals - Teacher Portal</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -134,110 +135,21 @@
                                                 @endif">
                                                 {{ $proposal->status }}
                                             </span>
+                                            @if($proposal->resubmitted_at && $proposal->status === 'Pending')
+                                                <br><small class="text-info"><i class="fas fa-redo-alt"></i> Resubmitted</small>
+                                            @endif
                                         </td>
                                         <td>
                                             <div>{{ $proposal->created_at->format('M d, Y') }}</div>
                                             <small class="text-muted">{{ $proposal->created_at->format('g:i A') }}</small>
                                         </td>
                                         <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="{{ route('teacher.proposals.show', $proposal) }}" 
-                                                   class="btn btn-sm btn-outline-primary">
-                                                    View Details
-                                                </a>
-                                                
-                                                @if($proposal->status === 'Pending')
-                                                    <div class="btn-group" role="group">
-                                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                                                                data-bs-toggle="dropdown">
-                                                            Actions
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li>
-                                                                <form method="POST" action="{{ route('teacher.proposals.approve', $proposal) }}" class="d-inline">
-                                                                    @csrf
-                                                                    @method('PATCH')
-                                                                    <button type="submit" class="dropdown-item text-success" 
-                                                                            onclick="return confirm('Are you sure you want to approve this proposal?')">
-                                                                        Approve
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="dropdown-item text-warning" 
-                                                                        data-bs-toggle="modal" data-bs-target="#revisionModal{{ $proposal->id }}">
-                                                                    Request Revision
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="dropdown-item text-danger" 
-                                                                        data-bs-toggle="modal" data-bs-target="#rejectModal{{ $proposal->id }}">
-                                                                    Reject
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                @else
-                                                    <span class="text-muted small">No actions available</span>
-                                                @endif
-                                            </div>
+                                            <a href="{{ route('teacher.proposals.show', $proposal) }}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                View Details
+                                            </a>
                                         </td>
                                     </tr>
-
-                                    <!-- Revision Modal -->
-                                    <div class="modal fade" id="revisionModal{{ $proposal->id }}" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Request Revision</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <form method="POST" action="{{ route('teacher.proposals.revision', $proposal) }}">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Revision Comments</label>
-                                                            <textarea name="supervisor_feedback" class="form-control" rows="4" 
-                                                                      placeholder="Please provide specific feedback on what needs to be revised..." required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-warning">Request Revision</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Reject Modal -->
-                                    <div class="modal fade" id="rejectModal{{ $proposal->id }}" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Reject Proposal</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <form method="POST" action="{{ route('teacher.proposals.reject', $proposal) }}">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Rejection Reason</label>
-                                                            <textarea name="supervisor_feedback" class="form-control" rows="4" 
-                                                                      placeholder="Please provide reasons for rejection..." required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-danger">Reject Proposal</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 @endforeach
                             </tbody>
                         </table>

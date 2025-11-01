@@ -143,7 +143,7 @@ class StudentProjectController extends Controller
     public function edit(): View|RedirectResponse
     {
         $student = Auth::user();
-        $editableProjects = $student->projects()->whereIn('status', ['Pending', 'Rejected'])->get();
+        $editableProjects = $student->projects()->whereIn('status', ['Pending', 'Needs Revision'])->get();
 
         if ($editableProjects->isEmpty()) {
             return redirect()->route('student.projects.proposal')
@@ -177,10 +177,10 @@ class StudentProjectController extends Controller
             abort(403, 'Unauthorized access to project.');
         }
 
-        // Only allow editing if project is still pending or rejected
-        if (!in_array($project->status, ['Pending', 'Rejected'])) {
+        // Only allow editing if project is pending or needs revision
+        if (!in_array($project->status, ['Pending', 'Needs Revision'])) {
             return redirect()->route('student.projects.show', $project->id)
-                ->with('error', 'Cannot edit project after it has been approved or completed.');
+                ->with('error', 'Cannot edit project after it has been approved, rejected, or completed.');
         }
 
         $supervisors = User::where('role', 'teacher')
@@ -197,7 +197,7 @@ class StudentProjectController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $student = Auth::user();
-        $project = $student->projects()->whereIn('status', ['Pending', 'Rejected'])->latest()->first();
+        $project = $student->projects()->whereIn('status', ['Pending', 'Needs Revision'])->latest()->first();
 
         if (!$project) {
             return redirect()->route('student.projects.proposal')
@@ -218,11 +218,15 @@ class StudentProjectController extends Controller
             return back()->withErrors(['supervisor_id' => 'Selected supervisor must be a teacher.']);
         }
 
+        // Check if this is a resubmission (updating a "Needs Revision" proposal)
+        $isResubmission = $project->status === 'Needs Revision';
+
         $project->update([
             'title' => $request->title,
             'description' => $request->description,
             'supervisor_id' => $request->supervisor_id,
             'status' => 'Pending', // Reset to pending when updated
+            'resubmitted_at' => $isResubmission ? now() : null, // Track resubmission
         ]);
 
         return redirect()->route('student.projects.show', $project->id)
@@ -239,10 +243,10 @@ class StudentProjectController extends Controller
             abort(403, 'Unauthorized access to project.');
         }
 
-        // Only allow updating if project is still pending or rejected
-        if (!in_array($project->status, ['Pending', 'Rejected'])) {
+        // Only allow updating if project is pending or needs revision
+        if (!in_array($project->status, ['Pending', 'Needs Revision'])) {
             return redirect()->route('student.projects.show', $project->id)
-                ->with('error', 'Cannot edit project after it has been approved or completed.');
+                ->with('error', 'Cannot edit project after it has been approved, rejected, or completed.');
         }
 
         $request->validate([
@@ -259,11 +263,15 @@ class StudentProjectController extends Controller
             return back()->withErrors(['supervisor_id' => 'Selected supervisor must be a teacher.']);
         }
 
+        // Check if this is a resubmission (updating a "Needs Revision" proposal)
+        $isResubmission = $project->status === 'Needs Revision';
+
         $project->update([
             'title' => $request->title,
             'description' => $request->description,
             'supervisor_id' => $request->supervisor_id,
             'status' => 'Pending', // Reset to pending when updated
+            'resubmitted_at' => $isResubmission ? now() : null, // Track resubmission
         ]);
 
         return redirect()->route('student.projects.show', $project->id)

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Details - SchoolPro</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
@@ -61,12 +62,42 @@
                                             Approved
                                         </span>
                                         @break
+                                    @case('Needs Revision')
+                                        <span class="badge bg-warning fs-6">
+                                            Needs Revision
+                                        </span>
+                                        @break
                                     @case('Rejected')
                                         <span class="badge bg-danger fs-6">
                                             Rejected
                                         </span>
                                         @break
                                 @endswitch
+
+                                <!-- Teacher Feedback Section -->
+                                @if($project->status === 'Approved' && $project->approval_comments)
+                                    <hr class="my-3">
+                                    <div class="alert alert-success mb-0 text-start small">
+                                        <strong>Approval Comments:</strong>
+                                        <p class="mb-0 mt-1">{{ $project->approval_comments }}</p>
+                                    </div>
+                                @endif
+
+                                @if($project->status === 'Needs Revision' && $project->rejection_reason)
+                                    <hr class="my-3">
+                                    <div class="alert alert-warning mb-0 text-start small">
+                                        <strong>Revision Required:</strong>
+                                        <p class="mb-0 mt-1">{{ $project->rejection_reason }}</p>
+                                    </div>
+                                @endif
+
+                                @if($project->status === 'Rejected' && $project->rejection_reason)
+                                    <hr class="my-3">
+                                    <div class="alert alert-danger mb-0 text-start small">
+                                        <strong>Rejection Reason:</strong>
+                                        <p class="mb-0 mt-1">{{ $project->rejection_reason }}</p>
+                                    </div>
+                                @endif
 
                                 @if($project->status === 'Approved')
                                     @php
@@ -104,7 +135,7 @@
                         ← Back to Projects
                     </a>
                     
-                    @if(in_array($project->status, ['Pending', 'Rejected']))
+                    @if(in_array($project->status, ['Pending', 'Needs Revision']))
                         <a href="{{ route('student.projects.editProject', $project->id) }}" class="btn btn-warning">
                             Edit Project
                         </a>

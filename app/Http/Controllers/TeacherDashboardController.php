@@ -135,11 +135,11 @@ class TeacherDashboardController extends Controller
         if ($project->supervisor_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this proposal.');
         }
-        // Only allow if status is Pending
-        if (strcasecmp($project->status, 'Pending') !== 0) {
+        // Only allow if status is Pending or Needs Revision
+        if (!in_array($project->status, ['Pending', 'Needs Revision'])) {
             return response()->json([
                 'success' => false,
-                'message' => 'Only proposals with Pending status can be approved.'
+                'message' => 'Only proposals with "Pending" or "Needs Revision" status can be approved.'
             ], 422);
         }
         $request->validate([
@@ -151,6 +151,8 @@ class TeacherDashboardController extends Controller
         $project->approved_by = auth()->id();
         $project->reviewed_at = now();
         $project->reviewed_by = auth()->id();
+        $project->resubmitted_at = null; // Clear resubmission timestamp
+        $project->rejection_reason = null; // Clear old feedback since approved
         $project->save();
         return response()->json([
             'success' => true,
@@ -163,11 +165,11 @@ class TeacherDashboardController extends Controller
         if ($project->supervisor_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this proposal.');
         }
-        // Only allow if status is Pending
-        if (strcasecmp($project->status, 'Pending') !== 0) {
+        // Only allow if status is Pending or Needs Revision
+        if (!in_array($project->status, ['Pending', 'Needs Revision'])) {
             return response()->json([
                 'success' => false,
-                'message' => 'Only proposals with Pending status can be rejected.'
+                'message' => 'Only proposals with "Pending" or "Needs Revision" status can be rejected.'
             ], 422);
         }
         $request->validate([
@@ -177,7 +179,8 @@ class TeacherDashboardController extends Controller
             'status' => 'Rejected',
             'rejection_reason' => $request->rejection_reason,
             'reviewed_at' => now(),
-            'reviewed_by' => auth()->id()
+            'reviewed_by' => auth()->id(),
+            'resubmitted_at' => null // Clear resubmission timestamp
         ]);
         return response()->json([
             'success' => true,
@@ -190,11 +193,11 @@ class TeacherDashboardController extends Controller
         if ($project->supervisor_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this proposal.');
         }
-        // Only allow if status is Pending
-        if (strcasecmp($project->status, 'Pending') !== 0) {
+        // Only allow if status is Pending or Needs Revision
+        if (!in_array($project->status, ['Pending', 'Needs Revision'])) {
             return response()->json([
                 'success' => false,
-                'message' => 'Only proposals with Pending status can be sent for revision.'
+                'message' => 'Only proposals with "Pending" or "Needs Revision" status can be sent for revision.'
             ], 422);
         }
         $request->validate([
@@ -204,7 +207,8 @@ class TeacherDashboardController extends Controller
             'status' => 'Needs Revision',
             'rejection_reason' => $request->revision_comments,
             'reviewed_at' => now(),
-            'reviewed_by' => auth()->id()
+            'reviewed_by' => auth()->id(),
+            'resubmitted_at' => null // Clear resubmission timestamp
         ]);
         return response()->json([
             'success' => true,

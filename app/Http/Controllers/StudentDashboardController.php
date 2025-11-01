@@ -27,6 +27,7 @@ class StudentDashboardController extends Controller
         $projectStats = [
             'pending' => $allProjects->where('status', 'Pending')->count(),
             'approved' => $allProjects->where('status', 'Approved')->count(),
+            'needs_revision' => $allProjects->where('status', 'Needs Revision')->count(),
             'rejected' => $allProjects->where('status', 'Rejected')->count(),
             'completed' => $allProjects->where('status', 'Completed')->count(),
         ];

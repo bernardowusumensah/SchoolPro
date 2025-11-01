@@ -381,7 +381,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Needs Revision</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['rejected'] ?? 0 }}</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $projectStats['needs_revision'] ?? 0 }}</div>
                                     <div class="text-xs text-muted">Requires updates</div>
                                 </div>
 
@@ -455,9 +455,13 @@
                                                         <span class="badge bg-success">
                                                             Approved
                                                         </span>
+                                                    @elseif($project->status === 'Needs Revision')
+                                                        <span class="badge bg-warning">
+                                                            Needs Revision
+                                                        </span>
                                                     @elseif($project->status === 'Rejected')
                                                         <span class="badge bg-danger">
-                                                            Needs Revision
+                                                            Rejected
                                                         </span>
                                                     @elseif($project->status === 'Completed')
                                                         <span class="badge bg-info">
@@ -496,7 +500,7 @@
                                                            class="btn btn-outline-primary btn-sm">
                                                             View
                                                         </a>
-                                                        @if(in_array($project->status, ['Pending', 'Rejected']))
+                                                        @if(in_array($project->status, ['Pending', 'Needs Revision']))
                                                             <a href="{{ route('student.projects.editProject', $project->id) }}" 
                                                                class="btn btn-outline-warning btn-sm">
                                                                 Edit

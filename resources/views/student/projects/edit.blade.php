@@ -27,16 +27,23 @@
                     <div class="d-flex">
                         <div class="flex-grow-1">
                             <h6 class="alert-heading mb-1">Editing Pending Proposal</h6>
-                            <p class="mb-0">Your proposal is currently under review. Making changes will reset the review status to pending.</p>
+                            <p class="mb-0">Your proposal is currently under review. Making changes will keep it in pending status.</p>
                         </div>
                     </div>
                 </div>
-            @elseif($project->status === 'Rejected')
-                <div class="alert alert-danger border-0 shadow-sm">
+            @elseif($project->status === 'Needs Revision')
+                <div class="alert alert-warning border-0 shadow-sm">
                     <div class="d-flex">
                         <div class="flex-grow-1">
                             <h6 class="alert-heading mb-1">Revision Required</h6>
-                            <p class="mb-0">Your supervisor has requested changes to your proposal. Please address their feedback and resubmit.</p>
+                            <p class="mb-0">Your supervisor has requested changes to your proposal. Please address their feedback below and resubmit.</p>
+                            @if($project->rejection_reason)
+                                <hr class="my-2">
+                                <div class="bg-white p-3 rounded mt-2">
+                                    <strong class="text-dark">Supervisor's Feedback:</strong>
+                                    <p class="mb-0 mt-2 text-dark">{{ $project->rejection_reason }}</p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Proposal - SchoolPro</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
@@ -534,12 +535,6 @@
                                          ondragover="handleDragOver(event)" 
                                          ondragleave="handleDragLeave(event)">
                                         <div class="upload-content">
-                                            <div class="mb-3 text-muted">
-                                                <svg width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
-                                                    <path d="M.5 3l.04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09l-.636 7A1 1 0 0 1 13.174 13H9v1h4.174a2 2 0 0 0 1.991-1.823l.637-7A2 2 0 0 0 13.81 3H.5zM2.19 4a1 1 0 0 1 .996 1.09l.636 7A1 1 0 0 1 2.826 13H2.19a1 1 0 0 1-.996-1.09l-.636-7A1 1 0 0 1 1.554 4h.636z"/>
-                                                    <path d="M6.5 6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6zM8.5 6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6zM10.5 6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                </svg>
-                                            </div>
                                             <p class="mb-2">Drag and drop files here or</p>
                                             <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('supporting_documents').click()">
                                                 Browse Files

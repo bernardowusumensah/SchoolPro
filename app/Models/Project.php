@@ -22,7 +22,8 @@ class Project extends Model
         'objectives', 'methodology', 'expected_outcomes', 'expected_start_date',
         'expected_completion_date', 'estimated_hours', 'technology_stack',
         'required_resources', 'tools_and_software', 'supporting_documents',
-        'status', 'supervisor_feedback', 'final_grade', 'submitted_at', 'reviewed_at', 'completed_at'
+        'status', 'supervisor_feedback', 'final_grade', 'submitted_at', 'reviewed_at', 'completed_at',
+        'rejection_reason', 'approval_comments', 'approved_at', 'approved_by', 'reviewed_by', 'resubmitted_at'
     ];
 
     /**
@@ -35,7 +36,9 @@ class Project extends Model
         'expected_completion_date' => 'date',
         'submitted_at' => 'datetime',
         'reviewed_at' => 'datetime',
-        'completed_at' => 'datetime'
+        'completed_at' => 'datetime',
+        'approved_at' => 'datetime',
+        'resubmitted_at' => 'datetime'
     ];
 
     /**

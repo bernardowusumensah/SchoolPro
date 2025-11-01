@@ -33,7 +33,12 @@
                 <div class="d-flex justify-content-between align-items-start mb-4">
                     <div>
                         <h5 class="card-title mb-1">{{ $project->title }}</h5>
-                        <p class="text-muted small mb-0">Submitted {{ $project->created_at->diffForHumans() }}</p>
+                        <p class="text-muted small mb-0">
+                            Submitted {{ $project->created_at->diffForHumans() }}
+                            @if($project->resubmitted_at)
+                                <br><span class="text-info"><i class="fas fa-redo-alt"></i> Resubmitted {{ $project->resubmitted_at->diffForHumans() }}</span>
+                            @endif
+                        </p>
                     </div>
                     <span class="badge 
                         @if($project->status === 'Approved') bg-success
@@ -44,6 +49,18 @@
                         {{ $project->status }}
                     </span>
                 </div>
+
+                @if($project->resubmitted_at && $project->rejection_reason && $project->status === 'Pending')
+                <div class="alert alert-info mb-4">
+                    <h6 class="alert-heading mb-2">
+                        <i class="fas fa-info-circle"></i> Your Previous Feedback
+                    </h6>
+                    <p class="mb-0" style="white-space: pre-wrap;">{{ $project->rejection_reason }}</p>
+                    <small class="text-muted d-block mt-2">
+                        Student has resubmitted this proposal. Review the updated content to see if your concerns were addressed.
+                    </small>
+                </div>
+                @endif
 
                 @if($project->description)
                 <div class="mb-4">
@@ -201,92 +218,6 @@
                 </div>
                 @endif
             </div>
-        </div>
-
-        <!-- Actions Card -->
-        @if($project->status === 'Pending')
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h6 class="card-title text-uppercase text-muted small fw-bold mb-3">Actions</h6>
-                
-                <!-- Approve Button -->
-                <form method="POST" action="{{ route('teacher.proposals.approve', $project) }}" class="mb-2">
-                    @csrf
-                    @method('PATCH')
-                    <button type="submit" class="btn btn-success w-100" onclick="return confirm('Are you sure you want to approve this proposal?')">
-                        Approve Proposal
-                    </button>
-                </form>
-
-                <!-- Request Revision Button -->
-                <button type="button" class="btn btn-warning w-100 mb-2" data-bs-toggle="modal" data-bs-target="#revisionModal">
-                    Request Revision
-                </button>
-
-                <!-- Reject Button -->
-                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#rejectModal">
-                    Reject Proposal
-                </button>
-            </div>
-        </div>
-        @endif
-    </div>
-</div>
-
-<!-- Revision Modal -->
-<div class="modal fade" id="revisionModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="POST" action="{{ route('teacher.proposals.revision', $project) }}">
-                @csrf
-                @method('PATCH')
-                <div class="modal-header">
-                    <h5 class="modal-title">Request Revision</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Revision Comments <span class="text-danger">*</span></label>
-                        <textarea name="supervisor_feedback" class="form-control" rows="5" 
-                                  placeholder="Provide specific feedback on what needs to be revised..." required></textarea>
-                        <small class="text-muted">Be specific about what changes are needed.</small>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-warning">Request Revision</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Reject Modal -->
-<div class="modal fade" id="rejectModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="POST" action="{{ route('teacher.proposals.reject', $project) }}">
-                @csrf
-                @method('PATCH')
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">Reject Proposal</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-warning">
-                        <strong>Warning:</strong> This action will reject the proposal. Please provide a clear reason.
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Rejection Reason <span class="text-danger">*</span></label>
-                        <textarea name="supervisor_feedback" class="form-control" rows="5" 
-                                  placeholder="Explain why this proposal is being rejected..." required></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Reject Proposal</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
