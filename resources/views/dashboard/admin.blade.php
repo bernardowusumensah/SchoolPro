@@ -224,21 +224,6 @@
             </div>
         </li>
 
-        <!-- Nav Item - Project Oversight -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProjects"
-                aria-expanded="true" aria-controls="collapseProjects">
-                <!-- Removed project diagram icon -->
-                <span>Project Oversight</span>
-            </a>
-            <div id="collapseProjects" class="collapse" aria-labelledby="headingProjects" data-bs-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Platform Projects:</h6>
-                    <a class="collapse-item" href="/admin/projects">All Projects</a>
-                </div>
-            </div>
-        </li>
-
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -337,54 +322,34 @@
                                     Active Users</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['active_users'] ?? '47' }}</div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-users fa-2x text-gray-300"></i>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Project Activity Card -->
+            <!-- Total Students Card -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Active Projects</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['active_projects'] ?? '23' }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-project-diagram fa-2x text-gray-300"></i>
+                                    Total Students</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['total_students'] ?? '0' }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Pending Approvals Card -->
+            <!-- Total Teachers Card -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Pending Approvals</div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $stats['pending_approvals'] ?? '8' }}</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                style="width: 75%" aria-valuenow="75" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-tasks fa-2x text-gray-300"></i>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Teachers</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['total_teachers'] ?? '0' }}</div>
                             </div>
                         </div>
                     </div>
@@ -400,9 +365,6 @@
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                     System Alerts</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['system_alerts'] ?? '2' }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
