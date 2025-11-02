@@ -19,7 +19,12 @@
         <script src="https://cdn.tailwindcss.com"></script>
         
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @if(file_exists(public_path('build/manifest.json')))
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @else
+            <link href="{{ asset('build/assets/app-t0uJuPf-.css') }}" rel="stylesheet">
+            <script src="{{ asset('build/assets/app-CXDpL9bK.js') }}" defer></script>
+        @endif
         
         <style>
             body {
